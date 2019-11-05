@@ -26,5 +26,4 @@ export class BillingAccountService { //todo create interface
   getBillingAccountById(id: string): Observable<BillingAccount> {
     return this.http.get<BillingAccount>('/api/ba/' + id);
   }
-
 }

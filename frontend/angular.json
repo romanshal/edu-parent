@@ -25,7 +25,12 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/freelancer.min.js",
+              "src/assets/js/bootstrap.bundle.min.js",
+              "src/assets/js/jquery.easing.min.js",
+              "src/assets/js/jquery.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -75,7 +80,12 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": [],
+            "scripts": [
+              "scr/assets/js/freelancer.min.js",
+              "scr/assets/js/jquery.min.js",
+              "scr/assets/js/jquery.easing.min.js",
+              "scr/assets/js/bootstrap.bundle.min.js"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets"
