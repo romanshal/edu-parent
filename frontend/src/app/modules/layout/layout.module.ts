@@ -6,6 +6,8 @@ import {BillingAccountModule} from "../billing-account/billing-account.module";
 import {HeaderModule} from "../header/header.module";
 import {RouterModule} from "@angular/router";
 import {UserPageComponent} from "./components/user-page/user-page.component";
+import {SharedModule} from "../shared/shared.module";
+import {FooterModule} from "../footer/footer.module";
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import {UserPageComponent} from "./components/user-page/user-page.component";
   imports: [
     BillingAccountModule,
     HeaderModule,
-    RouterModule
+    RouterModule,
+    SharedModule,
+    FooterModule
   ],
   providers: [],
   exports: [HomeComponent, NotFoundComponent, BillingDetailsViewComponent,UserPageComponent]
