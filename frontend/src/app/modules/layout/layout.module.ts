@@ -5,10 +5,12 @@ import {HomeComponent} from "./components/home/home.component";
 import {BillingAccountModule} from "../billing-account/billing-account.module";
 import {HeaderModule} from "../header/header.module";
 import {RouterModule} from "@angular/router";
+import {UserPageComponent} from "./components/user-page/user-page.component";
 
 @NgModule({
   declarations: [
     HomeComponent,
+    UserPageComponent,
     NotFoundComponent,
     BillingDetailsViewComponent
   ],
@@ -18,6 +20,6 @@ import {RouterModule} from "@angular/router";
     RouterModule
   ],
   providers: [],
-  exports: [HomeComponent, NotFoundComponent, BillingDetailsViewComponent]
+  exports: [HomeComponent, NotFoundComponent, BillingDetailsViewComponent,UserPageComponent]
 })
 export class LayoutModule {}

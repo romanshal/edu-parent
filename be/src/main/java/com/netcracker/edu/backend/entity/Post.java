@@ -1,19 +1,21 @@
 package com.netcracker.edu.backend.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "post")
-public class Post {
+public class Post implements Serializable {
 
-    private int id;
+    private Long id;
     private User user;
     private String description;
-
     private Set<Comment> comments = new HashSet<>();
     private Set <Tag> tags = new HashSet <>();
 
@@ -22,11 +24,11 @@ public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

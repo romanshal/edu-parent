@@ -11,6 +11,7 @@ import java.util.Set;
 @Entity
 @Table(name = "role")
 public class Role implements Serializable {
+
     private int id;
     private String roleName;
     //private Set <User> users = new HashSet <>();

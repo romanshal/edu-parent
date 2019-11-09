@@ -35,18 +35,6 @@ public class UserController {
         return userService.findAll();
     }
 
-//    @JsonIgnore
-//    @RequestMapping(value = "", method = RequestMethod.GET)
-//    public ResponseEntity<List <User>> getAllPosts(){
-//        List<User> users=this.userService.findAll();
-//
-//        if (users.isEmpty()){
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//
-//        return new ResponseEntity<List<User>>(users,HttpStatus.OK);
-//    }
-
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<User> createUser(@RequestBody @Valid User user){
 

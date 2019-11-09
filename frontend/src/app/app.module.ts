@@ -12,17 +12,21 @@ import {BillingDetailsViewComponent} from "./modules/layout/components/billing-d
 import {NotFoundComponent} from "./modules/layout/components/404/not-found.component";
 import {LayoutModule} from "./modules/layout/layout.module";
 import {HomeComponent} from "./modules/layout/components/home/home.component";
+import {UserPageComponent} from "./modules/layout/components/user-page/user-page.component";
+
 
 const appRoutes: Routes = [
   {path: "", component: HomeComponent},
   {path: "home", component: HomeComponent},
+  {path: "userPage", component: UserPageComponent},
   {path: "billing-details/:id", component: BillingDetailsViewComponent},
-  {path: "**", component: NotFoundComponent}
+  {path: "**", component: NotFoundComponent},
 ];
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+
   ],
   imports: [
     BrowserModule,

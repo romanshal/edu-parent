@@ -1,8 +1,6 @@
 package com.netcracker.edu.backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -11,7 +9,6 @@ import java.util.Set;
 
 @Entity
 @Table(name = "user")
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class User implements Serializable {
 
     private Long id;
@@ -22,9 +19,7 @@ public class User implements Serializable {
     private Set <Post> posts = new HashSet <>();
     private Set <Comment> comments = new HashSet <>();
     private Role role;
-
     private Set<User> friends;
-
     private Set<User> friendOf;
 
     public User() {
@@ -80,7 +75,8 @@ public class User implements Serializable {
         this.age = age;
     }
 
-    @OneToMany(targetEntity = Post.class, mappedBy = "user", fetch = FetchType.EAGER,
+    @JsonIgnore
+    @OneToMany(targetEntity = Post.class, mappedBy = "user", fetch = FetchType.LAZY,
             cascade = {CascadeType.REMOVE})
     public Set <Post> getPosts() {
         return posts;
@@ -90,7 +86,7 @@ public class User implements Serializable {
         this.posts = posts;
     }
 
-    @OneToMany(targetEntity = Comment.class, mappedBy = "user", fetch = FetchType.EAGER,
+    @OneToMany(targetEntity = Comment.class, mappedBy = "user", fetch = FetchType.LAZY,
             cascade = {CascadeType.REMOVE})
     public Set <Comment> getComments() {
         return comments;
@@ -100,8 +96,7 @@ public class User implements Serializable {
         this.comments = comments;
     }
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "role_id", nullable = false)
     public Role getRole() {
         return role;
