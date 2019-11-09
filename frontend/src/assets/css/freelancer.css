@@ -9891,14 +9891,7 @@ form .row:first-child .floating-label-form-group {
   text-overflow: ellipsis;
 }
 
-header.titles {
-  position: absolute;
-  bottom: 40%;
-  width: 100%;
-  text-align: center;
-}
-@media screen and (min-width: 1200px) {
-  header .titles {
-    bottom: 50%;
-  }
-}
+
+
+
+
