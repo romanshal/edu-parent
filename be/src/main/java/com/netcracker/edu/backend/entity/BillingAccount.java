@@ -6,16 +6,15 @@ import java.util.Objects;
 @Entity
 @Table(name = "billing_account")
 public class BillingAccount {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private long id;
-    private String address;
-    private String username;
+
+    private String login;
+
     private String email;
 
-    public BillingAccount(String address, String username, String email) {
-        this.address = address;
-        this.username = username;
+    public BillingAccount(String login, String email) {
+        this.login = login;
         this.email = email;
     }
 
@@ -23,6 +22,8 @@ public class BillingAccount {
 
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long getId() {
         return id;
     }
@@ -31,22 +32,16 @@ public class BillingAccount {
         this.id = id;
     }
 
-    public String getAddress() {
-        return address;
+    @Column(name = "login")
+    public String getLogin() {
+        return login;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
+    @Column(name = "email")
     public String getEmail() {
         return email;
     }
@@ -61,23 +56,21 @@ public class BillingAccount {
         if (o == null || getClass() != o.getClass()) return false;
         BillingAccount that = (BillingAccount) o;
         return id == that.id &&
-                Objects.equals(address, that.address) &&
-                Objects.equals(username, that.username) &&
+                Objects.equals(login, that.login) &&
                 Objects.equals(email, that.email);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, address, username, email);
+        return Objects.hash(id, login, email);
     }
 
     @Override
     public String toString() {
         return "BillingAccount{" +
             "id=" + id +
-            ", address='" + address + '\'' +
-            ", username='" + username + '\'' +
+            ", login='" + login + '\'' +
             ", email='" + email + '\'' +
             '}';
     }

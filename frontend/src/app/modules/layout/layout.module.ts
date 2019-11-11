@@ -8,13 +8,16 @@ import {RouterModule} from "@angular/router";
 import {UserPageComponent} from "./components/user-page/user-page.component";
 import {SharedModule} from "../shared/shared.module";
 import {FooterModule} from "../footer/footer.module";
+import {AdminPageComponent} from "./components/admin-page/admin-page.component";
+
 
 @NgModule({
   declarations: [
     HomeComponent,
     UserPageComponent,
     NotFoundComponent,
-    BillingDetailsViewComponent
+    BillingDetailsViewComponent,
+    AdminPageComponent
   ],
   imports: [
     BillingAccountModule,
@@ -24,6 +27,6 @@ import {FooterModule} from "../footer/footer.module";
     FooterModule
   ],
   providers: [],
-  exports: [HomeComponent, NotFoundComponent, BillingDetailsViewComponent,UserPageComponent]
+  exports: [HomeComponent, NotFoundComponent, BillingDetailsViewComponent,UserPageComponent,AdminPageComponent]
 })
 export class LayoutModule {}

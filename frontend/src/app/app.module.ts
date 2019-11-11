@@ -13,12 +13,14 @@ import {NotFoundComponent} from "./modules/layout/components/404/not-found.compo
 import {LayoutModule} from "./modules/layout/layout.module";
 import {HomeComponent} from "./modules/layout/components/home/home.component";
 import {UserPageComponent} from "./modules/layout/components/user-page/user-page.component";
+import {AdminPageComponent} from "./modules/layout/components/admin-page/admin-page.component";
 
 
 const appRoutes: Routes = [
   {path: "", component: HomeComponent},
   {path: "home", component: HomeComponent},
   {path: "userPage", component: UserPageComponent},
+  {path: "adminPage", component: AdminPageComponent},
   {path: "billing-details/:id", component: BillingDetailsViewComponent},
   {path: "**", component: NotFoundComponent},
 ];
