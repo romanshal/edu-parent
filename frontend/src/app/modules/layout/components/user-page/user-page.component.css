@@ -1,0 +1,9 @@
+.user__content_name_span {
+  font-size: 53px;
+  font-family: "Trebuchet MS";
+  background-image: url("../../../../../assets/img/userBg.jpg");
+}
+.btn-primary {
+  background-color: white;
+  color: black;
+}

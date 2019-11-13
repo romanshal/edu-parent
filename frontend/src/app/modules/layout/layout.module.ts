@@ -9,6 +9,8 @@ import {UserPageComponent} from "./components/user-page/user-page.component";
 import {SharedModule} from "../shared/shared.module";
 import {FooterModule} from "../footer/footer.module";
 import {AdminPageComponent} from "./components/admin-page/admin-page.component";
+import {CommonModule} from "@angular/common";
+import {PostService} from "../../services/post.service";
 
 
 @NgModule({
@@ -24,9 +26,10 @@ import {AdminPageComponent} from "./components/admin-page/admin-page.component";
     HeaderModule,
     RouterModule,
     SharedModule,
-    FooterModule
+    FooterModule,
+    CommonModule
   ],
-  providers: [],
+  providers: [PostService],
   exports: [HomeComponent, NotFoundComponent, BillingDetailsViewComponent,UserPageComponent,AdminPageComponent]
 })
 export class LayoutModule {}

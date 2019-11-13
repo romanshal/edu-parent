@@ -11,4 +11,6 @@ export class WindowComponent implements OnInit {
   ngOnInit() {
 
     }
+
+  public showPopup: boolean = false;
   }
