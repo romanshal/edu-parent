@@ -1,6 +1,5 @@
 package com.netcracker.edu.backend.controller;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.netcracker.edu.backend.entity.User;
 import com.netcracker.edu.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

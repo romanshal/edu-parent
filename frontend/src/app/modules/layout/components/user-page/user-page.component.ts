@@ -4,11 +4,6 @@ import { Component, OnInit } from "@angular/core";
   selector: "user-page",
   templateUrl: "./user-page.component.html"
 })
-export class UserPageComponent implements OnInit {
-
-  constructor( ) {}
-
-  ngOnInit() {
-
-  }
+export class UserPageComponent {
+  public showAddPost: boolean = false;
 }

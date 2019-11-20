@@ -1,11 +1,10 @@
 package com.netcracker.edu.backend.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "user")
@@ -16,17 +15,31 @@ public class User implements Serializable {
     private String password;
     private String email;
     private int age;
-    private Set <Post> posts = new HashSet <>();
+    private List <Post> posts = new ArrayList <>();
     private Set <Comment> comments = new HashSet <>();
     private Role role;
-    private Set<User> friends;
-    private Set<User> friendOf;
+    private List <User> friends = new ArrayList <>();
+    private List <User> friendOf = new ArrayList <>();
+    private boolean block = false;
 
     public User() {
     }
 
+    public User(Long id, String login, String password, String email, int age, List <Post> posts, Set <Comment> comments, Role role, List <User> friends, List <User> friendOf) {
+        this.id = id;
+        this.login = login;
+        this.password = password;
+        this.email = email;
+        this.age = age;
+        this.posts = posts;
+        this.comments = comments;
+        this.role = role;
+        this.friends = friends;
+        this.friendOf = friendOf;
+    }
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
         return id;
     }
@@ -35,7 +48,6 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    @Basic
     @Column(name = "login")
     public String getLogin() {
         return login;
@@ -45,7 +57,6 @@ public class User implements Serializable {
         this.login = login;
     }
 
-    @Basic
     @Column(name = "password")
     public String getPassword() {
         return password;
@@ -55,7 +66,6 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    @Basic
     @Column(name = "email")
     public String getEmail() {
         return email;
@@ -65,7 +75,6 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    @Basic
     @Column(name = "age")
     public int getAge() {
         return age;
@@ -75,18 +84,17 @@ public class User implements Serializable {
         this.age = age;
     }
 
-    @JsonIgnore
-    @OneToMany(targetEntity = Post.class, mappedBy = "user", fetch = FetchType.LAZY,
-            cascade = {CascadeType.REMOVE})
-    public Set <Post> getPosts() {
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    public List <Post> getPosts() {
         return posts;
     }
 
-    public void setPosts(Set <Post> posts) {
+    public void setPosts(List <Post> posts) {
         this.posts = posts;
     }
 
-    @OneToMany(targetEntity = Comment.class, mappedBy = "user", fetch = FetchType.LAZY,
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
             cascade = {CascadeType.REMOVE})
     public Set <Comment> getComments() {
         return comments;
@@ -97,7 +105,7 @@ public class User implements Serializable {
     }
 
     @ManyToOne()
-    @JoinColumn(name = "role_id", nullable = false)
+    @JoinColumn(name = "role_id", nullable = false, insertable = false, updatable = false)
     public Role getRole() {
         return role;
     }
@@ -106,29 +114,29 @@ public class User implements Serializable {
         this.role = role;
     }
 
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinTable(name="tbl_friends",
-            joinColumns=@JoinColumn(name="userId"),
-            inverseJoinColumns=@JoinColumn(name="friendId")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "tbl_friends",
+            joinColumns = @JoinColumn(name = "userId"),
+            inverseJoinColumns = @JoinColumn(name = "friendId")
     )
-    public Set <User> getFriends() {
+    public List <User> getFriends() {
         return friends;
     }
 
-    public void setFriends(Set <User> friends) {
+    public void setFriends(List <User> friends) {
         this.friends = friends;
     }
 
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinTable(name="tbl_friends",
-            joinColumns=@JoinColumn(name="friendId"),
-            inverseJoinColumns=@JoinColumn(name="userId")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "tbl_friends",
+            joinColumns = @JoinColumn(name = "friendId"),
+            inverseJoinColumns = @JoinColumn(name = "userId")
     )
-    public Set <User> getFriendOf() {
+    public List <User> getFriendOf() {
         return friendOf;
     }
 
-    public void setFriendOf(Set <User> friendOf) {
+    public void setFriendOf(List <User> friendOf) {
         this.friendOf = friendOf;
     }
 
@@ -137,8 +145,8 @@ public class User implements Serializable {
         if(this == o) return true;
         if(o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return getId() == user.getId() &&
-                getAge() == user.getAge() &&
+        return getAge() == user.getAge() &&
+                getId().equals(user.getId()) &&
                 getLogin().equals(user.getLogin()) &&
                 getPassword().equals(user.getPassword()) &&
                 getEmail().equals(user.getEmail()) &&

@@ -34,7 +34,7 @@
       <!-- <a href="#0" class="cd-close-form">Close</a> -->
     </div> <!-- cd-login -->
 
-    <div id="cd-signup"> <!-- форма регистрации -->
+    <div id="cd-signup" *ngIf="showPopup"> <!-- форма регистрации -->
       <form class="cd-form">
         <p class="fieldset">
           <label class="image-replace cd-username" for="signup-username">Имя пользователя</label>

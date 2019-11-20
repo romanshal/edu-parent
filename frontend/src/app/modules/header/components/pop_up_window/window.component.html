@@ -1,11 +1,18 @@
-<div class="cd-user-modal" *ngIf="showPopup"> <!-- все формы на фоне затемнения-->
+<div class="cd-user-modal"> <!-- все формы на фоне затемнения-->
   <div class="cd-user-modal-container"> <!-- основной контейнер -->
     <ul class="cd-switcher">
-      <li><a href="#0">Вход</a></li>
-      <li><a href="#0">Регистрация</a></li>
+      <li (click)="selectSection('login')"><a href="#0">Вход</a></li>
+      <li (click)="selectSection('registration')"><a href="#0">Регистрация</a></li>
+<!--      <li><button type="button" class="btn btn-primary btn-circle" style="width: 38px;-->
+<!--    height: 38px;-->
+<!--    border-radius: 19px;-->
+<!--    text-align: center;-->
+<!--    padding-left: 0;-->
+<!--    padding-right: 0;-->
+<!--    font-size: 16px;"><i class="fas fa-map">В</i></button></li>-->
     </ul>
 
-    <div id="cd-login"> <!-- форма входа -->
+    <div id="cd-login" *ngIf="isLogin"> <!-- форма входа -->
       <form class="cd-form">
         <p class="fieldset">
           <label class="image-replace cd-email" for="signin-email">E-mail</label>
@@ -30,11 +37,11 @@
         </p>
       </form>
 
-      <p class="cd-form-bottom-message"><a href="#0">Забыли свой пароль?</a></p>
+      <p class="cd-form-bottom-message" (click)="selectSection('password')"><a href="#0">Забыли свой пароль?</a></p>
       <!-- <a href="#0" class="cd-close-form">Close</a> -->
     </div> <!-- cd-login -->
 
-    <div id="cd-signup"> <!-- форма регистрации -->
+    <div id="cd-signup" *ngIf="isRegistration"> <!-- форма регистрации -->
       <form class="cd-form">
         <p class="fieldset">
           <label class="image-replace cd-username" for="signup-username">Имя пользователя</label>
@@ -68,7 +75,7 @@
       <!-- <a href="#0" class="cd-close-form">Close</a> -->
     </div> <!-- cd-signup -->
 
-    <div id="cd-reset-password"> <!-- форма восстановления пароля -->
+    <div id="cd-reset-password" *ngIf="forgotPass"> <!-- форма восстановления пароля -->
       <p class="cd-form-message">Забыли пароль? Пожалуйста, введите адрес своей электронной почты. Вы получите ссылку, чтобы создать новый пароль.</p>
 
       <form class="cd-form">

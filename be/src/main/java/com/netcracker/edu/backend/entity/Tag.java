@@ -8,6 +8,7 @@ import java.util.Set;
 @Entity
 @Table(name = "tag")
 public class Tag {
+
     private int id;
     private String text;
 

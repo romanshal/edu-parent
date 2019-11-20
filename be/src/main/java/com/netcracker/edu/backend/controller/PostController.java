@@ -44,10 +44,6 @@ public class PostController {
     public ResponseEntity<Post> deletePost(@PathVariable("id") Long id){
         Post post=this.postService.findById(id);
 
-        if(post==null){
-            return new ResponseEntity<Post>(HttpStatus.NOT_FOUND);
-        }
-
         this.postService.delete(id);
         return new ResponseEntity<Post>(HttpStatus.NO_CONTENT);
     }
@@ -56,9 +52,9 @@ public class PostController {
     public ResponseEntity<List <Post>> getAllPosts(){
         List<Post> posts=this.postService.findAll();
 
-        if (posts.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+//        if (posts.isEmpty()){
+            //return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
 
         return new ResponseEntity<List<Post>>(posts,HttpStatus.OK);
     }
@@ -78,4 +74,14 @@ public class PostController {
         return new ResponseEntity<Post>(updatedPost, HttpStatus.OK);
 
     }
+
+    // image controller as a stream
+//    @ResponseBody
+//    @RequestMapping(value = "/photo2", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
+//    public byte[] testphoto() throws IOException {
+//        InputStream in = servletContext.getResourceAsStream("/images/no_image.jpg");
+//        return IOUtils.toByteArray(in);
+//    }
+
+    //multipart file spring.io
 }

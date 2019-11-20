@@ -17,7 +17,7 @@
                         autocomplete="false">
                   Subscribers
                 </button>
-                <button type="button" class="btn btn-primary" style="background-color: white;color: black;" data-toggle="button" aria-pressed="false"
+                <button type="button" class="btn btn-primary" style="background-color: white;margin-left: 10px;color: black;" data-toggle="button" aria-pressed="false"
                         autocomplete="false">
                   Subscriptions
                 </button>
@@ -32,10 +32,21 @@
 <section class="instagram-wrap">
   <div class="container">
     <div class="row">
-      <div class="col-xs-12">
+      <div style="width: 100%">
         <div class="instagram-content">
           <h3>Latest Photos</h3>
-          <publication></publication>
+          <div class="nav-item"><button type="button" class="btn btn-link" (click)="showAddPost=true">
+            Add
+          </button></div>
+          <div class="row photos-wrap">
+            <!-- Instafeed target div -->
+            <div id="instafeed"></div>
+            <publication class="col-xs-12 col-sm-6 col-md-4 col-lg-3"></publication>
+            <publication class="col-xs-12 col-sm-6 col-md-4 col-lg-3"></publication>
+            <publication class="col-xs-12 col-sm-6 col-md-4 col-lg-3"></publication>
+            <publication class="col-xs-12 col-sm-6 col-md-4 col-lg-3"></publication>
+            <publication class="col-xs-12 col-sm-6 col-md-4 col-lg-3"></publication>
+          </div>
         </div>
       </div>
     </div>
@@ -43,3 +54,4 @@
 </section>
 
 <app-footer></app-footer>
+<app-add-post *ngIf="showAddPost"></app-add-post>

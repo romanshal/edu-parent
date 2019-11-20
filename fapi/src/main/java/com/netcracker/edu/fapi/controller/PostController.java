@@ -21,14 +21,14 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<Post> saveCard(@RequestBody Post post) {
+    public ResponseEntity<Post> savePost(@RequestBody Post post) {
         if (post != null) {
             return ResponseEntity.ok(postService.savePost(post));
         } return null;
     }
 
     @DeleteMapping(value = "/{id}")
-    public void deleteCard(@PathVariable long id){
+    public void deletePost(@PathVariable long id){
         postService.deletePost(id);
     }
 }

@@ -22,16 +22,6 @@ export class AdminPageComponent implements OnInit {
 
   }
 
-  //  private loadBillingAccounts(): void {
-  //    // Get data from BillingAccountService
-  //    this.subscriptions.push(this.billingAccountService.getBillingAccounts().subscribe(accounts => {
-  //      // Parse json response into local array
-  //      this.billingAccounts = accounts as BillingAccount[];
-  //      // Check data in console
-  //      console.log(this.billingAccounts);// don't use console.log in angular :)
-  //    }));
-  // }
-
   private loadPost(): void {
     // Get data from BillingAccountService
     this.subscriptions.push(this.postService.getPosts().subscribe(posts => {
@@ -39,6 +29,8 @@ export class AdminPageComponent implements OnInit {
       this.posts = posts as Post[];
       // Check data in console
       console.log(this.posts);// don't use console.log in angular :)
+    },error => {
+      console.log(error)
     }));
   }
 

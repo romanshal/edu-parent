@@ -2,11 +2,14 @@ package com.netcracker.edu.fapi.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Post {
 
     private Long id;
-
+    private String[] tags;
     private String description;
 
     public Long getId() {
@@ -25,11 +28,28 @@ public class Post {
         this.description = description;
     }
 
+    public String[] getTags() {
+        return tags;
+    }
+
+    public void setTags(String[] tags) {
+        this.tags = tags;
+    }
+
     @Override
-    public String toString() {
-        return "Post{" +
-                "id=" + id +
-                ", description='" + description + '\'' +
-                '}';
+    public boolean equals(Object o) {
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+        Post post = (Post) o;
+        return getId().equals(post.getId()) &&
+                Arrays.equals(getTags(), post.getTags()) &&
+                Objects.equals(getDescription(), post.getDescription());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(getId(), getDescription());
+        result = 31 * result + Arrays.hashCode(getTags());
+        return result;
     }
 }

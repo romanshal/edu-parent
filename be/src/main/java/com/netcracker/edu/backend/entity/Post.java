@@ -1,13 +1,9 @@
 package com.netcracker.edu.backend.entity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
-
-
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "post")
@@ -18,8 +14,17 @@ public class Post implements Serializable {
     private String description;
     private Set<Comment> comments = new HashSet<>();
     private Set <Tag> tags = new HashSet <>();
+    private Calendar data;
 
     public Post(){
+    }
+
+    public Post(Long id, User user, String description, Set <Comment> comments, Set <Tag> tags) {
+        this.id = id;
+        this.user = user;
+        this.description = description;
+        this.comments = comments;
+        this.tags = tags;
     }
 
     @Id
@@ -42,7 +47,8 @@ public class Post implements Serializable {
         this.user = user;
     }
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(mappedBy = "user")
+    @Column(name = "comments")
     public Set <Comment> getComments() {
         return comments;
     }

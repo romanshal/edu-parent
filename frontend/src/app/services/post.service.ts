@@ -9,6 +9,13 @@ export class PostService {
   constructor(private httpClient: HttpClient) {
   }
 
+  addPost(post: Post){
+    return this.httpClient.post('/api/post/',{
+      title : post.id,
+      description : post.description
+    })
+  }
+
   getPosts(): Observable<Post[]> {
     return this.httpClient.get<Post[]>('/api/post');
   }

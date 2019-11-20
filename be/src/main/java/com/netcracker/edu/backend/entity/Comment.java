@@ -1,10 +1,15 @@
 package com.netcracker.edu.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "comment")
-public class Comment {
+public class Comment implements Serializable {
 
     private int id;
     private String content;
@@ -33,8 +38,10 @@ public class Comment {
         this.content = content;
     }
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     public Post getPost() {
         return post;
     }
@@ -43,6 +50,7 @@ public class Comment {
         this.post = post;
     }
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     public User getUser() {
