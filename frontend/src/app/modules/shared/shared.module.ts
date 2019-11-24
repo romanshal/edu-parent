@@ -4,13 +4,15 @@ import {PublicationComponent} from "./components/publication/publication.compone
 import {RegistrationFormComponent} from "./components/registration-form/registration-form.component";
 import {AddPostComponent} from "./components/post/add-post.component";
 import {FormsModule} from "@angular/forms";
+import {PhotoModalComponent} from "./components/photo-modal/photo-modal.component";
 
 
 @NgModule({
   declarations: [
     PublicationComponent,
     RegistrationFormComponent,
-    AddPostComponent
+    AddPostComponent,
+    PhotoModalComponent
   ],
   imports: [
     CommonModule,
@@ -20,7 +22,8 @@ import {FormsModule} from "@angular/forms";
   exports: [
     PublicationComponent,
     RegistrationFormComponent,
-    AddPostComponent
+    AddPostComponent,
+    PhotoModalComponent
   ]
 })
 export class SharedModule {

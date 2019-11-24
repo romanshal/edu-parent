@@ -1,22 +1,24 @@
 import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
+import {Post} from "../../../layout/components/models/post";
+import {PostService} from "../../../../services/post.service";
 
 @Component({
   selector: "publication",
-  templateUrl: "./publication.component.html"
+  templateUrl: "./publication.component.html",
 })
 export class PublicationComponent {
-  @Input()
-  userName: string;
 
-  @Input()
-  imgSrc: string;
+  publication : Post;
 
-  @Input()
-  id: string;
+  public showModal: boolean=false;
+
+  constructor(public  postService: PostService){
+
+  }
+  public openDialog() {
+    this.postService.showModal = true;
+  }
 
   @Input()
   description: string;
-
-  @Output()
-  sendBtn: EventEmitter<void> = new EventEmitter<void>();
 }

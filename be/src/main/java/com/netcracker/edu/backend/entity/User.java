@@ -1,6 +1,8 @@
 package com.netcracker.edu.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -8,6 +10,7 @@ import java.util.*;
 
 @Entity
 @Table(name = "user")
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class User implements Serializable {
 
     private Long id;
@@ -16,7 +19,7 @@ public class User implements Serializable {
     private String email;
     private int age;
     private List <Post> posts = new ArrayList <>();
-    private Set <Comment> comments = new HashSet <>();
+    private List <Comment> comments = new ArrayList <>();
     private Role role;
     private List <User> friends = new ArrayList <>();
     private List <User> friendOf = new ArrayList <>();
@@ -25,7 +28,7 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(Long id, String login, String password, String email, int age, List <Post> posts, Set <Comment> comments, Role role, List <User> friends, List <User> friendOf) {
+    public User(Long id, String login, String password, String email, int age, List <Post> posts, List <Comment> comments, Role role, List <User> friends, List <User> friendOf) {
         this.id = id;
         this.login = login;
         this.password = password;
@@ -40,6 +43,7 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     public Long getId() {
         return id;
     }
@@ -84,7 +88,7 @@ public class User implements Serializable {
         this.age = age;
     }
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user")
     @JsonManagedReference
     public List <Post> getPosts() {
         return posts;
@@ -94,18 +98,19 @@ public class User implements Serializable {
         this.posts = posts;
     }
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
             cascade = {CascadeType.REMOVE})
-    public Set <Comment> getComments() {
+    public List <Comment> getComments() {
         return comments;
     }
 
-    public void setComments(Set <Comment> comments) {
+    public void setComments(List <Comment> comments) {
         this.comments = comments;
     }
 
     @ManyToOne()
-    @JoinColumn(name = "role_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "role_id")
     public Role getRole() {
         return role;
     }

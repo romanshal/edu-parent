@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/comment")
@@ -16,8 +17,19 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public ResponseEntity<List <Comment>> getAllPosts(){
+        List<Comment> comments=this.commentService.findAll();
+
+//        if (posts.isEmpty()){
+        //return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+
+        return new ResponseEntity<List<Comment>>(comments,HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity <Comment> getComment(@PathVariable (value = "id") Long postId,
+    public ResponseEntity <Comment> getCommentById(@PathVariable (value = "id") Long postId,
                                                  @PathVariable("id") Long commentId){
 
         Comment comment=this.commentService.findById(commentId);
@@ -41,7 +53,7 @@ public class CommentController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Comment> deleteComment(@PathVariable("id") Long id){
+    public ResponseEntity<Comment> deleteCommentById(@PathVariable("id") Long id){
         Comment comment=this.commentService.findById(id);
 
         if(comment==null){
@@ -52,5 +64,10 @@ public class CommentController {
         return new ResponseEntity<Comment>(HttpStatus.NO_CONTENT);
     }
 
-
+    @RequestMapping(value = "/user/{userId}/post/{postId}/", method = RequestMethod.POST)
+    public Comment createCommentByUserIdAndPostId(@PathVariable (value = "userId") Long userId,
+                                                  @PathVariable (value = "postId") Long postId,
+                                                  @Valid @RequestBody Comment comment) {
+        return commentService.createCommentByUserIdAndPostId(userId ,postId, comment);
+    }
 }

@@ -1,16 +1,21 @@
-<!-- The following HTML will be our template inside instafeed -->
-    <div class="photo-box">
-      <div class="image-wrap">
-<!--  url on image      -->
-        <img src="src/assets/img/test_img.jpg">
-        <div class="likes">309 Likes</div>
-      </div>
-      <div class="description">
-        Fantastic Architecture #architecture #testing
-        <div class="date">September 16, 2014</div>
-      </div>
+<div class="photo-box" style="border: 2px solid gray;">
+  <div class="image-wrap">
+    <button class="btn" style="display: contents" (click)="openDialog()"><img src="src/assets/img/test_img.jpg"></button>
+
+  </div>
+
+  <div class="row">
+    <div class="col-6">
+      <div class="likes">309 Likes</div>
     </div>
+  </div>
 
+  <div class="description">
+<!-- {{publication.description}}-->
+    <div class="date">September 16, 2014</div>
 
+  </div>
+</div>
+<photo-modal *ngIf="postService.showModal"></photo-modal>
 
 

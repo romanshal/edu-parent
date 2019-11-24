@@ -1,11 +1,13 @@
 package com.netcracker.edu.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "comment")
@@ -29,7 +31,7 @@ public class Comment implements Serializable {
         this.id = id;
     }
 
-    @Column
+    @Column(name = "content")
     public String getContent() {
         return content;
     }
@@ -38,7 +40,7 @@ public class Comment implements Serializable {
         this.content = content;
     }
 
-    @JsonIgnore
+    @JsonBackReference(value = "post_id")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -50,7 +52,7 @@ public class Comment implements Serializable {
         this.post = post;
     }
 
-    @JsonIgnore
+    @JsonBackReference(value = "user_id")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     public User getUser() {
@@ -59,5 +61,21 @@ public class Comment implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+        Comment comment = (Comment) o;
+        return getId() == comment.getId() &&
+                getContent().equals(comment.getContent()) &&
+                getPost().equals(comment.getPost()) &&
+                getUser().equals(comment.getUser());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getContent(), getPost(), getUser());
     }
 }

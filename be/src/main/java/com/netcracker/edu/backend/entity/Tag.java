@@ -1,13 +1,14 @@
 package com.netcracker.edu.backend.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "tag")
-public class Tag {
+public class Tag implements Serializable {
 
     private int id;
     private String text;

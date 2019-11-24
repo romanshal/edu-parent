@@ -1,8 +1,14 @@
 package com.netcracker.edu.backend.controller;
 
 import com.netcracker.edu.backend.entity.Post;
+import com.netcracker.edu.backend.repository.PostRepository;
+import com.netcracker.edu.backend.repository.UserRepository;
 import com.netcracker.edu.backend.service.PostService;
+import com.netcracker.edu.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +23,22 @@ public class PostController {
     @Autowired
     private PostService postService;
 
+//    @GetMapping("/")
+//    @GetMapping("/{id}")
+    @GetMapping("/user/{userId}")
+    public Page <Post> getAllPostsByUserId(@PathVariable (value = "userId") Long userId,
+                                              Pageable pageable) {
+        return postService.findByUserId(userId, pageable);
+    }
+
+    @RequestMapping(value = "/user/{userId}/", method = RequestMethod.POST)
+    public Post createPostByUserId(@PathVariable (value = "userId") Long userId,
+                                 @Valid @RequestBody Post post) {
+        return postService.createPost(userId,post);
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity <Post> getPost(@PathVariable("id") Long postId){
+    public ResponseEntity <Post> getPostById(@PathVariable("id") Long postId){
 
         Post post=this.postService.findById(postId);
 

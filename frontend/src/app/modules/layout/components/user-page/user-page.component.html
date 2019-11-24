@@ -35,7 +35,7 @@
       <div style="width: 100%">
         <div class="instagram-content">
           <h3>Latest Photos</h3>
-          <div class="nav-item"><button type="button" class="btn btn-link" (click)="showAddPost=true">
+          <div class="nav-item"><button type="button" class="btn btn-link" (click)="openDialog()">
             Add
           </button></div>
           <div class="row photos-wrap">
@@ -54,4 +54,4 @@
 </section>
 
 <app-footer></app-footer>
-<app-add-post *ngIf="showAddPost"></app-add-post>
+<app-add-post *ngIf="postService.showAddPost"></app-add-post>

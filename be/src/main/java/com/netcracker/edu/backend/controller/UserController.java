@@ -56,4 +56,23 @@ public class UserController {
         this.userService.delete(id);
         return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
     }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<User> updateUser(@RequestBody User user, @PathVariable("id") Long userId){
+        User updatedUser = this.userService.findById(userId);
+
+        if(updatedUser == null){
+            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+        }
+
+        updatedUser.setAge(user.getAge());
+        updatedUser.setEmail(user.getEmail());
+        updatedUser.setLogin(user.getLogin());
+        updatedUser.setPassword(user.getPassword());
+        updatedUser.setFriendOf(user.getFriendOf());
+        updatedUser.setFriends(user.getFriends());
+
+        return new ResponseEntity<User>(updatedUser, HttpStatus.OK);
+
+    }
 }

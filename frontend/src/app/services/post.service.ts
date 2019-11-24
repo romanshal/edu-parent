@@ -6,6 +6,9 @@ import{Post} from "../modules/layout/components/models/post";
 @Injectable()
 export class PostService {
 
+  public showAddPost: boolean;
+  public showModal: boolean;
+
   constructor(private httpClient: HttpClient) {
   }
 
