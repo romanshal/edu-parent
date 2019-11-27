@@ -2,15 +2,19 @@ package com.netcracker.edu.fapi.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.io.Serializable;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Post {
+public class Post implements Serializable{
 
     private Long id;
-    private String[] tags;
+    private Set <Object> tags = new HashSet <>();
     private String description;
+    private String userId;
 
     public Long getId() {
         return id;
@@ -28,12 +32,20 @@ public class Post {
         this.description = description;
     }
 
-    public String[] getTags() {
+    public Set<Object> getTags() {
         return tags;
     }
 
-    public void setTags(String[] tags) {
+    public void setTags(Set<Object> tags) {
         this.tags = tags;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     @Override
@@ -41,15 +53,24 @@ public class Post {
         if(this == o) return true;
         if(o == null || getClass() != o.getClass()) return false;
         Post post = (Post) o;
-        return getId().equals(post.getId()) &&
-                Arrays.equals(getTags(), post.getTags()) &&
-                Objects.equals(getDescription(), post.getDescription());
+        return Objects.equals(getId(), post.getId()) &&
+                Objects.equals(getTags(), post.getTags()) &&
+                Objects.equals(getDescription(), post.getDescription()) &&
+                Objects.equals(getUserId(), post.getUserId());
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(getId(), getDescription());
-        result = 31 * result + Arrays.hashCode(getTags());
-        return result;
+        return Objects.hash(getId(), getTags(), getDescription(), getUserId());
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", tags=" + tags +
+                ", description='" + description + '\'' +
+                ", userId='" + userId + '\'' +
+                '}';
     }
 }

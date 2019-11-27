@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import {Component, Input, OnInit, Output} from "@angular/core";
 import {PostService} from "../../../../services/post.service";
 import {Post} from "../models/post";
 import {Subscription} from "rxjs";
@@ -31,4 +31,7 @@ export class UserPageComponent implements OnInit{
         console.log(error)
       }));
   }
+
+  @Output()
+  description: string;
 }

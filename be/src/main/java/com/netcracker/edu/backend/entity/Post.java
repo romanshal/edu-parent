@@ -1,9 +1,6 @@
 package com.netcracker.edu.backend.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -18,13 +15,12 @@ public class Post implements Serializable {
     private User user;
     private String description;
     private List <Comment> comments = new ArrayList<>();
-    private List <Tag> tags = new ArrayList <>();
-    private Calendar data;
+    private Set <Tag> tags = new HashSet <>();
 
     public Post(){
     }
 
-    public Post(Long id, User user, String description, List <Comment> comments, List <Tag> tags) {
+    public Post(Long id, User user, String description, List <Comment> comments, Set <Tag> tags) {
         this.id = id;
         this.user = user;
         this.description = description;
@@ -44,7 +40,6 @@ public class Post implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonBackReference
     public User getUser() {
         return user;
     }
@@ -53,7 +48,7 @@ public class Post implements Serializable {
         this.user = user;
     }
 
-    @JsonManagedReference
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     @Column(name = "comments")
     public List <Comment> getComments() {
@@ -71,11 +66,11 @@ public class Post implements Serializable {
             joinColumns = @JoinColumn(name = "post_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
-    public List <Tag> getTags() {
+    public Set<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(List <Tag> tags) {
+    public void setTags(Set <Tag> tags) {
         this.tags = tags;
     }
 
@@ -97,12 +92,11 @@ public class Post implements Serializable {
                 getUser().equals(post.getUser()) &&
                 Objects.equals(getDescription(), post.getDescription()) &&
                 Objects.equals(getComments(), post.getComments()) &&
-                Objects.equals(getTags(), post.getTags()) &&
-                data.equals(post.data);
+                Objects.equals(getTags(), post.getTags());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUser(), getDescription(), getComments(), getTags(), data);
+        return Objects.hash(getId(), getUser(), getDescription(), getComments(), getTags());
     }
 }

@@ -1,5 +1,6 @@
 package com.netcracker.edu.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -88,17 +89,17 @@ public class User implements Serializable {
         this.age = age;
     }
 
-    @OneToMany(mappedBy = "user")
-    @JsonManagedReference
-    public List <Post> getPosts() {
-        return posts;
-    }
+//    @OneToMany(mappedBy = "user")
+////    @JsonManagedReference
+//    public List <Post> getPosts() {
+//        return posts;
+//    }
+//
+//    public void setPosts(List <Post> posts) {
+//        this.posts = posts;
+//    }
 
-    public void setPosts(List <Post> posts) {
-        this.posts = posts;
-    }
-
-    @JsonManagedReference
+//    @JsonManagedReference
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
             cascade = {CascadeType.REMOVE})
     public List <Comment> getComments() {
@@ -151,19 +152,20 @@ public class User implements Serializable {
         if(o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return getAge() == user.getAge() &&
-                getId().equals(user.getId()) &&
-                getLogin().equals(user.getLogin()) &&
-                getPassword().equals(user.getPassword()) &&
-                getEmail().equals(user.getEmail()) &&
-                Objects.equals(getPosts(), user.getPosts()) &&
+                block == user.block &&
+                Objects.equals(getId(), user.getId()) &&
+                Objects.equals(getLogin(), user.getLogin()) &&
+                Objects.equals(getPassword(), user.getPassword()) &&
+                Objects.equals(getEmail(), user.getEmail()) &&
+//                Objects.equals(getPosts(), user.getPosts()) &&
                 Objects.equals(getComments(), user.getComments()) &&
-                getRole().equals(user.getRole()) &&
+                Objects.equals(getRole(), user.getRole()) &&
                 Objects.equals(getFriends(), user.getFriends()) &&
                 Objects.equals(getFriendOf(), user.getFriendOf());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getLogin(), getPassword(), getEmail(), getAge(), getPosts(), getComments(), getRole(), getFriends(), getFriendOf());
+        return Objects.hash(getId(), getLogin(), getPassword(), getEmail(), getAge(), getComments(), getRole(), getFriends(), getFriendOf(), block);
     }
 }

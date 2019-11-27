@@ -31,7 +31,7 @@ public class PostController {
         return postService.findByUserId(userId, pageable);
     }
 
-    @RequestMapping(value = "/user/{userId}/", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/{userId}", method = RequestMethod.POST)
     public Post createPostByUserId(@PathVariable (value = "userId") Long userId,
                                  @Valid @RequestBody Post post) {
         return postService.createPost(userId,post);

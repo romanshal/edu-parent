@@ -13,5 +13,5 @@ public interface PostService {
     Post save(Post Post);
     void delete(long id);
     Page <Post> findByUserId(Long userId, Pageable pageable);
-    public Post createPost(Long userId, Post post);
+    Post createPost(Long userId, Post post);
 }

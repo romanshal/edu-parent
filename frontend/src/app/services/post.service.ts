@@ -12,19 +12,16 @@ export class PostService {
   constructor(private httpClient: HttpClient) {
   }
 
-  addPost(post: Post){
-    return this.httpClient.post('/api/post/',{
-      title : post.id,
-      description : post.description
-    })
-  }
+  // addPost(fd: FormData): Observable<Post> {
+  //   return this.httpClient.post('/api/post', fd);
+  // }
 
   getPosts(): Observable<Post[]> {
     return this.httpClient.get<Post[]>('/api/post');
   }
 
-  savePost(post: Post): Observable<Post> {
-    return this.httpClient.post<Post>('/api/post', post);
+  savePost(fd: FormData): Observable<Post> {
+    return this.httpClient.post<Post>('/api/post', fd);
   }
 
   deletePost(postId: number): Observable<void> {

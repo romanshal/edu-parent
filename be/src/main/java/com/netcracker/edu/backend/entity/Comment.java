@@ -40,7 +40,7 @@ public class Comment implements Serializable {
         this.content = content;
     }
 
-    @JsonBackReference(value = "post_id")
+//    @JsonBackReference(value = "post_id")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -52,7 +52,7 @@ public class Comment implements Serializable {
         this.post = post;
     }
 
-    @JsonBackReference(value = "user_id")
+//    @JsonBackReference(value = "user_id")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     public User getUser() {
