@@ -21,4 +21,6 @@ export class PublicationComponent {
 
   @Input()
   description: string;
+  @Input()
+  tag: string;
 }

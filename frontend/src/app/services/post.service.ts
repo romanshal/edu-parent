@@ -8,13 +8,10 @@ export class PostService {
 
   public showAddPost: boolean;
   public showModal: boolean;
+  public showReg: boolean;
 
   constructor(private httpClient: HttpClient) {
   }
-
-  // addPost(fd: FormData): Observable<Post> {
-  //   return this.httpClient.post('/api/post', fd);
-  // }
 
   getPosts(): Observable<Post[]> {
     return this.httpClient.get<Post[]>('/api/post');

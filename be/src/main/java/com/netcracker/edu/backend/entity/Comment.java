@@ -40,8 +40,7 @@ public class Comment implements Serializable {
         this.content = content;
     }
 
-//    @JsonBackReference(value = "post_id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "post_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     public Post getPost() {
@@ -52,8 +51,7 @@ public class Comment implements Serializable {
         this.post = post;
     }
 
-//    @JsonBackReference(value = "user_id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     public User getUser() {
         return user;

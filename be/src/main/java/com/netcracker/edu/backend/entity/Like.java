@@ -1,11 +1,12 @@
 package com.netcracker.edu.backend.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "likes")
-public class Like {
+public class Like implements Serializable {
 
     private int id;
     private Post post;
@@ -24,8 +25,8 @@ public class Like {
         this.id = id;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "post_id")
     public Post getPost() {
         return post;
     }
@@ -34,8 +35,8 @@ public class Like {
         this.post = post;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     public User getUser() {
         return user;
     }
@@ -57,5 +58,14 @@ public class Like {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getPost(), getUser());
+    }
+
+    @Override
+    public String toString() {
+        return "Like{" +
+                "id=" + id +
+                ", post=" + post +
+                ", user=" + user +
+                '}';
     }
 }

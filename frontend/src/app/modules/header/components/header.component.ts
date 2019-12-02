@@ -7,4 +7,8 @@ import {Component, OnInit} from "@angular/core";
 export class HeaderComponent {
 
   public showPopup: boolean = false;
+
+  close(){
+   this.showPopup = false;
+  }
 }

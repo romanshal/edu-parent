@@ -1,5 +1,6 @@
 export class Post {
   description: string;
-  userId: string;
+  tag:string;
+  userId: number;
 
 }

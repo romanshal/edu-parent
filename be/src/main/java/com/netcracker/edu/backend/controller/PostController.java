@@ -88,7 +88,7 @@ public class PostController {
         }
 
         updatedPost.setDescription(post.getDescription());
-        updatedPost.setComments(post.getComments());
+//        updatedPost.setComments(post.getComments());
         updatedPost.setTags(post.getTags());
 
         return new ResponseEntity<Post>(updatedPost, HttpStatus.OK);

@@ -1,11 +1,9 @@
 package com.netcracker.edu.fapi.service.impl;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.netcracker.edu.fapi.models.Post;
-import com.netcracker.edu.fapi.service.PostService;
+import com.netcracker.edu.fapi.models.Comment;
+import com.netcracker.edu.fapi.service.CommentService;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -15,28 +13,27 @@ import java.util.List;
 
 @Service
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PostServiceImpl implements PostService {
+public class CommentServiceImpl implements CommentService {
 
     @Value("${backend.server.url}")
     private String backendServerUrl;
 
     @Override
-    public List <Post> getAll() {
+    public List <Comment> getAllComments() {
         RestTemplate restTemplate = new RestTemplate();
-        Post[] posts = restTemplate.getForObject(backendServerUrl + "/api/post", Post[].class);
-        return posts == null ? Collections.emptyList() : Arrays.asList(posts);
+        Comment[]comments = restTemplate.getForObject(backendServerUrl + "/api/comment", Comment[].class);
+        return comments == null ? Collections.emptyList() : Arrays.asList(comments);
     }
 
     @Override
-    public Post savePost(Post post) {
+    public Comment saveComment(Comment comment) {
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.postForObject(backendServerUrl + "/api/post", post, Post.class);
+        return restTemplate.postForObject(backendServerUrl + "/api/comment", comment, Comment.class);
     }
 
     @Override
-    public void deletePost(long id) {
+    public void deleteComment(long id) {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.delete(backendServerUrl + "/api/post/" + id);
+        restTemplate.delete(backendServerUrl + "/api/comment/" + id);
     }
-
 }

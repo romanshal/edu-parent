@@ -1,4 +1,5 @@
 import {Component, OnInit} from "@angular/core";
+import {PostService} from "../../../../services/post.service";
 
 @Component({
   selector: "app-window",
@@ -10,8 +11,10 @@ export class WindowComponent implements OnInit {
   public isRegistration: boolean = false;
   public forgotPass: boolean = false;
 
-  constructor() {
+  constructor(private  postService: PostService){
+
   }
+
 
   ngOnInit() {
 
@@ -24,8 +27,6 @@ export class WindowComponent implements OnInit {
       case "password": this.forgotPass = true; this.forgotPass = this.isLogin = false; break;
     }
   }
-
-  public showPopup: boolean = false;
 }
 
 

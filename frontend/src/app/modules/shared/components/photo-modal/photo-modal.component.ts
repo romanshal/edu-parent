@@ -9,7 +9,6 @@ export class PhotoModalComponent implements OnInit{
 
   ngOnInit() {
   }
-  private PostService: PostService;
   constructor(private  postService: PostService){
 
   }

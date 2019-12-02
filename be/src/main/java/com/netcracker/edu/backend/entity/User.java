@@ -19,8 +19,8 @@ public class User implements Serializable {
     private String password;
     private String email;
     private int age;
-    private List <Post> posts = new ArrayList <>();
-    private List <Comment> comments = new ArrayList <>();
+//    private List <Post> posts = new ArrayList <>();
+//    private List <Comment> comments = new ArrayList <>();
     private Role role;
     private List <User> friends = new ArrayList <>();
     private List <User> friendOf = new ArrayList <>();
@@ -29,14 +29,14 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(Long id, String login, String password, String email, int age, List <Post> posts, List <Comment> comments, Role role, List <User> friends, List <User> friendOf) {
+    public User(Long id, String login, String password, String email, int age, Role role, List <User> friends, List <User> friendOf) {
         this.id = id;
         this.login = login;
         this.password = password;
         this.email = email;
         this.age = age;
-        this.posts = posts;
-        this.comments = comments;
+//        this.posts = posts;
+//        this.comments = comments;
         this.role = role;
         this.friends = friends;
         this.friendOf = friendOf;
@@ -99,16 +99,16 @@ public class User implements Serializable {
 //        this.posts = posts;
 //    }
 
-//    @JsonManagedReference
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
-            cascade = {CascadeType.REMOVE})
-    public List <Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List <Comment> comments) {
-        this.comments = comments;
-    }
+////    @JsonManagedReference
+//    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
+//            cascade = {CascadeType.REMOVE})
+//    public List <Comment> getComments() {
+//        return comments;
+//    }
+//
+//    public void setComments(List <Comment> comments) {
+//        this.comments = comments;
+//    }
 
     @ManyToOne()
     @JoinColumn(name = "role_id")
@@ -158,7 +158,7 @@ public class User implements Serializable {
                 Objects.equals(getPassword(), user.getPassword()) &&
                 Objects.equals(getEmail(), user.getEmail()) &&
 //                Objects.equals(getPosts(), user.getPosts()) &&
-                Objects.equals(getComments(), user.getComments()) &&
+//                Objects.equals(getComments(), user.getComments()) &&
                 Objects.equals(getRole(), user.getRole()) &&
                 Objects.equals(getFriends(), user.getFriends()) &&
                 Objects.equals(getFriendOf(), user.getFriendOf());
@@ -166,6 +166,6 @@ public class User implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getLogin(), getPassword(), getEmail(), getAge(), getComments(), getRole(), getFriends(), getFriendOf(), block);
+        return Objects.hash(getId(), getLogin(), getPassword(), getEmail(), getAge(), getRole(), getFriends(), getFriendOf(), block);
     }
 }

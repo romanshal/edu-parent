@@ -25,16 +25,13 @@ export class AddPostComponent implements OnInit {
     this.postService.showAddPost = false;
   }
 
-  addPost(description: NgModel, userId: string): void {
+  addPost(description: NgModel,tag:NgModel, userId: number): void {
     const fd = new FormData();
     this.post.userId = userId;
     fd.append('description', this.post.description);
-    // this.post.id=20;
-    // this.post.userId = userId;
-    // this.post.description=description;
-    // this.PostService.savePost(this.post).subscribe(res => {
-    // });
+    fd.append('tag', this.post.tag);
     this.subscriptions.push(this.postService.savePost(fd).subscribe(() => {
+      this.close()
     }));
   }
 }

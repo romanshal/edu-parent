@@ -11,6 +11,7 @@ import {FooterModule} from "../footer/footer.module";
 import {AdminPageComponent} from "./components/admin-page/admin-page.component";
 import {CommonModule} from "@angular/common";
 import {PostService} from "../../services/post.service";
+import {NewsPageComponent} from "./components/news/news.component";
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import {PostService} from "../../services/post.service";
     UserPageComponent,
     NotFoundComponent,
     BillingDetailsViewComponent,
-    AdminPageComponent
+    AdminPageComponent,
+    NewsPageComponent
   ],
   imports: [
     BillingAccountModule,
@@ -30,6 +32,6 @@ import {PostService} from "../../services/post.service";
     CommonModule
   ],
   providers: [PostService],
-  exports: [HomeComponent, NotFoundComponent, BillingDetailsViewComponent,UserPageComponent,AdminPageComponent]
+  exports: [HomeComponent, NotFoundComponent, BillingDetailsViewComponent,UserPageComponent,AdminPageComponent,NewsPageComponent]
 })
 export class LayoutModule {}

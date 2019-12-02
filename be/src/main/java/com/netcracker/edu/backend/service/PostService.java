@@ -10,7 +10,7 @@ public interface PostService {
 
     List <Post> findAll();
     Post findById(long id);
-    Post save(Post Post);
+    Post save(Post post);
     void delete(long id);
     Page <Post> findByUserId(Long userId, Pageable pageable);
     Post createPost(Long userId, Post post);

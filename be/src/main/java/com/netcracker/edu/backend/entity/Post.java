@@ -14,17 +14,17 @@ public class Post implements Serializable {
     private Long id;
     private User user;
     private String description;
-    private List <Comment> comments = new ArrayList<>();
+//    private List <Comment> comments = new ArrayList<>();
     private Set <Tag> tags = new HashSet <>();
 
     public Post(){
     }
 
-    public Post(Long id, User user, String description, List <Comment> comments, Set <Tag> tags) {
+    public Post(Long id, User user, String description, Set <Tag> tags) {
         this.id = id;
         this.user = user;
         this.description = description;
-        this.comments = comments;
+//        this.comments = comments;
         this.tags = tags;
     }
 
@@ -48,16 +48,16 @@ public class Post implements Serializable {
         this.user = user;
     }
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "user")
-    @Column(name = "comments")
-    public List <Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List <Comment> comments) {
-        this.comments = comments;
-    }
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "user")
+//    @Column(name = "comments")
+//    public List <Comment> getComments() {
+//        return comments;
+//    }
+//
+//    public void setComments(List <Comment> comments) {
+//        this.comments = comments;
+//    }
 
     @Column(name = "tags")
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
@@ -91,12 +91,22 @@ public class Post implements Serializable {
         return getId().equals(post.getId()) &&
                 getUser().equals(post.getUser()) &&
                 Objects.equals(getDescription(), post.getDescription()) &&
-                Objects.equals(getComments(), post.getComments()) &&
+//                Objects.equals(getComments(), post.getComments()) &&
                 Objects.equals(getTags(), post.getTags());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUser(), getDescription(), getComments(), getTags());
+        return Objects.hash(getId(), getUser(), getDescription(), getTags());
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", user=" + user +
+                ", description='" + description + '\'' +
+                ", tags=" + tags +
+                '}';
     }
 }

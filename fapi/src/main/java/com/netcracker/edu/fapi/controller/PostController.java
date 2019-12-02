@@ -23,13 +23,11 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<Post> savePost(@RequestBody Post post) {
+    public ResponseEntity<Post> savePost(@ModelAttribute Post post) {
         if (post != null) {
             return ResponseEntity.ok(postService.savePost(post));
         } return null;
     }
-
-
 
     @DeleteMapping(value = "/{id}")
     public void deletePost(@PathVariable long id){
