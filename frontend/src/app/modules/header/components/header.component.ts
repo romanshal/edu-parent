@@ -6,6 +6,7 @@ import {Component, OnInit} from "@angular/core";
 })
 export class HeaderComponent {
 
+  public isHome: boolean=true;
   public showPopup: boolean = false;
 
   close(){

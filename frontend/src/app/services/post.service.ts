@@ -8,7 +8,6 @@ export class PostService {
 
   public showAddPost: boolean;
   public showModal: boolean;
-  public showReg: boolean;
 
   constructor(private httpClient: HttpClient) {
   }

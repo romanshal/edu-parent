@@ -1,5 +1,6 @@
 package com.netcracker.edu.backend.service.impl;
 
+import com.netcracker.edu.backend.entity.Role;
 import com.netcracker.edu.backend.entity.User;
 import com.netcracker.edu.backend.repository.UserRepository;
 import com.netcracker.edu.backend.service.UserService;
@@ -28,6 +29,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
+        user.setRole(new Role(1));
         return userRepository.save(user);
     }
 

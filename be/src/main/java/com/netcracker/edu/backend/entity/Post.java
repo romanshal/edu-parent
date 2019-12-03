@@ -8,7 +8,7 @@ import java.util.*;
 
 @Entity
 @Table(name = "post")
-@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
+//@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Post implements Serializable {
 
     private Long id;

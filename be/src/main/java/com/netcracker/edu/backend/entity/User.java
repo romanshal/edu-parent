@@ -1,9 +1,6 @@
 package com.netcracker.edu.backend.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,7 +8,7 @@ import java.util.*;
 
 @Entity
 @Table(name = "user")
-@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
+//@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class User implements Serializable {
 
     private Long id;
@@ -19,7 +16,7 @@ public class User implements Serializable {
     private String password;
     private String email;
     private int age;
-//    private List <Post> posts = new ArrayList <>();
+    private List <Post> posts = new ArrayList <>();
 //    private List <Comment> comments = new ArrayList <>(); @ManyToMany
     private Role role;
     private List <User> friends = new ArrayList <>();
@@ -29,13 +26,13 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(Long id, String login, String password, String email, int age, Role role, List <User> friends, List <User> friendOf) {
+    public User(Long id, String login, String password, String email, int age, List<Post> posts, Role role, List <User> friends, List <User> friendOf) {
         this.id = id;
         this.login = login;
         this.password = password;
         this.email = email;
         this.age = age;
-//        this.posts = posts;
+        this.posts = posts;
 //        this.comments = comments;
         this.role = role;
         this.friends = friends;
@@ -89,15 +86,15 @@ public class User implements Serializable {
         this.age = age;
     }
 
-//    @OneToMany(mappedBy = "user")
-////    @JsonManagedReference
-//    public List <Post> getPosts() {
-//        return posts;
-//    }
-//
-//    public void setPosts(List <Post> posts) {
-//        this.posts = posts;
-//    }
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
+    @JsonIgnore
+    public List <Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List <Post> posts) {
+        this.posts = posts;
+    }
 
 ////    @JsonManagedReference
 //    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
@@ -142,6 +139,15 @@ public class User implements Serializable {
         return friendOf;
     }
 
+//    @Column(name = "status")
+    public boolean isBlock() {
+        return block;
+    }
+
+    public void setBlock(boolean block) {
+        this.block = block;
+    }
+
     public void setFriendOf(List <User> friendOf) {
         this.friendOf = friendOf;
     }
@@ -152,20 +158,35 @@ public class User implements Serializable {
         if(o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return getAge() == user.getAge() &&
-                block == user.block &&
+                isBlock() == user.isBlock() &&
                 getId().equals(user.getId()) &&
                 getLogin().equals(user.getLogin()) &&
                 getPassword().equals(user.getPassword()) &&
                 Objects.equals(getEmail(), user.getEmail()) &&
-                getRole().equals(user.getRole()) &&
+                Objects.equals(getPosts(), user.getPosts()) &&
+                Objects.equals(getRole(), user.getRole()) &&
                 Objects.equals(getFriends(), user.getFriends()) &&
                 Objects.equals(getFriendOf(), user.getFriendOf());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getLogin(), getPassword(), getEmail(), getAge(), getRole(), getFriends(), getFriendOf(), block);
+        return Objects.hash(getId(), getLogin(), getPassword(), getEmail(), getAge(), getPosts(), getRole(), getFriends(), getFriendOf(), isBlock());
     }
 
-
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", age=" + age +
+                ", posts=" + posts +
+                ", role=" + role +
+                ", friends=" + friends +
+                ", friendOf=" + friendOf +
+                ", block=" + block +
+                '}';
+    }
 }

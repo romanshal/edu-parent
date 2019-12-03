@@ -1,5 +1,9 @@
 import {Component, OnInit} from "@angular/core";
 import {PostService} from "../../../../services/post.service";
+import {AuthToken, UserService} from "../../../../services/user.service";
+import {LoginModel} from "../../../layout/components/models/login.model";
+import {StorageService} from "../../../../services/storage.service";
+import {User} from "../../../layout/components/models/user";
 
 @Component({
   selector: "app-window",
@@ -11,9 +15,13 @@ export class WindowComponent implements OnInit {
   public isRegistration: boolean = false;
   public forgotPass: boolean = false;
 
-  constructor(private  postService: PostService){
+  public loginModel: LoginModel = {};
+  public showCheckYourSetDataAlert: boolean = false;
 
+  constructor(private storageService: StorageService,
+              private userService: UserService) {
   }
+
 
 
   ngOnInit() {
@@ -26,6 +34,30 @@ export class WindowComponent implements OnInit {
       case "registration": this.isRegistration = true; this.forgotPass = this.isLogin = false; break;
       case "password": this.forgotPass = true; this.forgotPass = this.isLogin = false; break;
     }
+  }
+
+  public onSubmit(): void {
+    this.userService.generateToken(this.loginModel)
+      .subscribe((authToken: AuthToken) => {
+        if (authToken.token) {
+          this.storageService.setToken(authToken.token);
+          this.userService.getAuthorizedUser()
+            .subscribe((userModel: User) => {
+              this.storageService.setCurrentUser(userModel);
+            });
+        }
+      }, (error) => {
+        if (error.status === 401) {
+          this.showCheckYourSetDataAlert = true;
+        } else {
+          alert(error.message);
+        }
+      });
+  }
+
+  public logout(): void {
+    this.storageService.clearToken();
+    this.storageService.setCurrentUser(null);
   }
 }
 

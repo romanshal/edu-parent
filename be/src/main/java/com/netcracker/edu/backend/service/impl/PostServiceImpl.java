@@ -22,7 +22,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List <Post> findAll() {
-        return (List<Post>) postRepository.findAll();
+        return postRepository.findAll();
     }
 
     public Post findById(long id) {
