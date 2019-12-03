@@ -29,7 +29,7 @@ public class Post implements Serializable {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public Long getId() {
         return id;
     }
@@ -38,7 +38,7 @@ public class Post implements Serializable {
         this.id = id;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     public User getUser() {
         return user;
@@ -91,7 +91,6 @@ public class Post implements Serializable {
         return getId().equals(post.getId()) &&
                 getUser().equals(post.getUser()) &&
                 Objects.equals(getDescription(), post.getDescription()) &&
-//                Objects.equals(getComments(), post.getComments()) &&
                 Objects.equals(getTags(), post.getTags());
     }
 

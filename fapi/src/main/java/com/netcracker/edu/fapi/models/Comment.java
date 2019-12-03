@@ -10,8 +10,13 @@ public class Comment implements Serializable {
 
     private int id;
     private String content;
-    private Long postId;
-    private Long userId;
+    private Post post;
+
+    public Comment(int id, String content, Post post) {
+        this.id = id;
+        this.content = content;
+        this.post = post;
+    }
 
     public int getId() {
         return id;
@@ -29,20 +34,12 @@ public class Comment implements Serializable {
         this.content = content;
     }
 
-    public Long getPostId() {
-        return postId;
+    public Post getPost() {
+        return post;
     }
 
-    public void setPostId(Long postId) {
-        this.postId = postId;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setPost(Post post) {
+        this.post = post;
     }
 
     @Override
@@ -52,13 +49,12 @@ public class Comment implements Serializable {
         Comment comment = (Comment) o;
         return getId() == comment.getId() &&
                 Objects.equals(getContent(), comment.getContent()) &&
-                Objects.equals(getPostId(), comment.getPostId()) &&
-                Objects.equals(getUserId(), comment.getUserId());
+                Objects.equals(getPost(), comment.getPost());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getContent(), getPostId(), getUserId());
+        return Objects.hash(getId(), getContent(), getPost());
     }
 
     @Override
@@ -66,8 +62,7 @@ public class Comment implements Serializable {
         return "Comment{" +
                 "id=" + id +
                 ", content='" + content + '\'' +
-                ", postId=" + postId +
-                ", userId=" + userId +
+                ", post=" + post +
                 '}';
     }
 }

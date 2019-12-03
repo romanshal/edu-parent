@@ -25,6 +25,7 @@ public class PostController {
     @PostMapping
     public ResponseEntity<Post> savePost(@ModelAttribute Post post) {
         if (post != null) {
+
             return ResponseEntity.ok(postService.savePost(post));
         } return null;
     }

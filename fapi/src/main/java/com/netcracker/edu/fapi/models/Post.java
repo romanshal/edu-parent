@@ -14,7 +14,7 @@ public class Post implements Serializable{
     private Long id;
     private Set <Object> tags = new HashSet <>();
     private String description;
-    private Long userId;
+    private User user;
 
     public Long getId() {
         return id;
@@ -40,12 +40,12 @@ public class Post implements Serializable{
         this.tags = tags;
     }
 
-    public Long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
@@ -56,12 +56,12 @@ public class Post implements Serializable{
         return Objects.equals(getId(), post.getId()) &&
                 Objects.equals(getTags(), post.getTags()) &&
                 Objects.equals(getDescription(), post.getDescription()) &&
-                Objects.equals(getUserId(), post.getUserId());
+                Objects.equals(getUser(), post.getUser());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getTags(), getDescription(), getUserId());
+        return Objects.hash(getId(), getTags(), getDescription(), getUser());
     }
 
     @Override
@@ -70,7 +70,7 @@ public class Post implements Serializable{
                 "id=" + id +
                 ", tags=" + tags +
                 ", description='" + description + '\'' +
-                ", userId='" + userId + '\'' +
+                ", user='" + user + '\'' +
                 '}';
     }
 }

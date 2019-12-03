@@ -20,7 +20,7 @@ public class User implements Serializable {
     private String email;
     private int age;
 //    private List <Post> posts = new ArrayList <>();
-//    private List <Comment> comments = new ArrayList <>();
+//    private List <Comment> comments = new ArrayList <>(); @ManyToMany
     private Role role;
     private List <User> friends = new ArrayList <>();
     private List <User> friendOf = new ArrayList <>();
@@ -43,7 +43,7 @@ public class User implements Serializable {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
     public Long getId() {
         return id;
@@ -153,13 +153,11 @@ public class User implements Serializable {
         User user = (User) o;
         return getAge() == user.getAge() &&
                 block == user.block &&
-                Objects.equals(getId(), user.getId()) &&
-                Objects.equals(getLogin(), user.getLogin()) &&
-                Objects.equals(getPassword(), user.getPassword()) &&
+                getId().equals(user.getId()) &&
+                getLogin().equals(user.getLogin()) &&
+                getPassword().equals(user.getPassword()) &&
                 Objects.equals(getEmail(), user.getEmail()) &&
-//                Objects.equals(getPosts(), user.getPosts()) &&
-//                Objects.equals(getComments(), user.getComments()) &&
-                Objects.equals(getRole(), user.getRole()) &&
+                getRole().equals(user.getRole()) &&
                 Objects.equals(getFriends(), user.getFriends()) &&
                 Objects.equals(getFriendOf(), user.getFriendOf());
     }
@@ -168,4 +166,6 @@ public class User implements Serializable {
     public int hashCode() {
         return Objects.hash(getId(), getLogin(), getPassword(), getEmail(), getAge(), getRole(), getFriends(), getFriendOf(), block);
     }
+
+
 }

@@ -1,5 +1,6 @@
 package com.netcracker.edu.fapi.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -8,12 +9,13 @@ public class User {
     private long id;
     private String login;
     private String password;
-    private String role;
+
+    private Role role;
 
     public User() {
     }
 
-    public User(long id, String login, String password, String role) {
+    public User(long id, String login, String password, Role role) {
         this.id = id;
         this.login = login;
         this.password = password;
@@ -44,11 +46,11 @@ public class User {
         this.password = password;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

@@ -75,4 +75,10 @@ public class UserController {
         return new ResponseEntity<User>(updatedUser, HttpStatus.OK);
 
     }
+
+    @RequestMapping(value = "/login/{login}", method = RequestMethod.GET)
+    public ResponseEntity<User> getUserByLogin(@PathVariable(name = "login") String login) {
+        User user = userService.findByLogin(login);
+        return ResponseEntity.ok(user);
+    }
 }

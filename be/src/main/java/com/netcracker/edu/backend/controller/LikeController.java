@@ -18,7 +18,7 @@ public class LikeController {
     LikeService likeService;
 
     @GetMapping("/post/{postId}")
-    public long getAllPostsByUserId(@PathVariable(value = "postId") Long postId) {
+    public long getCountLikeByPosyId(@PathVariable(value = "postId") Long postId) {
         return likeService.countByPostId(postId);
     }
 

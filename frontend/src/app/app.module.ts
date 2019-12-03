@@ -5,7 +5,7 @@ import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { ModalModule } from "ngx-bootstrap/modal";
 import { FormsModule } from "@angular/forms";
 import { AppComponent } from "./app.component";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {Ng4LoadingSpinnerModule} from "ng4-loading-spinner";
 import {RouterModule, Routes} from "@angular/router";
 import {BillingDetailsViewComponent} from "./modules/layout/components/billing-details/billing-details-view.component";
@@ -15,6 +15,8 @@ import {HomeComponent} from "./modules/layout/components/home/home.component";
 import {UserPageComponent} from "./modules/layout/components/user-page/user-page.component";
 import {AdminPageComponent} from "./modules/layout/components/admin-page/admin-page.component";
 import {NewsPageComponent} from "./modules/layout/components/news/news.component";
+import {UserService} from "./services/user.service";
+import {APIInterceptor} from "./interceptors/api-interceptor";
 
 const appRoutes: Routes = [
   {path: "", component: HomeComponent},
@@ -42,7 +44,11 @@ const appRoutes: Routes = [
     ModalModule.forRoot(),
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [],
+  providers: [UserService, APIInterceptor, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: APIInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
