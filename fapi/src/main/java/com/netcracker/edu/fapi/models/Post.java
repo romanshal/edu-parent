@@ -1,20 +1,38 @@
 package com.netcracker.edu.fapi.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Post implements Serializable{
+public class Post implements Serializable {
 
     private Long id;
     private Set <Object> tags = new HashSet <>();
     private String description;
+    private String filePath;
+    private String login;
+    private MultipartFile file;
     private User user;
+    private Set <Like> likes = new HashSet();
+
+    public Post(String description, User user) {
+        this.description=description;
+        this.user=user;
+    }
+
+    public Post(Long id, Set <Object> tags, String description, User user, Set <Like> likes) {
+        this.id = id;
+        this.tags = tags;
+        this.description = description;
+        this.user = user;
+        this.likes = likes;
+    }
+
+    public Post() {
+    }
 
     public Long getId() {
         return id;
@@ -32,11 +50,11 @@ public class Post implements Serializable{
         this.description = description;
     }
 
-    public Set<Object> getTags() {
+    public Set <Object> getTags() {
         return tags;
     }
 
-    public void setTags(Set<Object> tags) {
+    public void setTags(Set <Object> tags) {
         this.tags = tags;
     }
 
@@ -48,29 +66,27 @@ public class Post implements Serializable{
         this.user = user;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if(this == o) return true;
-        if(o == null || getClass() != o.getClass()) return false;
-        Post post = (Post) o;
-        return Objects.equals(getId(), post.getId()) &&
-                Objects.equals(getTags(), post.getTags()) &&
-                Objects.equals(getDescription(), post.getDescription()) &&
-                Objects.equals(getUser(), post.getUser());
+    public Set <Like> getLikes() {
+        return likes;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getTags(), getDescription(), getUser());
+    public void setLikes(Set <Like> likes) {
+        this.likes = likes;
     }
 
-    @Override
-    public String toString() {
-        return "Post{" +
-                "id=" + id +
-                ", tags=" + tags +
-                ", description='" + description + '\'' +
-                ", user='" + user + '\'' +
-                '}';
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -49,8 +50,9 @@ public class PostController {
         return new ResponseEntity<Post>(post,HttpStatus.OK);
     }
 
+    @Transactional
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public ResponseEntity<Post> createPost(@RequestBody @Valid Post post){
+    public ResponseEntity<Post> createPost(@RequestBody Post post){
 
         if(post==null){
             return new ResponseEntity<Post>(HttpStatus.BAD_REQUEST);

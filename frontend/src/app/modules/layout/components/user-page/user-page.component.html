@@ -10,14 +10,17 @@
           <div class="col-8" style="padding-top: 7px">
             <div class="row">
               <div class="col-12">
-                <span style="font-size:33px;color: black">Roman Shalabodov</span>
+                <span style="font-size:33px;color: black">Roma Shalabodov</span>
               </div>
               <div class="col-12">
-                <button type="button" class="btn btn-primary" style="background-color: white;color: black;" data-toggle="button" aria-pressed="false"
+                <button type="button" class="btn btn-primary" style="background-color: white;color: black;"
+                        data-toggle="button" aria-pressed="false"
                         autocomplete="false">
                   Subscribers
                 </button>
-                <button type="button" class="btn btn-primary" style="background-color: white;margin-left: 10px;color: black;" data-toggle="button" aria-pressed="false"
+                <button type="button" class="btn btn-primary"
+                        style="background-color: white;margin-left: 10px;color: black;" data-toggle="button"
+                        aria-pressed="false"
                         autocomplete="false">
                   Subscriptions
                 </button>
@@ -35,19 +38,21 @@
       <div style="width: 100%">
         <div class="instagram-content">
           <h3>Latest Photos</h3>
-          <div class="nav-item"><button type="button" class="btn btn-link" (click)="openDialog()">
-          Add
-        </button>
+          <div class="nav-item">
             <button type="button" class="btn btn-link" (click)="openDialog()">
-             <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="news">News</a>
+              Add
+            </button>
+            <button type="button" class="btn btn-link">
+              <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="news">News</a>
             </button>
           </div>
-          <div class="row photos-wrap" >
+          <div class="row photos-wrap">
             <!-- Instafeed target div -->
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let post of posts">
               <publication
-                           [description]=post.description
-                           [tag]=post.tag>
+                [tag]="post.tags"
+                [description]=post.description
+                [countLike]="post.countLike">
               </publication>
             </div>
 

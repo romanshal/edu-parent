@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
+import {Component, Input, OnInit} from "@angular/core";
 import {Post} from "../../../layout/components/models/post";
 import {PostService} from "../../../../services/post.service";
 
@@ -8,19 +8,19 @@ import {PostService} from "../../../../services/post.service";
 })
 export class PublicationComponent {
 
-  publication : Post;
-
-  public showModal: boolean=false;
-
-  constructor(public  postService: PostService){
-
-  }
-  public openDialog() {
-    this.postService.showModal = true;
-  }
+  @Input()
+  tag: string;
 
   @Input()
   description: string;
+
   @Input()
-  tag: string;
+  countLike: number;
+
+  constructor(public  postService: PostService) {
+  }
+
+  public openDialog() {
+    this.postService.showModal = true;
+  }
 }

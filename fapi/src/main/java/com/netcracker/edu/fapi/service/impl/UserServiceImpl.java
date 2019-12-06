@@ -25,6 +25,13 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
+    public User findUserById(Long id) {
+        RestTemplate restTemplate = new RestTemplate();
+        User user = restTemplate.getForObject(backendServerUrl + "/api/user/" + id, User.class);
+        return user;
+    }
+
+    @Override
     public User findByLogin(String login) {
         RestTemplate restTemplate = new RestTemplate();
         User user = restTemplate.getForObject(backendServerUrl + "/api/user/login/" + login, User.class);

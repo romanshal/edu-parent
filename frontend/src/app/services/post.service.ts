@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import{Post} from "../modules/layout/components/models/post";
+import {StorageService} from "./storage.service";
 
 @Injectable()
 export class PostService {
@@ -9,7 +10,8 @@ export class PostService {
   public showAddPost: boolean;
   public showModal: boolean;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient,
+              private storageService: StorageService) {
   }
 
   getPosts(): Observable<Post[]> {

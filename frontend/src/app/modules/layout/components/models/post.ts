@@ -1,6 +1,9 @@
 export class Post {
   description: string;
-  tag:string;
-  userId: number;
-
+  tags: string;
+  userId: string;
+  countLike: number;
+  file: File;
+  filePath: string;
+  login: string
 }

@@ -1,8 +1,6 @@
 import { NgModule } from "@angular/core";
-import {BillingDetailsViewComponent} from "./components/billing-details/billing-details-view.component";
 import {NotFoundComponent} from "./components/404/not-found.component";
 import {HomeComponent} from "./components/home/home.component";
-import {BillingAccountModule} from "../billing-account/billing-account.module";
 import {HeaderModule} from "../header/header.module";
 import {RouterModule} from "@angular/router";
 import {UserPageComponent} from "./components/user-page/user-page.component";
@@ -19,12 +17,10 @@ import {NewsPageComponent} from "./components/news/news.component";
     HomeComponent,
     UserPageComponent,
     NotFoundComponent,
-    BillingDetailsViewComponent,
     AdminPageComponent,
     NewsPageComponent
   ],
   imports: [
-    BillingAccountModule,
     HeaderModule,
     RouterModule,
     SharedModule,
@@ -32,6 +28,6 @@ import {NewsPageComponent} from "./components/news/news.component";
     CommonModule
   ],
   providers: [PostService],
-  exports: [HomeComponent, NotFoundComponent, BillingDetailsViewComponent,UserPageComponent,AdminPageComponent,NewsPageComponent]
+  exports: [HomeComponent, NotFoundComponent, UserPageComponent,AdminPageComponent,NewsPageComponent]
 })
 export class LayoutModule {}

@@ -1,4 +1,4 @@
-<div class="modal fade show" style="display: block" >
+<div class="modal fade show" style="display: block">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -9,18 +9,35 @@
       </div>
       <div class="modal-body">
         <form>
+
           <div class="form-group">
-            <label for="exampleInputEmail1">Tags</label>
-            <input name="title" type="text" class="form-control" [(ngModel)]="post.tag"  id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter tags" #tag="ngModel" required/>
-            <div [hidden]="tag.valid || tag.untouched" class="alert alert-danger">Pls set description</div>
+            <label>Image</label>
+            <div class="input-group">
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="inputGroupFile"
+                       aria-describedby="inputGroupFileAddon04"
+                       (change)="onFileSelected($event)">
+                <label class="custom-file-label"
+                       for="inputGroupFile">{{post.file == null ? 'Image' : post.file.name}}</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputTags">Tags</label>
+            <input name="title" type="text" class="form-control" [(ngModel)]="post.tags" id="exampleInputTags"
+                   aria-describedby="tagsHelp" placeholder="Enter tags" #tags="ngModel" required/>
+            <div [hidden]="tags.valid || tags.untouched" class="alert alert-danger">Pls set description</div>
           </div>
           <div class="form-group">
-            <label for="exampleInputPassword1">Description</label>
-            <textarea class="form-control" name="description" [(ngModel)]="post.description" id="exampleInputPassword1" placeholder="Description" #description="ngModel">
+            <label>Description</label>
+            <textarea class="form-control" name="description" [(ngModel)]="post.description"
+                      placeholder="Enter description" #description="ngModel">
  </textarea>
-            <div [hidden]="description.valid || description.untouched" class="alert alert-danger">Pls set description</div>
+            <div [hidden]="description.valid || description.untouched" class="alert alert-danger">Pls set description
+            </div>
           </div>
-          <button type="button" class="btn btn-primary"(click)="addPost(description,tag,1)">Add</button>
+          <button type="button" class="btn btn-primary" (click)="addPost(description)">Add</button>
         </form>
       </div>
     </div>

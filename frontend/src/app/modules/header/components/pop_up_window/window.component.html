@@ -9,14 +9,19 @@
     <div id="cd-login" *ngIf="isLogin"> <!-- форма входа -->
       <form class="cd-form">
         <p class="fieldset">
-          <label class="image-replace cd-email" for="signin-email">E-mail</label>
-          <input class="full-width has-padding has-border" id="signin-email" type="email" placeholder="E-mail">
+          <label class="image-replace cd-email">Login</label>
+          <input type="text" class="form-control"
+                 placeholder="Login" name="login"
+                 [(ngModel)]="loginModel.login"/>
+
           <span class="cd-error-message">Здесь сообщение об ошибке!</span>
         </p>
 
         <p class="fieldset">
-          <label class="image-replace cd-password" for="signin-password">Пароль</label>
-          <input class="full-width has-padding has-border" id="signin-password" type="text"  placeholder="Пароль">
+          <label class="image-replace cd-password" >Пароль</label>
+          <input type="password" class="form-control"
+                 placeholder="Password" name="password"
+                 [(ngModel)]="loginModel.password"/>
           <a href="#0" class="hide-password">Скрыть</a>
           <span class="cd-error-message">Здесь сообщение об ошибке!</span>
         </p>
@@ -27,31 +32,37 @@
         </p>
 
         <p class="fieldset">
-          <input class="full-width" type="submit" value="Войти">
+          <input class="full-width" type="submit" value="Log in" (click)="onSubmit()">
         </p>
       </form>
 
-      <p class="cd-form-bottom-message" (click)="selectSection('password')"><a href="#0">Забыли свой пароль?</a></p>
+      <p class="cd-form-bottom-message" (click)="selectSection('password')"><a href="#">Забыли свой пароль?</a></p>
       <!-- <a href="#0" class="cd-close-form">Close</a> -->
     </div> <!-- cd-login -->
 
     <div id="cd-signup" *ngIf="isRegistration"> <!-- форма регистрации -->
       <form class="cd-form">
         <p class="fieldset">
-          <label class="image-replace cd-username" for="signup-username">Имя пользователя</label>
-          <input class="full-width has-padding has-border" id="signup-username" type="text" placeholder="Имя пользователя">
+          <label class="image-replace cd-username">Name</label>
+          <input class="form-control"
+                 placeholder="Your name"
+                 [(ngModel)]="newUser.name" #name="ngModel"/>
           <span class="cd-error-message">Здесь сообщение об ошибке!</span>
         </p>
 
         <p class="fieldset">
-          <label class="image-replace cd-email" for="signup-email">E-mail</label>
-          <input class="full-width has-padding has-border" id="signup-email" type="email" placeholder="E-mail">
+          <label class="image-replace cd-email">Login</label>
+          <input class="form-control"
+                 placeholder="Login"
+                 [(ngModel)]="newUser.login" #login="ngModel" required/>
           <span class="cd-error-message">Здесь сообщение об ошибке!</span>
         </p>
 
         <p class="fieldset">
-          <label class="image-replace cd-password" for="signup-password">Пароль</label>
-          <input class="full-width has-padding has-border" id="signup-password" type="text"  placeholder="Пароль">
+          <label class="image-replace cd-password">Пароль</label>
+          <input type="password" class="form-control"
+                 placeholder="Password"
+                 [(ngModel)]="newUser.password" #password="ngModel" required/>
           <a href="#0" class="hide-password">Скрыть</a>
           <span class="cd-error-message">Здесь сообщение об ошибке!</span>
         </p>
@@ -62,7 +73,7 @@
         </p>
 
         <p class="fieldset">
-          <input class="full-width has-padding" type="submit" value="Создать аккаунт">
+          <input class="full-width has-padding" type="submit" value="Создать аккаунт" (click)="addUser(name,login,password)">
         </p>
       </form>
 

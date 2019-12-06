@@ -14,10 +14,11 @@ public class Post implements Serializable {
     private Long id;
     private User user;
     private String description;
-//    private List <Comment> comments = new ArrayList<>();
+    //    private List <Comment> comments = new ArrayList<>();
+    private List <Like> likes = new ArrayList();
     private Set <Tag> tags = new HashSet <>();
 
-    public Post(){
+    public Post() {
     }
 
     public Post(Long id, User user, String description, Set <Tag> tags) {
@@ -66,7 +67,7 @@ public class Post implements Serializable {
             joinColumns = @JoinColumn(name = "post_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
-    public Set<Tag> getTags() {
+    public Set <Tag> getTags() {
         return tags;
     }
 
@@ -81,6 +82,16 @@ public class Post implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @OneToMany(mappedBy = "post")
+    @JsonManagedReference
+    public List <Like> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(List <Like> likes) {
+        this.likes = likes;
     }
 
     @Override

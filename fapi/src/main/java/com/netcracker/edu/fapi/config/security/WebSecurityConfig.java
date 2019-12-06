@@ -54,7 +54,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/token/*", "/signup","/").permitAll()
+                .antMatchers("/api/user/token/*", "/api/user/signup").permitAll()
+//                .anyRequest().authenticated() возможность смотреть без авторизации
                 .and()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
                 .and()

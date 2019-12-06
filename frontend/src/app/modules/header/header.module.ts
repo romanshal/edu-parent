@@ -1,8 +1,9 @@
-import { NgModule } from "@angular/core";
+import {NgModule} from "@angular/core";
 import {HeaderComponent} from "./components/header.component";
 import {WindowComponent} from "./components/pop_up_window/window.component";
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "../shared/shared.module";
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -12,11 +13,14 @@ import {SharedModule} from "../shared/shared.module";
   ],
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
+    FormsModule
   ],
   providers: [],
-  exports: [HeaderComponent,
-            WindowComponent
+  exports: [
+    HeaderComponent,
+    WindowComponent
   ]
 })
-export class HeaderModule {}
+export class HeaderModule {
+}

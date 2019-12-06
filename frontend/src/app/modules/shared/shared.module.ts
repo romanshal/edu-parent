@@ -7,6 +7,7 @@ import {FormsModule} from "@angular/forms";
 import {PhotoModalComponent} from "./components/photo-modal/photo-modal.component";
 import {CommentModalComponent} from "./components/comment-modal/comment-madal.component";
 import {RegButtonComponent} from "./components/reg-button/reg-button.component";
+// import {ButtonComponent} from "./components/button.component/button.component";
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import {RegButtonComponent} from "./components/reg-button/reg-button.component";
     PhotoModalComponent,
     CommentModalComponent,
     RegButtonComponent
+    // ButtonComponent
   ],
   imports: [
     CommonModule,
@@ -29,6 +31,7 @@ import {RegButtonComponent} from "./components/reg-button/reg-button.component";
     PhotoModalComponent,
     CommentModalComponent,
     RegButtonComponent
+    // ButtonComponent
   ]
 })
 export class SharedModule {

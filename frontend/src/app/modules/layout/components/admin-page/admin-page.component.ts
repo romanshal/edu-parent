@@ -8,17 +8,13 @@ import {Subscription} from "rxjs";
   templateUrl: "./admin-page.component.html"
 })
 
-export class AdminPageComponent implements OnInit {
+export class AdminPageComponent {
 
   public posts: Post[];
 
   private subscriptions: Subscription[] = [];
 
   constructor( private postService: PostService) {
-
-  }
-
-  ngOnInit() {
 
   }
 

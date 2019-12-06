@@ -7,11 +7,15 @@ import {LoginModel} from "../modules/layout/components/models/login.model";
 @Injectable()
 export class UserService {
 
+  constructor(private http: HttpClient) {
+  }
+
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>("/api/user");
   }
 
-  constructor(private http: HttpClient) {
+  public saveUser(user: User): Observable<User> {
+    return this.http.post<User>('/api/user/signup', user);
   }
 
   public generateToken(login: LoginModel): Observable<AuthToken> {

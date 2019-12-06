@@ -1,18 +1,21 @@
 <div class="photo-box" style="border: 2px solid gray;">
   <div class="image-wrap">
-    <button class="btn" style="display: contents" (click)="openDialog()"><img src="src/assets/img/test_img.jpg"></button>
-
+    <button class="btn" style="display: contents" (click)="openDialog()">
+      <img src="src/assets/img/test_img.jpg">
+    </button>
   </div>
 
   <div class="row">
     <div class="col-6">
-      <div class="likes">309 Likes</div>
+      <div class="likes">{{countLike}} likes</div>
     </div>
+  </div>
+  <div class="tags">
+    {{tag}}
   </div>
 
   <div class="description">
     {{description}}
-    {{tag}}
   </div>
   <div class="date">September 16, 2014</div>
 </div>

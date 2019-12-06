@@ -28,7 +28,7 @@ public class LikeController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public ResponseEntity <List <Like>> getAllPosts(){
+    public ResponseEntity <List <Like>> getAllLikes(){
         List<Like> likes=this.likeService.findAll();
 
 //        if (posts.isEmpty()){

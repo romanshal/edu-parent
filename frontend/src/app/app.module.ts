@@ -8,7 +8,6 @@ import { AppComponent } from "./app.component";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {Ng4LoadingSpinnerModule} from "ng4-loading-spinner";
 import {RouterModule, Routes} from "@angular/router";
-import {BillingDetailsViewComponent} from "./modules/layout/components/billing-details/billing-details-view.component";
 import {NotFoundComponent} from "./modules/layout/components/404/not-found.component";
 import {LayoutModule} from "./modules/layout/layout.module";
 import {HomeComponent} from "./modules/layout/components/home/home.component";
@@ -17,14 +16,15 @@ import {AdminPageComponent} from "./modules/layout/components/admin-page/admin-p
 import {NewsPageComponent} from "./modules/layout/components/news/news.component";
 import {UserService} from "./services/user.service";
 import {APIInterceptor} from "./interceptors/api-interceptor";
+import {StorageService} from "./services/storage.service";
+import {CanActivateService} from "./services/can-active.service";
 
 const appRoutes: Routes = [
   {path: "", component: HomeComponent},
   {path: "home", component: HomeComponent},
-  {path: "userPage", component: UserPageComponent},
+  {path: "userPage", component: UserPageComponent,  canActivate: [CanActivateService]},
   {path: "adminPage", component: AdminPageComponent},
-  {path: "news", component: NewsPageComponent},
-  {path: "billing-details/:id", component: BillingDetailsViewComponent},
+  {path: "news", component: NewsPageComponent,  canActivate: [CanActivateService]},
   {path: "**", component: NotFoundComponent},
 ];
 
@@ -44,7 +44,7 @@ const appRoutes: Routes = [
     ModalModule.forRoot(),
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [UserService, APIInterceptor, {
+  providers: [UserService,StorageService, APIInterceptor, {
     provide: HTTP_INTERCEPTORS,
     useClass: APIInterceptor,
     multi: true

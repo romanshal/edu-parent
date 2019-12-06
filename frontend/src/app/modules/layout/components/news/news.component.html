@@ -1,12 +1,13 @@
 <app-header></app-header>
-<section class="instagram-wrap" >
+<section class="instagram-wrap">
   <div class="container">
     <div class="row">
       <div style="width: 100%">
         <div class="instagram-content">
-          <div class="row photos-wrap col-xs-12 col-sm-6 col-md-4 col-lg-3" style="top: 100px;display: table-cell;left: 50%">
+          <div class="row photos-wrap col-xs-12 col-sm-6 col-md-4 col-lg-3"
+               style="top: 100px;display: table-cell;left: 50%">
             <!-- Instafeed target div -->
-            <div class="" *ngFor="let post of posts">
+            <div *ngFor="let post of posts">
               <publication
                 [description]=post.description>
               </publication>
