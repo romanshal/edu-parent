@@ -21,7 +21,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List <Comment> getAllComments() {
         RestTemplate restTemplate = new RestTemplate();
-        Comment[]comments = restTemplate.getForObject(backendServerUrl + "/api/comment", Comment[].class);
+        Comment[] comments = restTemplate.getForObject(backendServerUrl + "/api/comment", Comment[].class);
         return comments == null ? Collections.emptyList() : Arrays.asList(comments);
     }
 
@@ -35,5 +35,12 @@ public class CommentServiceImpl implements CommentService {
     public void deleteComment(long id) {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.delete(backendServerUrl + "/api/comment/" + id);
+    }
+
+    @Override
+    public List <Comment> getAllCommentsByPostId(Long postId) {
+        RestTemplate restTemplate = new RestTemplate();
+        Comment[] comments = restTemplate.getForObject(backendServerUrl + "/api/comment/post/"+postId, Comment[].class);
+        return comments == null ? Collections.emptyList() : Arrays.asList(comments);
     }
 }

@@ -7,7 +7,6 @@ import com.netcracker.edu.backend.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
@@ -53,8 +52,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Page <Post> findByUserId(Long userId, Pageable pageable) {
-        return postRepository.findByUserId(userId, pageable);
+    public List <Post> findByUserId(Long userId) {
+        return postRepository.findByUserId(userId);
     }
 
     @Override

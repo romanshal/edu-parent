@@ -8,13 +8,12 @@ import java.util.*;
 
 @Entity
 @Table(name = "post")
-//@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Post implements Serializable {
 
     private Long id;
     private User user;
     private String description;
-    //    private List <Comment> comments = new ArrayList<>();
+    private List <Comment> comments = new ArrayList<>();
     private List <Like> likes = new ArrayList();
     private Set <Tag> tags = new HashSet <>();
 
@@ -49,16 +48,20 @@ public class Post implements Serializable {
         this.user = user;
     }
 
-//    @JsonIgnore
-//    @OneToMany(mappedBy = "user")
-//    @Column(name = "comments")
-//    public List <Comment> getComments() {
-//        return comments;
-//    }
-//
-//    public void setComments(List <Comment> comments) {
-//        this.comments = comments;
-//    }
+    @Column(name = "comments")
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinTable(
+            name ="comments_post",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "comment_id")
+    )
+    public List <Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List <Comment> comments) {
+        this.comments = comments;
+    }
 
     @Column(name = "tags")
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
@@ -94,29 +97,4 @@ public class Post implements Serializable {
         this.likes = likes;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if(this == o) return true;
-        if(o == null || getClass() != o.getClass()) return false;
-        Post post = (Post) o;
-        return getId().equals(post.getId()) &&
-                getUser().equals(post.getUser()) &&
-                Objects.equals(getDescription(), post.getDescription()) &&
-                Objects.equals(getTags(), post.getTags());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getUser(), getDescription(), getTags());
-    }
-
-    @Override
-    public String toString() {
-        return "Post{" +
-                "id=" + id +
-                ", user=" + user +
-                ", description='" + description + '\'' +
-                ", tags=" + tags +
-                '}';
-    }
 }

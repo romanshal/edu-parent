@@ -29,6 +29,16 @@ public class PostController {
         return ResponseEntity.ok(postService.getAll().stream().map(postToPostUIModel::convert).collect(Collectors.toList()));
     }
 
+    @GetMapping(value = "/user/{userId}")
+    public ResponseEntity <List <UIPost>> getAllPostsByUserId(@PathVariable Long userId) {
+        return ResponseEntity.ok(postService.getPostsByUserId(userId).stream().map(postToPostUIModel::convert).collect(Collectors.toList()));
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity <UIPost> getPostById(@PathVariable Long id ) {
+        return ResponseEntity.ok(postToPostUIModel.convert(postService.getPostById(id)));
+    }
+
     @PostMapping
     public ResponseEntity <Post> savePost(@RequestParam String description,
                                           @RequestParam String login) {

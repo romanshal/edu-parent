@@ -1,12 +1,15 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, Input} from "@angular/core";
 
 @Component({
   selector: "comment-modal",
   templateUrl: "./comment-modal.component.html",
   styleUrls: ['./comment-modal.component.css']
 })
-export class CommentModalComponent implements OnInit {
+export class CommentModalComponent {
 
-  ngOnInit() {
+  constructor() {
   }
+
+  @Input()
+  content: string;
 }

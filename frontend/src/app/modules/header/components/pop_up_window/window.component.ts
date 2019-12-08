@@ -15,7 +15,7 @@ export class WindowComponent implements OnDestroy{
   public isLogin: boolean = true;
   public isRegistration: boolean = false;
   public forgotPass: boolean = false;
-  public newUser: User;
+  public newUser: User = new User();
 
   private subscriptions: Subscription[] = [];
 
@@ -63,8 +63,7 @@ export class WindowComponent implements OnDestroy{
       });
   }
 
-  public addUser(name: NgModel, login: NgModel, password: NgModel): void {
-    // this.newUser = new User(name,login,password);
+  public addUser(login: NgModel, password: NgModel): void {
     this.subscriptions.push(this.userService.saveUser(this.newUser).subscribe(() => {
       this.redirect();
     }));

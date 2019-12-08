@@ -27,9 +27,8 @@ public class PostController {
 //    @GetMapping("/")
 //    @GetMapping("/{id}")
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.GET)
-    public Page <Post> getAllPostsByUserId(@PathVariable (value = "userId") Long userId,
-                                              Pageable pageable) {
-        return postService.findByUserId(userId, pageable);
+    public List <Post> getAllPostsByUserId(@PathVariable (value = "userId") Long userId) {
+        return postService.findByUserId(userId);
     }
 
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.POST)

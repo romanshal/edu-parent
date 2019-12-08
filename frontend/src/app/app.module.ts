@@ -15,6 +15,7 @@ import {UserPageComponent} from "./modules/layout/components/user-page/user-page
 import {AdminPageComponent} from "./modules/layout/components/admin-page/admin-page.component";
 import {NewsPageComponent} from "./modules/layout/components/news/news.component";
 import {UserService} from "./services/user.service";
+import {CommentService} from "./services/comment.service";
 import {APIInterceptor} from "./interceptors/api-interceptor";
 import {StorageService} from "./services/storage.service";
 import {CanActivateService} from "./services/can-active.service";
@@ -44,7 +45,7 @@ const appRoutes: Routes = [
     ModalModule.forRoot(),
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [UserService,StorageService, APIInterceptor, {
+  providers: [UserService,StorageService, CommentService, APIInterceptor, {
     provide: HTTP_INTERCEPTORS,
     useClass: APIInterceptor,
     multi: true

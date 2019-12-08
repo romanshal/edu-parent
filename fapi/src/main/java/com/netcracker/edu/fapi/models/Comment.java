@@ -8,21 +8,26 @@ import java.util.Objects;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Comment implements Serializable {
 
-    private int id;
+    private Long id;
     private String content;
     private Post post;
+    private User user;
 
-    public Comment(int id, String content, Post post) {
+    public Comment(Long id, String content, Post post, User user) {
         this.id = id;
         this.content = content;
         this.post = post;
+        this.user = user;
     }
 
-    public int getId() {
+    public Comment() {
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -42,27 +47,11 @@ public class Comment implements Serializable {
         this.post = post;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if(this == o) return true;
-        if(o == null || getClass() != o.getClass()) return false;
-        Comment comment = (Comment) o;
-        return getId() == comment.getId() &&
-                Objects.equals(getContent(), comment.getContent()) &&
-                Objects.equals(getPost(), comment.getPost());
+    public User getUser() {
+        return user;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getContent(), getPost());
-    }
-
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "id=" + id +
-                ", content='" + content + '\'' +
-                ", post=" + post +
-                '}';
+    public void setUser(User user) {
+        this.user = user;
     }
 }

@@ -9,4 +9,5 @@ public interface CommentService {
     List <Comment> getAllComments();
     Comment saveComment(Comment comment);
     void deleteComment(long id);
+    List<Comment> getAllCommentsByPostId(Long postId);
 }

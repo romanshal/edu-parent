@@ -18,56 +18,58 @@ public class CommentController {
     private CommentService commentService;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public ResponseEntity<List <Comment>> getAllPosts(){
-        List<Comment> comments=this.commentService.findAll();
+    public ResponseEntity <List <Comment>> getAllPosts() {
+        List <Comment> comments = this.commentService.findAll();
 
 //        if (posts.isEmpty()){
         //return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 //        }
 
-        return new ResponseEntity<List<Comment>>(comments,HttpStatus.OK);
+        return new ResponseEntity <List <Comment>>(comments, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity <Comment> getCommentById(@PathVariable (value = "id") Long postId,
-                                                 @PathVariable("id") Long commentId){
+    public ResponseEntity <Comment> getCommentById(@PathVariable(value = "id") Long postId,
+                                                   @PathVariable("id") Long commentId) {
 
-        Comment comment=this.commentService.findById(commentId);
+        Comment comment = this.commentService.findById(commentId);
 
         if(comment == null){
-            return new ResponseEntity<Comment>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity <Comment>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<Comment>(comment,HttpStatus.OK);
+        return new ResponseEntity <Comment>(comment, HttpStatus.OK);
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public ResponseEntity<Comment> createPost(@RequestBody @Valid Comment comment){
+    public ResponseEntity <Comment> createPost(@RequestBody @Valid Comment comment) {
 
-        if(comment==null){
-            return new ResponseEntity<Comment>(HttpStatus.BAD_REQUEST);
+        if(comment == null){
+            return new ResponseEntity <Comment>(HttpStatus.BAD_REQUEST);
         }
 
         this.commentService.save(comment);
-        return new ResponseEntity<Comment>(comment, HttpStatus.CREATED);
+        return new ResponseEntity <Comment>(comment, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Comment> deleteCommentById(@PathVariable("id") Long id){
-        Comment comment=this.commentService.findById(id);
+    public ResponseEntity <Comment> deleteCommentById(@PathVariable("id") Long id) {
+        Comment comment = this.commentService.findById(id);
 
-        if(comment==null){
-            return new ResponseEntity<Comment>(HttpStatus.NOT_FOUND);
+        if(comment == null){
+            return new ResponseEntity <Comment>(HttpStatus.NOT_FOUND);
         }
 
         this.commentService.delete(id);
-        return new ResponseEntity<Comment>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity <Comment>(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(value = "/user/{userId}/post/{postId}/", method = RequestMethod.POST)
-    public Comment createCommentByUserIdAndPostId(@PathVariable (value = "userId") Long userId,
-                                                  @PathVariable (value = "postId") Long postId,
-                                                  @Valid @RequestBody Comment comment) {
-        return commentService.createCommentByUserIdAndPostId(userId ,postId, comment);
-    }
+//    @RequestMapping(value = "/post/{postId}", method = RequestMethod.GET)
+//    public ResponseEntity <List <Comment>> getCommentByPostId(@PathVariable(value = "postId") Long postId) {
+//        List <Comment> comments = this.commentService.findAllCommentsByPostId(postId);
+//        if(comments.isEmpty()){
+//            return new ResponseEntity <>(HttpStatus.NOT_FOUND);
+//        }
+//        return new ResponseEntity <List <Comment>>(comments, HttpStatus.OK);
+//    }
 }

@@ -1,12 +1,13 @@
 import {Component, Input, OnInit} from "@angular/core";
 import {Post} from "../../../layout/components/models/post";
 import {PostService} from "../../../../services/post.service";
+import {Comment} from "../../../layout/components/models/comment";
 
 @Component({
   selector: "publication",
   templateUrl: "./publication.component.html",
 })
-export class PublicationComponent {
+export class PublicationComponent{
 
   @Input()
   tag: string;
@@ -17,10 +18,9 @@ export class PublicationComponent {
   @Input()
   countLike: number;
 
+  public postId:number;
+
   constructor(public  postService: PostService) {
   }
 
-  public openDialog() {
-    this.postService.showModal = true;
-  }
 }

@@ -1,6 +1,6 @@
 <div class="photo-box" style="border: 2px solid gray;">
   <div class="image-wrap">
-    <button class="btn" style="display: contents" (click)="openDialog()">
+    <button class="btn" style="display: contents">
       <img src="src/assets/img/test_img.jpg">
     </button>
   </div>
@@ -13,12 +13,10 @@
   <div class="tags">
     {{tag}}
   </div>
-
   <div class="description">
     {{description}}
   </div>
   <div class="date">September 16, 2014</div>
 </div>
-<photo-modal *ngIf="postService.showModal"></photo-modal>
 
 

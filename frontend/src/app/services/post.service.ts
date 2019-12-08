@@ -1,8 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import{Post} from "../modules/layout/components/models/post";
-import {StorageService} from "./storage.service";
+import {Post} from "../modules/layout/components/models/post";
 
 @Injectable()
 export class PostService {
@@ -10,12 +9,15 @@ export class PostService {
   public showAddPost: boolean;
   public showModal: boolean;
 
-  constructor(private httpClient: HttpClient,
-              private storageService: StorageService) {
+  constructor(private httpClient: HttpClient) {
   }
 
   getPosts(): Observable<Post[]> {
     return this.httpClient.get<Post[]>('/api/post');
+  }
+
+  getPostById(id:number): Observable<Post> {
+    return this.httpClient.get<Post>('/api/post/'+id);
   }
 
   savePost(fd: FormData): Observable<Post> {

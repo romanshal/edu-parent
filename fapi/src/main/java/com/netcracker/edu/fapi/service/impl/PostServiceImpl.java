@@ -60,6 +60,13 @@ public class PostServiceImpl implements PostService {
         return restTemplate.postForEntity(backendServerUrl + "/api/post", post, Post.class).getBody();
     }
 
+    @Override
+    public List<Post> getPostsByUserId(Long id) {
+        RestTemplate restTemplate = new RestTemplate();
+        Post[] postsResponse = restTemplate.getForObject(backendServerUrl + "/api/post/user/" + id, Post[].class);
+        return postsResponse == null ? Collections.emptyList() : Arrays.asList(postsResponse);
+    }
+
 //    @Override
 //    public Post savePost(Post post) {
 //        RestTemplate restTemplate = new RestTemplate();
@@ -76,6 +83,13 @@ public class PostServiceImpl implements PostService {
     public File getPhoto(String fileName) {
         RestTemplate restTemplate = new RestTemplate();
         return convert(restTemplate.getForEntity(backendServerUrl+"/api/file/getfile/" + fileName, MultipartFile.class).getBody());
+    }
+
+    @Override
+    public Post getPostById(Long id) {
+        RestTemplate restTemplate = new RestTemplate();
+        Post post = restTemplate.getForObject(backendServerUrl + "/api/post/" + id, Post.class);
+        return post;
     }
 
     private static File convert(MultipartFile file)

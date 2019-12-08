@@ -1,14 +1,14 @@
 package com.netcracker.edu.backend.entity;
 
 import com.fasterxml.jackson.annotation.*;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "user")
-//@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User implements Serializable {
 
     private Long id;
@@ -18,7 +18,7 @@ public class User implements Serializable {
     private String email;
     private int age;
     private List <Post> posts = new ArrayList <>();
-//    private List <Comment> comments = new ArrayList <>(); @ManyToMany
+    //    private List <Comment> comments = new ArrayList <>(); @ManyToMany
     private Role role;
     private List <User> friends = new ArrayList <>();
     private List <User> friendOf = new ArrayList <>();
@@ -27,11 +27,11 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(Long id, String login, String password,String name, String email, int age, List<Post> posts, Role role, List <User> friends, List <User> friendOf) {
+    public User(Long id, String login, String password, String name, String email, int age, List <Post> posts, Role role, List <User> friends, List <User> friendOf) {
         this.id = id;
         this.login = login;
         this.password = password;
-        this.name=name;
+        this.name = name;
         this.email = email;
         this.age = age;
         this.posts = posts;
@@ -51,6 +51,7 @@ public class User implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
 
     @Column(name = "login")
     public String getLogin() {
@@ -97,7 +98,7 @@ public class User implements Serializable {
         this.age = age;
     }
 
-    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     @JsonIgnore
     public List <Post> getPosts() {
         return posts;
@@ -134,7 +135,7 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "friendId")
     )
     public List <User> getFriends() {
-        return friends;
+        return friends.stream().map(this::conv).collect(Collectors.toList());
     }
 
     public void setFriends(List <User> friends) {
@@ -147,10 +148,16 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "userId")
     )
     public List <User> getFriendOf() {
-        return friendOf;
+
+        return friendOf.stream().map(this::conv).collect(Collectors.toList());
     }
 
-//    @Column(name = "status")
+    public void setFriendOf(List <User> friendOf) {
+
+        this.friendOf = friendOf;
+    }
+
+    //    @Column(name = "status")
     public boolean isBlock() {
         return block;
     }
@@ -159,9 +166,6 @@ public class User implements Serializable {
         this.block = block;
     }
 
-    public void setFriendOf(List <User> friendOf) {
-        this.friendOf = friendOf;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -176,14 +180,13 @@ public class User implements Serializable {
                 Objects.equals(getName(), user.getName()) &&
                 Objects.equals(getEmail(), user.getEmail()) &&
                 Objects.equals(getPosts(), user.getPosts()) &&
-                Objects.equals(getRole(), user.getRole()) &&
-                Objects.equals(getFriends(), user.getFriends()) &&
-                Objects.equals(getFriendOf(), user.getFriendOf());
+                Objects.equals(getRole(), user.getRole());
+
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getLogin(), getPassword(), getName(), getEmail(), getAge(), getPosts(), getRole(), getFriends(), getFriendOf(), isBlock());
+        return Objects.hash(getId(), getLogin(), getPassword(), getName(), getEmail(), getAge(), getPosts(), getRole(), isBlock());
     }
 
     @Override
@@ -201,5 +204,11 @@ public class User implements Serializable {
                 ", friendOf=" + friendOf +
                 ", block=" + block +
                 '}';
+    }
+
+    public User conv(User user) {
+        User userDTO = new User();
+        userDTO.setId(user.getId());
+        return userDTO;
     }
 }

@@ -5538,10 +5538,11 @@ a.close.disabled {
 }
 
 .modal-content {
+  left: -250px;
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 200%;
   pointer-events: auto;
   background-color: #fff;
   background-clip: padding-box;

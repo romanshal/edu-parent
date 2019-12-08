@@ -1,9 +1,11 @@
-import {Component, Input, OnInit, Output} from "@angular/core";
+import {Component, Input, OnInit, Output, TemplateRef} from "@angular/core";
 import {PostService} from "../../../../services/post.service";
 import {Post} from "../models/post";
 import {Subscription} from "rxjs";
 import {User} from "../models/user";
-import {UserService} from "../../../../services/user.service";
+import {StorageService} from "../../../../services/storage.service";
+import {BsModalRef, BsModalService} from "ngx-bootstrap";
+import {Comment} from "../models/comment";
 
 @Component({
   selector: "user-page",
@@ -11,13 +13,16 @@ import {UserService} from "../../../../services/user.service";
 })
 export class UserPageComponent implements OnInit {
 
+  public comment: Comment;
   private subscriptions: Subscription[] = [];
-
   public posts: Post[];
+  public post: Post;
   public user: User;
+  public modalRef: BsModalRef;
 
   constructor(public  postService: PostService,
-              public userService: UserService) {
+              public storageService: StorageService,
+              private modalService: BsModalService,) {
   }
 
   public openDialog() {
@@ -25,20 +30,19 @@ export class UserPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Get data from BillingAccountService
-    this.subscriptions.push(this.postService.getPosts().subscribe(posts => {
-      // Parse json response into local array
+    this.subscriptions.push(this.postService.getPostById().subscribe(posts => {
       this.posts = posts;
-      // Check data in console
-      console.log(this.posts);// don't use console.log in angular :)
+      this.posts.forEach(post => {this.post=post})
     }, error => {
       console.log(error)
     }));
-    // this.subscriptions.push(this.userService.getUsers().subscribe(getUser=>
-    // this.user=getUser;
-    // ));
   }
 
-  @Input()
-  description: string;
+  public _openPostModal(template: TemplateRef<any>): void {
+    this.modalRef = this.modalService.show(template);
+  }
+
+  public _closeModal(): void {
+    this.modalRef.hide();
+  }
 }

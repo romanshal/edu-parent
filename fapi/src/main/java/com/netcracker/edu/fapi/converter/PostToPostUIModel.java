@@ -12,14 +12,19 @@ public class PostToPostUIModel implements Converter<Post, UIPost> {
     @Autowired
     private UserToUserUIModel userToUserUIModel;
 
+    @Autowired
+    private CommentToCommentUIModel commentToCommentUIModel;
+
     @Override
     public UIPost convert(Post post) {
         UIPost uiPost = new UIPost();
+        uiPost.setId(post.getId());
         uiPost.setDescription(post.getDescription());
         uiPost.setTags(post.getTags().toString());
         uiPost.setCountLike(post.getLikes().size());
         uiPost.setFilePath(post.getFilePath());
         uiPost.setUiUser(userToUserUIModel.convert(post.getUser()));
+        uiPost.setUiComments(commentToCommentUIModel.convertList(post.getComments()));
         return uiPost;
     }
 }

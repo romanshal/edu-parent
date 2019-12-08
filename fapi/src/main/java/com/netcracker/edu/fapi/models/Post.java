@@ -11,6 +11,7 @@ public class Post implements Serializable {
 
     private Long id;
     private Set <Object> tags = new HashSet <>();
+    private List<Comment> comments= new ArrayList <>();
     private String description;
     private String filePath;
     private String login;
@@ -32,6 +33,14 @@ public class Post implements Serializable {
     }
 
     public Post() {
+    }
+
+    public List <Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List <Comment> comments) {
+        this.comments = comments;
     }
 
     public Long getId() {

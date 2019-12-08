@@ -17,15 +17,9 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     private CommentRepository commentRepository;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PostRepository postRepository;
-
     @Override
     public List <Comment> findAll() {
-        return (List<Comment>) commentRepository.findAll();
+        return commentRepository.findAll();
     }
 
     @Override
@@ -43,14 +37,10 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.deleteById(id);
     }
 
-    @Override
-    public Comment createCommentByUserIdAndPostId(Long userId, Long postId, Comment comment){
-        return userRepository.findById(userId).map(user -> {
-                comment.setUser(user);
-            return postRepository.findById(postId).map(post -> {
-                comment.setPost(post);
-                return commentRepository.save(comment);
-            }).orElseThrow(() -> new ResourceNotFoundException("UserId " + userId + " not found"));
-        }).orElseThrow(() -> new ResourceNotFoundException("UserId " + userId + " not found"));
-    }
+//    @Override
+//    public List <Comment> findAllCommentsByPostId(Long postId) {
+//        return commentRepository.findAllCommentsByPostId(postId);
+//    }
+
+
 }
