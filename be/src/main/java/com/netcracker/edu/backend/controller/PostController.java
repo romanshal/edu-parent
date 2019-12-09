@@ -24,8 +24,6 @@ public class PostController {
     @Autowired
     private PostService postService;
 
-//    @GetMapping("/")
-//    @GetMapping("/{id}")
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.GET)
     public List <Post> getAllPostsByUserId(@PathVariable (value = "userId") Long userId) {
         return postService.findByUserId(userId);

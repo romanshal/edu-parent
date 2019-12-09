@@ -16,6 +16,7 @@ public class Post implements Serializable {
     private List <Comment> comments = new ArrayList<>();
     private List <Like> likes = new ArrayList();
     private Set <Tag> tags = new HashSet <>();
+    private String fileName;
 
     public Post() {
     }
@@ -49,12 +50,7 @@ public class Post implements Serializable {
     }
 
     @Column(name = "comments")
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinTable(
-            name ="comments_post",
-            joinColumns = @JoinColumn(name = "post_id"),
-            inverseJoinColumns = @JoinColumn(name = "comment_id")
-    )
+    @OneToMany(mappedBy = "post")
     public List <Comment> getComments() {
         return comments;
     }
@@ -97,4 +93,36 @@ public class Post implements Serializable {
         this.likes = likes;
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+        Post post = (Post) o;
+        return Objects.equals(getId(), post.getId()) &&
+                Objects.equals(getUser(), post.getUser()) &&
+                Objects.equals(getDescription(), post.getDescription()) &&
+                Objects.equals(getComments(), post.getComments()) &&
+                Objects.equals(getLikes(), post.getLikes()) &&
+                Objects.equals(getTags(), post.getTags()) &&
+                Objects.equals(fileName, post.fileName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getUser(), getDescription(), getComments(), getLikes(), getTags(), fileName);
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", user=" + user +
+                ", description='" + description + '\'' +
+                ", comments=" + comments +
+                ", likes=" + likes +
+                ", tags=" + tags +
+                ", fileName='" + fileName + '\'' +
+                '}';
+    }
 }

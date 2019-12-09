@@ -7,9 +7,14 @@ import {Component, Input} from "@angular/core";
 })
 export class CommentModalComponent {
 
-  constructor() {
-  }
+  @Input()
+  userName: string;
 
   @Input()
   content: string;
+
+  constructor() {
+  }
+
+
 }

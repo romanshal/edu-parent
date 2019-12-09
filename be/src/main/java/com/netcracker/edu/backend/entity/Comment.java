@@ -3,6 +3,7 @@ package com.netcracker.edu.backend.entity;
 import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -18,7 +19,7 @@ public class Comment implements Serializable {
 
     private Long id;
     private String content;
-    private List <Post> posts=new ArrayList();
+    private Post post;
     private User user;
 
     public Comment() {
@@ -43,20 +44,16 @@ public class Comment implements Serializable {
         this.content = content;
     }
 
-    @JsonIgnore
-    @Column(name = "posts")
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinTable(
-            name ="comments_post",
-            joinColumns = @JoinColumn(name = "comment_id"),
-            inverseJoinColumns = @JoinColumn(name = "post_id")
-    )
-    public List <Post> getPosts() {
-        return posts;
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    public Post getPost() {
+        return post;
     }
 
-    public void setPosts(List <Post> posts) {
-        this.posts = posts;
+    public void setPost(Post post) {
+        this.post = post;
     }
 
     @ManyToOne
@@ -69,5 +66,29 @@ public class Comment implements Serializable {
         this.user = user;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+        Comment comment = (Comment) o;
+        return Objects.equals(getId(), comment.getId()) &&
+                Objects.equals(getContent(), comment.getContent()) &&
+                Objects.equals(getPost(), comment.getPost()) &&
+                Objects.equals(getUser(), comment.getUser());
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getContent(), getPost(), getUser());
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", post=" + post +
+                ", user=" + user +
+                '}';
+    }
 }

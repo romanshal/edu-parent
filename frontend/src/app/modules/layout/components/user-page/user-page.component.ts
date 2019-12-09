@@ -1,28 +1,35 @@
-import {Component, Input, OnInit, Output, TemplateRef} from "@angular/core";
+import {Component, OnDestroy, OnInit, TemplateRef} from "@angular/core";
 import {PostService} from "../../../../services/post.service";
 import {Post} from "../models/post";
 import {Subscription} from "rxjs";
 import {User} from "../models/user";
-import {StorageService} from "../../../../services/storage.service";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {Comment} from "../models/comment";
+import {ActivatedRoute, Router} from "@angular/router";
+import {StorageService} from "../../../../services/storage.service";
 
 @Component({
   selector: "user-page",
   templateUrl: "./user-page.component.html"
 })
-export class UserPageComponent implements OnInit {
+export class UserPageComponent implements OnInit,OnDestroy {
 
   public comment: Comment;
+  public currentUser: User = new User();
   private subscriptions: Subscription[] = [];
   public posts: Post[];
   public post: Post;
   public user: User;
   public modalRef: BsModalRef;
+  public id: number;
+  public name:string;
 
   constructor(public  postService: PostService,
-              public storageService: StorageService,
-              private modalService: BsModalService,) {
+              private modalService: BsModalService,
+              private route: ActivatedRoute,
+              private router: Router,
+              private storageService: StorageService) {
+    this.currentUser = this.storageService.getCurrentUser();
   }
 
   public openDialog() {
@@ -30,12 +37,20 @@ export class UserPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.subscriptions.push(this.postService.getPostById().subscribe(posts => {
-      this.posts = posts;
-      this.posts.forEach(post => {this.post=post})
-    }, error => {
-      console.log(error)
-    }));
+    this.route.queryParams.subscribe(params => {
+      this.id = params['id'];
+    });
+    this.loadCardByUserId();
+
+  }
+
+  private loadCardByUserId(): void {
+    this.subscriptions.push(this.postService.getPostByUserId(this.id).subscribe(posts => {
+      this.posts = posts as Post[];
+      console.log(posts);
+      this.posts.forEach(post => {this.post = post});
+      this.name=this.currentUser.login;
+    }))
   }
 
   public _openPostModal(template: TemplateRef<any>): void {
@@ -44,5 +59,13 @@ export class UserPageComponent implements OnInit {
 
   public _closeModal(): void {
     this.modalRef.hide();
+  }
+
+  public redirectToNews(): void {
+    this.router.navigateByUrl("/news");
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 }

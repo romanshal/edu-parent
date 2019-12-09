@@ -23,7 +23,7 @@ public class PostToPostUIModel implements Converter<Post, UIPost> {
         uiPost.setTags(post.getTags().toString());
         uiPost.setCountLike(post.getLikes().size());
         uiPost.setFilePath(post.getFilePath());
-        uiPost.setUiUser(userToUserUIModel.convert(post.getUser()));
+        uiPost.setUserLogin(post.getUser().getLogin());
         uiPost.setUiComments(commentToCommentUIModel.convertList(post.getComments()));
         return uiPost;
     }

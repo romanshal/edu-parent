@@ -10,11 +10,11 @@
     <div class="collapse navbar-collapse main-nav" id="navbarResponsive">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item mx-0 mx-lg-1">
-          <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="userPage">Home</a>
+          <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"(click)="redirectToUserPage()" *ngIf="!_isCurrentUser()">Home</a>
         </li>
-        <reg-button (click)="showPopup=true"></reg-button>
+        <reg-button (click)="showPopup=true" *ngIf="_isCurrentUser()"></reg-button>
         <li class="nav-item mx-0 mx-lg-1">
-          <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" (click)="logout()">Logout</a>
+          <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" (click)="logout()" *ngIf="!_isCurrentUser()">Logout</a>
         </li>
       </ul>
     </div>

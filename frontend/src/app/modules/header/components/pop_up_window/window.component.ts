@@ -5,6 +5,8 @@ import {StorageService} from "../../../../services/storage.service";
 import {User} from "../../../layout/components/models/user";
 import {Subscription} from "rxjs";
 import {NgModel} from "@angular/forms";
+import {Router} from "@angular/router";
+
 
 @Component({
   selector: "app-window",
@@ -23,7 +25,8 @@ export class WindowComponent implements OnDestroy{
   public showCheckYourSetDataAlert: boolean = false;
 
   constructor(private storageService: StorageService,
-              private userService: UserService) {
+              private userService: UserService,
+              private router: Router) {
   }
 
   public selectSection(section: string) {
@@ -51,7 +54,7 @@ export class WindowComponent implements OnDestroy{
           this.userService.getAuthorizedUser()
             .subscribe((userModel: User) => {
               this.storageService.setCurrentUser(userModel);
-              this.redirect();
+              this.redirectToUserPage();
             });
         }
       }, (error) => {
@@ -65,24 +68,17 @@ export class WindowComponent implements OnDestroy{
 
   public addUser(login: NgModel, password: NgModel): void {
     this.subscriptions.push(this.userService.saveUser(this.newUser).subscribe(() => {
-      this.redirect();
+      this.redirectToUserPage();
     }));
   }
 
-  public logout(): void {
-    this.storageService.clearToken();
-    this.storageService.setCurrentUser(null);
-  }
-
-  // router
-  public redirect(): void {
-    window.location.href = '/userPage';
+  public redirectToUserPage(): void {
+    this.router.navigateByUrl("/userPage?id=" + this.storageService.getCurrentUser().id);
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
-
 }
 
 

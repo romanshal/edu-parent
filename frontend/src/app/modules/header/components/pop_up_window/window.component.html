@@ -1,8 +1,8 @@
 <div class="cd-user-modal"> <!-- все формы на фоне затемнения-->
   <div class="cd-user-modal-container"> <!-- основной контейнер -->
     <ul class="cd-switcher">
-      <li (click)="selectSection('login')"><a href="#0">Вход</a></li>
-      <li (click)="selectSection('registration')"><a href="#0">Регистрация</a></li>
+      <li (click)="selectSection('login')"><a >Вход</a></li>
+      <li (click)="selectSection('registration')"><a >Регистрация</a></li>
 <!--      <li><button class="close" data-dismiss="modal" (click)="close()">×</button></li>-->
     </ul>
 
@@ -42,30 +42,17 @@
 
     <div id="cd-signup" *ngIf="isRegistration"> <!-- форма регистрации -->
       <form class="cd-form">
-        <p class="fieldset">
-          <label class="image-replace cd-username">Name</label>
-          <input class="form-control"
-                 placeholder="Your name"
-                 [(ngModel)]="newUser.name" #name="ngModel"/>
-          <span class="cd-error-message">Здесь сообщение об ошибке!</span>
-        </p>
-
-        <p class="fieldset">
-          <label class="image-replace cd-email">Login</label>
+        <div class="form-group">
           <input class="form-control"
                  placeholder="Login"
-                 [(ngModel)]="newUser.login" #login="ngModel" required/>
-          <span class="cd-error-message">Здесь сообщение об ошибке!</span>
-        </p>
+                 [(ngModel)]="newUser.login" #login="ngModel" [ngModelOptions]="{standalone: true}" required/>
+        </div>
 
-        <p class="fieldset">
-          <label class="image-replace cd-password">Пароль</label>
+        <div class="form-group">
           <input type="password" class="form-control"
                  placeholder="Password"
-                 [(ngModel)]="newUser.password" #password="ngModel" required/>
-          <a href="#0" class="hide-password">Скрыть</a>
-          <span class="cd-error-message">Здесь сообщение об ошибке!</span>
-        </p>
+                 [(ngModel)]="newUser.password" #password="ngModel" [ngModelOptions]="{standalone: true}" required/>
+        </div>
 
         <p class="fieldset">
           <input type="checkbox" id="accept-terms">

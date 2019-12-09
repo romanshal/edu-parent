@@ -9,17 +9,15 @@ public class User {
     private long id;
     private String login;
     private String password;
-    private String name;
     private Role role;
 
     public User() {
     }
 
-    public User(long id, String login, String password, String name, Role role) {
+    public User(long id, String login, String password, Role role) {
         this.id = id;
         this.login = login;
         this.password = password;
-        this.name=name;
         this.role = role;
     }
 
@@ -47,14 +45,6 @@ public class User {
         this.password = password;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Role getRole() {
         return role;
     }
@@ -69,7 +59,6 @@ public class User {
                 "id=" + id +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
                 ", role=" + role +
                 '}';
     }

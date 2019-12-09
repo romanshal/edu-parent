@@ -14,7 +14,6 @@ public class User implements Serializable {
     private Long id;
     private String login;
     private String password;
-    private String name;
     private String email;
     private int age;
     private List <Post> posts = new ArrayList <>();
@@ -27,11 +26,10 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(Long id, String login, String password, String name, String email, int age, List <Post> posts, Role role, List <User> friends, List <User> friendOf) {
+    public User(Long id, String login, String password, String email, int age, List <Post> posts, Role role, List <User> friends, List <User> friendOf) {
         this.id = id;
         this.login = login;
         this.password = password;
-        this.name = name;
         this.email = email;
         this.age = age;
         this.posts = posts;
@@ -69,15 +67,6 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    @Column(name = "name")
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     @Column(name = "email")
@@ -177,7 +166,6 @@ public class User implements Serializable {
                 getId().equals(user.getId()) &&
                 getLogin().equals(user.getLogin()) &&
                 getPassword().equals(user.getPassword()) &&
-                Objects.equals(getName(), user.getName()) &&
                 Objects.equals(getEmail(), user.getEmail()) &&
                 Objects.equals(getPosts(), user.getPosts()) &&
                 Objects.equals(getRole(), user.getRole());
@@ -186,7 +174,7 @@ public class User implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getLogin(), getPassword(), getName(), getEmail(), getAge(), getPosts(), getRole(), isBlock());
+        return Objects.hash(getId(), getLogin(), getPassword(),  getEmail(), getAge(), getPosts(), getRole(), isBlock());
     }
 
     @Override
@@ -195,7 +183,6 @@ public class User implements Serializable {
                 "id=" + id +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", age=" + age +
                 ", posts=" + posts +

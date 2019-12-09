@@ -1,5 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {StorageService} from "../../../services/storage.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: "app-header",
@@ -10,7 +11,8 @@ export class HeaderComponent {
   public isHome: boolean = true;
   public showPopup: boolean = false;
 
-  constructor(private storageService: StorageService,){
+  constructor(private storageService: StorageService,
+              private router: Router){
 
   }
 
@@ -24,7 +26,15 @@ export class HeaderComponent {
     this.redirect();
   }
 
+  public redirectToUserPage(): void {
+    this.router.navigateByUrl("/userPage?id=" + this.storageService.getCurrentUser().id);
+  }
+
   public redirect(): void {
-    window.location.href = '/home';
+    this.router.navigateByUrl("/home");
+  }
+
+  public _isCurrentUser(): boolean {
+    return this.storageService.getCurrentUser()===null;
   }
 }

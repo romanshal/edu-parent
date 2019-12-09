@@ -14,7 +14,7 @@ public class UIPost {
     private String description;
     private List<UIComment> uiComments= new ArrayList <>();
     private String tags;
-    private UIUser uiUser;
+    private String userLogin;
     private String filePath;
     private int countLike;
 
@@ -50,12 +50,12 @@ public class UIPost {
         this.tags = tags;
     }
 
-    public UIUser getUiUser() {
-        return uiUser;
+    public String getUserLogin() {
+        return userLogin;
     }
 
-    public void setUiUser(UIUser uiUser) {
-        this.uiUser = uiUser;
+    public void setUserLogin(String userLogin) {
+        this.userLogin = userLogin;
     }
 
     public int getCountLike() {

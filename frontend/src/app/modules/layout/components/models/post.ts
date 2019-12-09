@@ -4,10 +4,9 @@ export class Post {
   id: number;
   description: string;
   tags: string;
-  userId: string;
+  userLogin:string;
   countLike: number;
   file: File;
   filePath: string;
-  login: string;
   uiComments: Comment[];
 }

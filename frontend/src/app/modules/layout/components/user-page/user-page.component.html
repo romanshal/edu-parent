@@ -10,7 +10,7 @@
           <div class="col-8" style="padding-top: 7px">
             <div class="row">
               <div class="col-12">
-                <span style="font-size:33px;color: black">{{user.login}}</span>
+                <span style="font-size:33px;color: black">{{name}}</span>
               </div>
               <div class="col-12" style="top: 10px">
                 <button type="button" class="btn btn-primary" style="background-color: white;color: black;"
@@ -43,13 +43,14 @@
               Add
             </button>
             <button type="button" class="btn btn-link">
-              <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="news">News</a>
+              <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" (click)="redirectToNews()">News</a>
             </button>
           </div>
           <div class="row photos-wrap">
             <!-- Instafeed target div -->
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let post of posts">
               <publication (click)="_openPostModal(templateCard)"
+                           [id]=post.id
                            [tag]=post.tags
                            [description]=post.description
                            [countLike]=post.countLike>
@@ -64,7 +65,10 @@
 
 <ng-template #templateCard class="modal-xl">
   <div class="modal-header">
-    <h4 class="modal-title pull-left"></h4>
+    <div class="col-md-4 text-right" style="margin-left: -25%">
+      <img class="rounded-circle" src="src/assets/img/avataaars.svg" width="15%">
+    </div>
+    <h4 class="modal-title pull-left" style="margin-top: 10px">{{name}}</h4>
     <button type="button" class="close pull-right"
             aria-label="Close" (click)="_closeModal()">
       <span aria-hidden="true">&times;</span>
@@ -76,8 +80,17 @@
         <img style="" src="src/assets/img/test_img.jpg">
       </div>
       <div class="col-6" style="left: -25px;">
+        <div *ngFor="let post of posts">
+          <div *ngFor="let comment of post.uiComments">
+            <comment-modal
+              [userName]=comment.uiUser.login
+              [content]=comment.content>
 
-        <div class="input-group mb-3" style="top: 20px;border-radius: 10px">
+            </comment-modal>
+          </div>
+        </div>
+
+        <div class="input-group mb-3" style="top: 10px;border-radius: 10px">
           <input type="text" class="form-control" placeholder="Add a comment...">
           <div class="input-group-append">
             <button class="btn btn-primary" type="button">Send</button>

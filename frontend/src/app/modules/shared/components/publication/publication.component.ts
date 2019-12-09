@@ -7,7 +7,10 @@ import {Comment} from "../../../layout/components/models/comment";
   selector: "publication",
   templateUrl: "./publication.component.html",
 })
-export class PublicationComponent{
+export class PublicationComponent {
+
+  @Input()
+  id: number;
 
   @Input()
   tag: string;
@@ -18,9 +21,7 @@ export class PublicationComponent{
   @Input()
   countLike: number;
 
-  public postId:number;
-
-  constructor(public  postService: PostService) {
+  constructor() {
   }
 
 }

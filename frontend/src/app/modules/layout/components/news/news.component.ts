@@ -1,4 +1,4 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnDestroy, OnInit} from "@angular/core";
 import {Subscription} from "rxjs";
 import {Post} from "../models/post";
 import {PostService} from "../../../../services/post.service";
@@ -7,7 +7,7 @@ import {PostService} from "../../../../services/post.service";
   selector: "news-page",
   templateUrl: "./news.component.html"
 })
-export class NewsPageComponent implements OnInit{
+export class NewsPageComponent implements OnInit,OnDestroy{
 
   private subscriptions: Subscription[] = [];
 
@@ -31,6 +31,10 @@ export class NewsPageComponent implements OnInit{
     },error => {
       console.log(error)
     }));
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
 }
