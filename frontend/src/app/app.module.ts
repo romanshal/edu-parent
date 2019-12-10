@@ -1,10 +1,10 @@
-import { BrowserModule } from "@angular/platform-browser";
-import { NgModule } from "@angular/core";
-import { BsDropdownModule } from "ngx-bootstrap/dropdown";
-import { TooltipModule } from "ngx-bootstrap/tooltip";
-import { ModalModule } from "ngx-bootstrap/modal";
-import { FormsModule } from "@angular/forms";
-import { AppComponent } from "./app.component";
+import {BrowserModule} from "@angular/platform-browser";
+import {NgModule} from "@angular/core";
+import {BsDropdownModule} from "ngx-bootstrap/dropdown";
+import {TooltipModule} from "ngx-bootstrap/tooltip";
+import {ModalModule} from "ngx-bootstrap/modal";
+import {FormsModule} from "@angular/forms";
+import {AppComponent} from "./app.component";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {Ng4LoadingSpinnerModule} from "ng4-loading-spinner";
 import {RouterModule, Routes} from "@angular/router";
@@ -19,13 +19,14 @@ import {CommentService} from "./services/comment.service";
 import {APIInterceptor} from "./interceptors/api-interceptor";
 import {StorageService} from "./services/storage.service";
 import {CanActivateService} from "./services/can-active.service";
+import {LikeService} from "./services/like.service";
 
 const appRoutes: Routes = [
   {path: "", component: HomeComponent},
   {path: "home", component: HomeComponent},
-  {path: "userPage", component: UserPageComponent,  canActivate: [CanActivateService]},
+  {path: "userPage", component: UserPageComponent, canActivate: [CanActivateService]},
   {path: "adminPage", component: AdminPageComponent},
-  {path: "news", component: NewsPageComponent,  canActivate: [CanActivateService]},
+  {path: "news", component: NewsPageComponent, canActivate: [CanActivateService]},
   {path: "**", component: NotFoundComponent},
 ];
 
@@ -45,11 +46,12 @@ const appRoutes: Routes = [
     ModalModule.forRoot(),
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [UserService,StorageService, CommentService, APIInterceptor, {
+  providers: [UserService, StorageService, CommentService, LikeService, APIInterceptor, {
     provide: HTTP_INTERCEPTORS,
     useClass: APIInterceptor,
     multi: true
   }],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

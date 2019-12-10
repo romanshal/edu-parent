@@ -1,4 +1,5 @@
 package com.netcracker.edu.backend.service.impl;
+
 import com.netcracker.edu.backend.entity.Like;
 import com.netcracker.edu.backend.repository.LikeRepository;
 import com.netcracker.edu.backend.service.LikeService;
@@ -14,12 +15,6 @@ public class LikeServiceImpl implements LikeService {
     @Autowired
     private LikeRepository likeRepository;
 
-
-    @Override
-    public long countByPostId(Long postId) {
-        return likeRepository.countByPostId(postId);
-    }
-
     @Override
     public Like addLike(Like like) {
         return likeRepository.save(like);
@@ -28,5 +23,10 @@ public class LikeServiceImpl implements LikeService {
     @Override
     public List <Like> findAll() {
         return likeRepository.findAll();
+    }
+
+    @Override
+    public void saveLike(long postId, long userId) {
+        likeRepository.saveLike(postId, userId);
     }
 }

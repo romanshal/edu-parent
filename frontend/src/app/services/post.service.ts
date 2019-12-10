@@ -16,8 +16,8 @@ export class PostService {
     return this.httpClient.get<Post[]>('/api/post');
   }
 
-  getPostByUserId(id:number): Observable<Post[]> {
-    return this.httpClient.get<Post[]>('/api/post/user/'+id);
+  getPostByUserId(page: number,id:number): Observable<Post[]> {
+    return this.httpClient.get<Post[]>('/api/post/user/'+id+"?page="+page);
   }
 
   savePost(fd: FormData): Observable<Post> {

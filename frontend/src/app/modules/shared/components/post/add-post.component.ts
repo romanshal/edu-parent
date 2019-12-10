@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from "@angular/core";
 import {Post} from "../../../layout/components/models/post";
 import {PostService} from "../../../../services/post.service";
-import {FormGroup, NgModel} from "@angular/forms";
+import {NgModel} from "@angular/forms";
 import {Subscription} from "rxjs";
 import {StorageService} from "../../../../services/storage.service";
 
@@ -24,7 +24,7 @@ export class AddPostComponent implements OnDestroy {
 
   public addPost(description: NgModel): void {
     const fd = new FormData();
-    // fd.append('file',this.post.file);
+    fd.append('file',this.post.file);
     fd.append('description', this.post.description);
     fd.append('login', this.storageService.getCurrentUser().login);
     this.subscriptions.push(this.postService.savePost(fd).subscribe(() => {

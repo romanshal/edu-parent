@@ -7,6 +7,6 @@ export class Post {
   userLogin:string;
   countLike: number;
   file: File;
-  filePath: string;
+  filename: string;
   uiComments: Comment[];
 }

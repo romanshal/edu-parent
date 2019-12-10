@@ -53,53 +53,66 @@
                            [id]=post.id
                            [tag]=post.tags
                            [description]=post.description
-                           [countLike]=post.countLike>
+                           [countLike]=post.countLike
+                           [image]="'api/post/getFile/'+ post.filename">
               </publication>
+
+              <ng-template #templateCard class="modal-xl">
+                <div class="modal-header">
+                  <div class="col-md-4 text-right" style="margin-left: -25%">
+                    <img class="rounded-circle" src="src/assets/img/avataaars.svg" width="15%">
+                  </div>
+                  <h4 class="modal-title pull-left" style="margin-top: 10px">{{name}}</h4>
+                  <button type="button" class="close pull-right"
+                          aria-label="Close" (click)="_closeModal()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body" style="display: contents">
+                  <div class="row">
+                    <div class="col-6">
+                      <img src="api/post/getFile/{{post.filename}}">
+                    </div>
+                    <div class="col-6" style="left: -25px;">
+                      <div *ngFor="let comment of post.uiComments">
+                        <comment-modal
+                          [userName]=comment.uiUser.login
+                          [content]=comment.content>
+                        </comment-modal>
+                      </div>
+
+                      <div class="input-group mb-3" style="top: 10px;border-radius: 10px">
+                        <input type="text" class="form-control" [(ngModel)]="comment.content"
+                               placeholder="Add a comment..." #content="ngModel" required/>
+                        <div class="input-group-append">
+                          <button class="btn btn-primary" type="button" (click)="addComment(content)">Send</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-1">
+                      <div style="margin-left: 25px;margin-top: 10px;">{{post.countLike}}</div>
+                    </div>
+                    <div class="col-1" style="left: -67px;bottom: 15px;">
+                      <button type="button" class="btn btn-link" style="width: 150%"
+                              (click)="addLike(post.id.toString())"><img src="src/assets/img/like.png"
+                                                                         style="width: 100%"></button>
+                    </div>
+
+                  </div>
+                </div>
+              </ng-template>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <div class="align-self-center mt-auto">
+      <button type="button" class="btn btn-primary" style="background-color: white;color: black;margin-left: 41%"
+              data-toggle="button" aria-pressed="false"
+              autocomplete="false" (click)="nextPage()">Add more...
+      </button>
+    </div>
   </div>
 </section>
-
-<ng-template #templateCard class="modal-xl">
-  <div class="modal-header">
-    <div class="col-md-4 text-right" style="margin-left: -25%">
-      <img class="rounded-circle" src="src/assets/img/avataaars.svg" width="15%">
-    </div>
-    <h4 class="modal-title pull-left" style="margin-top: 10px">{{name}}</h4>
-    <button type="button" class="close pull-right"
-            aria-label="Close" (click)="_closeModal()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body" style="display: contents">
-    <div class="row">
-      <div class="col-6">
-        <img style="" src="src/assets/img/test_img.jpg">
-      </div>
-      <div class="col-6" style="left: -25px;">
-        <div *ngFor="let post of posts">
-          <div *ngFor="let comment of post.uiComments">
-            <comment-modal
-              [userName]=comment.uiUser.login
-              [content]=comment.content>
-
-            </comment-modal>
-          </div>
-        </div>
-
-        <div class="input-group mb-3" style="top: 10px;border-radius: 10px">
-          <input type="text" class="form-control" placeholder="Add a comment...">
-          <div class="input-group-append">
-            <button class="btn btn-primary" type="button">Send</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</ng-template>
-
 <app-footer></app-footer>
 <app-add-post *ngIf="postService.showAddPost"></app-add-post>

@@ -10,9 +10,6 @@ import org.springframework.stereotype.Component;
 public class PostToPostUIModel implements Converter<Post, UIPost> {
 
     @Autowired
-    private UserToUserUIModel userToUserUIModel;
-
-    @Autowired
     private CommentToCommentUIModel commentToCommentUIModel;
 
     @Override
@@ -22,7 +19,7 @@ public class PostToPostUIModel implements Converter<Post, UIPost> {
         uiPost.setDescription(post.getDescription());
         uiPost.setTags(post.getTags().toString());
         uiPost.setCountLike(post.getLikes().size());
-        uiPost.setFilePath(post.getFilePath());
+        uiPost.setFilename(post.getFilename());
         uiPost.setUserLogin(post.getUser().getLogin());
         uiPost.setUiComments(commentToCommentUIModel.convertList(post.getComments()));
         return uiPost;

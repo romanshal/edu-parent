@@ -15,7 +15,7 @@ public class UIPost {
     private List<UIComment> uiComments= new ArrayList <>();
     private String tags;
     private String userLogin;
-    private String filePath;
+    private String filename;
     private int countLike;
 
     public Long getId() {
@@ -66,11 +66,11 @@ public class UIPost {
         this.countLike = countLike;
     }
 
-    public String getFilePath() {
-        return filePath;
+    public String getFilename() {
+        return filename;
     }
 
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 }

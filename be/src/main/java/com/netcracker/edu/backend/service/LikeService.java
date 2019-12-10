@@ -7,7 +7,9 @@ import java.util.List;
 
 public interface LikeService {
 
-    long countByPostId(Long postId);
     Like addLike(Like like);
+
     List <Like> findAll();
+
+    void saveLike(long postId, long userId);
 }

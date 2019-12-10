@@ -13,7 +13,7 @@ public class Post implements Serializable {
     private Set <Object> tags = new HashSet <>();
     private List<Comment> comments= new ArrayList <>();
     private String description;
-    private String filePath;
+    private String filename;
     private String login;
     private MultipartFile file;
     private User user;
@@ -33,6 +33,12 @@ public class Post implements Serializable {
     }
 
     public Post() {
+    }
+
+    public Post(String description, String filename, User user) {
+        this.description=description;
+        this.filename=filename;
+        this.user=user;
     }
 
     public List <Comment> getComments() {
@@ -83,12 +89,12 @@ public class Post implements Serializable {
         this.likes = likes;
     }
 
-    public String getFilePath() {
-        return filePath;
+    public String getFilename() {
+        return filename;
     }
 
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 
     public MultipartFile getFile() {

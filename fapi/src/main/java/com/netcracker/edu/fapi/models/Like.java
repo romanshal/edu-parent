@@ -1,12 +1,22 @@
 package com.netcracker.edu.fapi.models;
 
-import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.io.Serializable;
 
-public class Like {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Like implements Serializable {
 
    private Long id;
    private User user;
    private Post post;
+
+   public Like(Post post, User user) {
+      this.post = post;
+      this.user = user;
+   }
+
+   public Like() {
+   }
 
    public Long getId() {
       return id;
@@ -32,27 +42,4 @@ public class Like {
       this.post = post;
    }
 
-   @Override
-   public boolean equals(Object o) {
-      if(this == o) return true;
-      if(o == null || getClass() != o.getClass()) return false;
-      Like like = (Like) o;
-      return Objects.equals(getId(), like.getId()) &&
-              Objects.equals(getUser(), like.getUser()) &&
-              Objects.equals(getPost(), like.getPost());
-   }
-
-   @Override
-   public int hashCode() {
-      return Objects.hash(getId(), getUser(), getPost());
-   }
-
-   @Override
-   public String toString() {
-      return "Like{" +
-              "id=" + id +
-              ", user=" + user +
-              ", post=" + post +
-              '}';
-   }
 }

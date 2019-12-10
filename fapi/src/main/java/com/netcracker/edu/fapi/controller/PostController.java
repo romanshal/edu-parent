@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,8 +31,9 @@ public class PostController {
     }
 
     @GetMapping(value = "/user/{userId}")
-    public ResponseEntity <List <UIPost>> getAllPostsByUserId(@PathVariable Long userId) {
-        return ResponseEntity.ok(postService.getPostsByUserId(userId).stream().map(postToPostUIModel::convert).collect(Collectors.toList()));
+    public ResponseEntity <List <UIPost>> getAllPostsByUserId(@PathVariable Long userId,
+                                                              @RequestParam int page) {
+        return ResponseEntity.ok(postService.getPostsByUserId(page,userId).stream().map(postToPostUIModel::convert).collect(Collectors.toList()));
     }
 
     @GetMapping(value = "/{id}")
@@ -40,10 +42,17 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity <Post> savePost(@RequestParam String description,
+    public ResponseEntity <Post> savePost(@RequestParam MultipartFile file,
+                                          @RequestParam String description,
                                           @RequestParam String login) {
-        return ResponseEntity.ok(postService.savePost(description, login));
+        return ResponseEntity.ok(postService.savePost(file,description, login));
 
+    }
+
+    @GetMapping(value = "/getFile/{fileName}")
+    public void getFile(@PathVariable String fileName, HttpServletResponse response) {
+        postService.getFile(fileName, response);
+        response.setContentType("image/jpeg");
     }
 
 //    @PostMapping

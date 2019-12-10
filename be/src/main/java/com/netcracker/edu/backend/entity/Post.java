@@ -16,7 +16,7 @@ public class Post implements Serializable {
     private List <Comment> comments = new ArrayList<>();
     private List <Like> likes = new ArrayList();
     private Set <Tag> tags = new HashSet <>();
-    private String fileName;
+    private String filename;
 
     public Post() {
     }
@@ -74,6 +74,15 @@ public class Post implements Serializable {
         this.tags = tags;
     }
 
+    @Column
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
     @Column(name = "description")
     public String getDescription() {
         return description;
@@ -105,12 +114,12 @@ public class Post implements Serializable {
                 Objects.equals(getComments(), post.getComments()) &&
                 Objects.equals(getLikes(), post.getLikes()) &&
                 Objects.equals(getTags(), post.getTags()) &&
-                Objects.equals(fileName, post.fileName);
+                Objects.equals(filename, post.filename);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUser(), getDescription(), getComments(), getLikes(), getTags(), fileName);
+        return Objects.hash(getId(), getUser(), getDescription(), getComments(), getLikes(), getTags(), filename);
     }
 
     @Override
@@ -122,7 +131,7 @@ public class Post implements Serializable {
                 ", comments=" + comments +
                 ", likes=" + likes +
                 ", tags=" + tags +
-                ", fileName='" + fileName + '\'' +
+                ", filename='" + filename + '\'' +
                 '}';
     }
 }

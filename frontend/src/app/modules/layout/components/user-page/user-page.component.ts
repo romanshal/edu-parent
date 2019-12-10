@@ -7,14 +7,17 @@ import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {Comment} from "../models/comment";
 import {ActivatedRoute, Router} from "@angular/router";
 import {StorageService} from "../../../../services/storage.service";
+import {LikeService} from "../../../../services/like.service";
+import {Like} from "../models/like";
+import {NgModel} from "@angular/forms";
 
 @Component({
   selector: "user-page",
   templateUrl: "./user-page.component.html"
 })
-export class UserPageComponent implements OnInit,OnDestroy {
+export class UserPageComponent implements OnInit, OnDestroy {
 
-  public comment: Comment;
+  public comment: Comment = new Comment();
   public currentUser: User = new User();
   private subscriptions: Subscription[] = [];
   public posts: Post[];
@@ -22,13 +25,16 @@ export class UserPageComponent implements OnInit,OnDestroy {
   public user: User;
   public modalRef: BsModalRef;
   public id: number;
-  public name:string;
+  public name: string;
+  public page: number = 1;
+  public like: Like = new Like();
 
   constructor(public  postService: PostService,
               private modalService: BsModalService,
               private route: ActivatedRoute,
               private router: Router,
-              private storageService: StorageService) {
+              private storageService: StorageService,
+              private likeService: LikeService) {
     this.currentUser = this.storageService.getCurrentUser();
   }
 
@@ -40,16 +46,18 @@ export class UserPageComponent implements OnInit,OnDestroy {
     this.route.queryParams.subscribe(params => {
       this.id = params['id'];
     });
-    this.loadCardByUserId();
+    this.loadPostByUserId();
 
   }
 
-  private loadCardByUserId(): void {
-    this.subscriptions.push(this.postService.getPostByUserId(this.id).subscribe(posts => {
+  private loadPostByUserId(): void {
+    this.subscriptions.push(this.postService.getPostByUserId(0, this.id).subscribe(posts => {
       this.posts = posts as Post[];
       console.log(posts);
-      this.posts.forEach(post => {this.post = post});
-      this.name=this.currentUser.login;
+      this.posts.forEach(post => {
+        this.post = post
+      });
+      this.name = this.post.userLogin;
     }))
   }
 
@@ -63,6 +71,27 @@ export class UserPageComponent implements OnInit,OnDestroy {
 
   public redirectToNews(): void {
     this.router.navigateByUrl("/news");
+  }
+
+  public nextPage(): void {
+    this.subscriptions.push(this.postService.getPostByUserId(this.page, this.id).subscribe((posts: Post[]) => {
+      for (let post of posts) {
+        this.posts.push(post);
+      }
+    }));
+    this.page = this.page + 1;
+  }
+
+  public addLike(postId: string): void {
+    const fd = new FormData();
+    fd.append('post', postId);
+    fd.append('userId', this.storageService.getCurrentUser().id.toString())
+    this.subscriptions.push(this.likeService.saveLike(fd).subscribe())
+  }
+
+  public addComment(content: NgModel): void {
+    const fd = new FormData();
+    fd.append('content', this.comment.content)
   }
 
   ngOnDestroy(): void {

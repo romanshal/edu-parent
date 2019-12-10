@@ -25,72 +25,73 @@ public class PostController {
     private PostService postService;
 
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.GET)
-    public List <Post> getAllPostsByUserId(@PathVariable (value = "userId") Long userId) {
-        return postService.findByUserId(userId);
+    public List <Post> getAllPostsByUserId(@PathVariable(value = "userId") Long userId,
+                                           @RequestParam int page) {
+        return postService.findByUserId(page, userId);
     }
 
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.POST)
-    public Post createPostByUserId(@PathVariable (value = "userId") Long userId,
-                                 @Valid @RequestBody Post post) {
-        return postService.createPost(userId,post);
+    public Post createPostByUserId(@PathVariable(value = "userId") Long userId,
+                                   @RequestBody Post post) {
+        return postService.createPost(userId, post);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity <Post> getPostById(@PathVariable("id") Long postId){
+    public ResponseEntity <Post> getPostById(@PathVariable("id") Long postId) {
 
-        Post post=this.postService.findById(postId);
+        Post post = this.postService.findById(postId);
 
         if(post == null){
-            return new ResponseEntity<Post>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity <Post>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<Post>(post,HttpStatus.OK);
+        return new ResponseEntity <Post>(post, HttpStatus.OK);
     }
 
     @Transactional
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public ResponseEntity<Post> createPost(@RequestBody Post post){
+    public ResponseEntity <Post> createPost(@RequestBody Post post) {
 
-        if(post==null){
-            return new ResponseEntity<Post>(HttpStatus.BAD_REQUEST);
+        if(post == null){
+            return new ResponseEntity <Post>(HttpStatus.BAD_REQUEST);
         }
 
         this.postService.save(post);
-        return new ResponseEntity<Post>(post, HttpStatus.CREATED);
+        return new ResponseEntity <Post>(post, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Post> deletePost(@PathVariable("id") Long id){
-        Post post=this.postService.findById(id);
+    public ResponseEntity <Post> deletePost(@PathVariable("id") Long id) {
+        Post post = this.postService.findById(id);
 
         this.postService.delete(id);
-        return new ResponseEntity<Post>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity <Post>(HttpStatus.NO_CONTENT);
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public ResponseEntity<List <Post>> getAllPosts(){
-        List<Post> posts=this.postService.findAll();
+    public ResponseEntity <List <Post>> getAllPosts() {
+        List <Post> posts = this.postService.findAll();
 
 //        if (posts.isEmpty()){
-            //return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        //return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 //        }
 
-        return new ResponseEntity<List<Post>>(posts,HttpStatus.OK);
+        return new ResponseEntity <List <Post>>(posts, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Post> updatePost(@RequestBody Post post, @PathVariable("id") Long postId){
+    public ResponseEntity <Post> updatePost(@RequestBody Post post, @PathVariable("id") Long postId) {
         Post updatedPost = this.postService.findById(postId);
 
         if(updatedPost == null){
-            return new ResponseEntity<Post>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity <Post>(HttpStatus.NOT_FOUND);
         }
 
         updatedPost.setDescription(post.getDescription());
 //        updatedPost.setComments(post.getComments());
         updatedPost.setTags(post.getTags());
 
-        return new ResponseEntity<Post>(updatedPost, HttpStatus.OK);
+        return new ResponseEntity <Post>(updatedPost, HttpStatus.OK);
 
     }
 

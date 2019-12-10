@@ -10,6 +10,7 @@ import {AdminPageComponent} from "./components/admin-page/admin-page.component";
 import {CommonModule} from "@angular/common";
 import {PostService} from "../../services/post.service";
 import {NewsPageComponent} from "./components/news/news.component";
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import {NewsPageComponent} from "./components/news/news.component";
     RouterModule,
     SharedModule,
     FooterModule,
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
   providers: [PostService],
   exports: [HomeComponent, NotFoundComponent, UserPageComponent,AdminPageComponent,NewsPageComponent]

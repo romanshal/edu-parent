@@ -1,7 +1,4 @@
-import {Component, Input, OnInit} from "@angular/core";
-import {Post} from "../../../layout/components/models/post";
-import {PostService} from "../../../../services/post.service";
-import {Comment} from "../../../layout/components/models/comment";
+import {Component, Input} from "@angular/core";
 
 @Component({
   selector: "publication",
@@ -21,7 +18,9 @@ export class PublicationComponent {
   @Input()
   countLike: number;
 
+  @Input()
+  image: string;
+
   constructor() {
   }
-
 }

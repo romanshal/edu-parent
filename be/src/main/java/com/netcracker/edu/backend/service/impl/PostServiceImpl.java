@@ -7,6 +7,9 @@ import com.netcracker.edu.backend.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
@@ -52,12 +55,15 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List <Post> findByUserId(Long userId) {
-        return postRepository.findByUserId(userId);
+    public List <Post> findByUserId(int page, Long userId) {
+        Pageable pageable = new PageRequest(page, 8, Sort.by("id").descending());
+        Page <Post> postPage = postRepository.findByUserId(pageable, userId);
+        return postPage.getContent();
+//        return postRepository.findByUserId(userId);
     }
 
     @Override
-    public Post createPost(Long userId, Post post){
+    public Post createPost(Long userId, Post post) {
         return userRepository.findById(userId).map(user -> {
             post.setUser(user);
             return postRepository.save(post);
@@ -67,12 +73,12 @@ public class PostServiceImpl implements PostService {
     @Override
     public String uploadFile(MultipartFile file) {
         File uploadDir = new File(uploadPath);
-        if (!uploadDir.exists()) {
+        if(!uploadDir.exists()){
             uploadDir.mkdir();
         }
         String uuidFile = UUID.randomUUID().toString();
         String resultFilename = uuidFile + "." + file.getOriginalFilename();
-        String fileNameWithPath = uploadPath + "/" + resultFilename;
+        String fileNameWithPath = uploadPath + "//" + resultFilename;
         try {
             file.transferTo(new File(fileNameWithPath));
         } catch (IOException e) {
@@ -82,15 +88,14 @@ public class PostServiceImpl implements PostService {
     }
 
 
-    public MultipartFile getFile (String fileName) {
+    public MultipartFile getFile(String fileName) {
 
         BufferedImage originalImage = null;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
-            originalImage = ImageIO.read(new File(uploadPath + "/" + fileName));
-//            originalImage = ImageIO.read(new File(uploadPath + "/" + fileName));
+            originalImage = ImageIO.read(new File(uploadPath + "//" + fileName));
 
-            ImageIO.write( originalImage, "jpg", baos );
+            ImageIO.write(originalImage, "jpg", baos);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
