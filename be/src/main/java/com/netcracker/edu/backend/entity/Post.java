@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "post")
@@ -17,6 +19,7 @@ public class Post implements Serializable {
     private List <Like> likes = new ArrayList();
     private Set <Tag> tags = new HashSet <>();
     private String filename;
+    private Timestamp timeCreation;
 
     public Post() {
     }
@@ -93,15 +96,22 @@ public class Post implements Serializable {
     }
 
     @OneToMany(mappedBy = "post")
-    @JsonManagedReference
     public List <Like> getLikes() {
-        return likes;
+        return likes.stream().map(this::conv).collect(Collectors.toList());
     }
 
     public void setLikes(List <Like> likes) {
         this.likes = likes;
     }
 
+    @Column(name = "time_creation")
+    public Timestamp getTimeCreation() {
+        return timeCreation;
+    }
+
+    public void setTimeCreation(Timestamp timeCreation) {
+        this.timeCreation = timeCreation;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -133,5 +143,11 @@ public class Post implements Serializable {
                 ", tags=" + tags +
                 ", filename='" + filename + '\'' +
                 '}';
+    }
+
+    public Like conv(Like like) {
+        Like likeDTO = new Like();
+//        likeDTO.setId(like.getId());
+        return likeDTO;
     }
 }

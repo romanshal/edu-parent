@@ -18,7 +18,7 @@ public class CommentController {
     private CommentService commentService;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public ResponseEntity <List <Comment>> getAllPosts() {
+    public ResponseEntity <List <Comment>> getAllComments() {
         List <Comment> comments = this.commentService.findAll();
 
 //        if (posts.isEmpty()){
@@ -42,7 +42,7 @@ public class CommentController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public ResponseEntity <Comment> createPost(@RequestBody @Valid Comment comment) {
+    public ResponseEntity <Comment> createComment(@RequestBody Comment comment) {
 
         if(comment == null){
             return new ResponseEntity <Comment>(HttpStatus.BAD_REQUEST);
@@ -63,13 +63,4 @@ public class CommentController {
         this.commentService.delete(id);
         return new ResponseEntity <Comment>(HttpStatus.NO_CONTENT);
     }
-
-//    @RequestMapping(value = "/post/{postId}", method = RequestMethod.GET)
-//    public ResponseEntity <List <Comment>> getCommentByPostId(@PathVariable(value = "postId") Long postId) {
-//        List <Comment> comments = this.commentService.findAllCommentsByPostId(postId);
-//        if(comments.isEmpty()){
-//            return new ResponseEntity <>(HttpStatus.NOT_FOUND);
-//        }
-//        return new ResponseEntity <List <Comment>>(comments, HttpStatus.OK);
-//    }
 }

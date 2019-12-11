@@ -26,8 +26,8 @@ public class PostController {
     private PostToPostUIModel postToPostUIModel;
 
     @GetMapping
-    public ResponseEntity <List <UIPost>> getAllPosts() {
-        return ResponseEntity.ok(postService.getAll().stream().map(postToPostUIModel::convert).collect(Collectors.toList()));
+    public ResponseEntity <List <UIPost>> getAllPosts(@RequestParam int page) {
+        return ResponseEntity.ok(postService.getAll(page).stream().map(postToPostUIModel::convert).collect(Collectors.toList()));
     }
 
     @GetMapping(value = "/user/{userId}")

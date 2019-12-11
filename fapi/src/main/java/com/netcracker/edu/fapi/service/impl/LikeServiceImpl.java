@@ -17,9 +17,9 @@ public class LikeServiceImpl implements LikeService {
     private String backendServerUrl;
 
     @Override
-    public Like addLike(Post postId, User userId) {
-        Like like = new Like(postId, userId);
+    public void addLike(Long postId,Long userId) {
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.postForObject(backendServerUrl + "/api/like", like, Like.class);
+        Like like = new Like();
+       restTemplate.postForEntity(backendServerUrl + "api/like/post/"+postId+"/user/"+userId,like,Like.class).getBody();
     }
 }

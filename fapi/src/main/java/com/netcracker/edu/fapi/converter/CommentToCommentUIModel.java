@@ -20,6 +20,7 @@ public class CommentToCommentUIModel implements Converter <Comment, UIComment> {
     @Override
     public UIComment convert(Comment comment) {
         UIComment uiComment = new UIComment();
+        uiComment.setId(comment.getId());
         uiComment.setContent(comment.getContent());
         uiComment.setUiUser(userToUserUIModel.convert(comment.getUser()));
         return uiComment;

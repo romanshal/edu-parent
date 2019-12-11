@@ -33,11 +33,11 @@ public class CommentController {
         return ResponseEntity.ok(commentService.getAllCommentsByPostId(postId).stream().map(commentToCommentUIModel::convert).collect(Collectors.toList()));
     }
 
-    @PostMapping
-    public ResponseEntity<Comment> saveComment(@ModelAttribute Comment comment) {
-        if (comment != null) {
-            return ResponseEntity.ok(commentService.saveComment(comment));
-        } return null;
+    @PostMapping(value = "/post/{postId}/user/{userId}")
+    public ResponseEntity<Comment> saveComment(@RequestParam String content,
+                                               @PathVariable Long postId,
+                                               @PathVariable Long userId) {
+        return ResponseEntity.ok(commentService.saveComment(content,postId,userId));
     }
 
     @DeleteMapping(value = "/{id}")

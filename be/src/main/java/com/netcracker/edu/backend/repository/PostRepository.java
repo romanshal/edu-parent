@@ -15,4 +15,5 @@ public interface PostRepository extends JpaRepository <Post, Long> {
     Post findById(long id);
     List <Post> findByUserId(Long userId);
     Page <Post> findByUserId(@PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable,Long userId);
+    Page <Post> findAll(@PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC) Pageable pageable);
 }

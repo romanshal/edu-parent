@@ -63,6 +63,7 @@
                     <img class="rounded-circle" src="src/assets/img/avataaars.svg" width="15%">
                   </div>
                   <h4 class="modal-title pull-left" style="margin-top: 10px">{{name}}</h4>
+                  <button type="button" class="btn btn-danger" style="margin-left: 20px" (click)="_deletePost(post.id)" *ngIf="isAdmin">Delete post</button>
                   <button type="button" class="close pull-right"
                           aria-label="Close" (click)="_closeModal()">
                     <span aria-hidden="true">&times;</span>
@@ -75,6 +76,7 @@
                     </div>
                     <div class="col-6" style="left: -25px;">
                       <div *ngFor="let comment of post.uiComments">
+                        <button type="button" class="btn btn-danger" style="margin-left: 20px" (click)="_deleteComment(comment.id)" *ngIf="isAdmin">Delete comment</button>
                         <comment-modal
                           [userName]=comment.uiUser.login
                           [content]=comment.content>
@@ -85,7 +87,7 @@
                         <input type="text" class="form-control" [(ngModel)]="comment.content"
                                placeholder="Add a comment..." #content="ngModel" required/>
                         <div class="input-group-append">
-                          <button class="btn btn-primary" type="button" (click)="addComment(content)">Send</button>
+                          <button class="btn btn-primary" type="button" (click)="addComment(content,post.id)">Send</button>
                         </div>
                       </div>
                     </div>
@@ -94,7 +96,7 @@
                     </div>
                     <div class="col-1" style="left: -67px;bottom: 15px;">
                       <button type="button" class="btn btn-link" style="width: 150%"
-                              (click)="addLike(post.id.toString())"><img src="src/assets/img/like.png"
+                              (click)="addLike(post.id)"><img src="src/assets/img/like.png"
                                                                          style="width: 100%"></button>
                     </div>
 

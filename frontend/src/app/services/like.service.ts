@@ -11,6 +11,6 @@ export class LikeService {
   }
 
   saveLike(postId:number,userId:number): Observable<Like> {
-    return this.httpClient.post<Like>('/api/like', Like);
+    return this.httpClient.post<Like>('/api/like/post/'+postId+"/user/"+userId, Like);
   }
 }

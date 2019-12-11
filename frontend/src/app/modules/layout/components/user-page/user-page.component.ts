@@ -10,6 +10,8 @@ import {StorageService} from "../../../../services/storage.service";
 import {LikeService} from "../../../../services/like.service";
 import {Like} from "../models/like";
 import {NgModel} from "@angular/forms";
+import {CommentService} from "../../../../services/comment.service";
+import {AuthService} from "../../../../services/auth-service";
 
 @Component({
   selector: "user-page",
@@ -27,15 +29,18 @@ export class UserPageComponent implements OnInit, OnDestroy {
   public id: number;
   public name: string;
   public page: number = 1;
-  public like: Like = new Like();
+  public isAdmin: boolean;
 
   constructor(public  postService: PostService,
               private modalService: BsModalService,
               private route: ActivatedRoute,
               private router: Router,
               private storageService: StorageService,
-              private likeService: LikeService) {
+              private likeService: LikeService,
+              private commentService:CommentService,
+              private authService: AuthService,) {
     this.currentUser = this.storageService.getCurrentUser();
+    this.isAdmin = !this.authService.isAdmin();
   }
 
   public openDialog() {
@@ -47,7 +52,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
       this.id = params['id'];
     });
     this.loadPostByUserId();
-
+console.log(this.currentUser);
   }
 
   private loadPostByUserId(): void {
@@ -82,16 +87,23 @@ export class UserPageComponent implements OnInit, OnDestroy {
     this.page = this.page + 1;
   }
 
-  public addLike(postId: string): void {
-    const fd = new FormData();
-    fd.append('post', postId);
-    fd.append('userId', this.storageService.getCurrentUser().id.toString())
-    this.subscriptions.push(this.likeService.saveLike(fd).subscribe())
+  public addLike(postId: number): void {
+
+    this.subscriptions.push(this.likeService.saveLike(postId, this.currentUser.id).subscribe());
   }
 
-  public addComment(content: NgModel): void {
+  public addComment(content: NgModel,postId:number): void {
     const fd = new FormData();
-    fd.append('content', this.comment.content)
+    fd.append('content',this.comment.content);
+    this.subscriptions.push(this.commentService.addComment(fd,postId,this.currentUser.id).subscribe())
+  }
+
+  public _deletePost(postId: number): void{
+    this.subscriptions.push(this.postService.deletePost(postId).subscribe());
+  }
+
+  public _deleteComment(id: number): void{
+    this.subscriptions.push(this.commentService.deleteComment(id).subscribe());
   }
 
   ngOnDestroy(): void {

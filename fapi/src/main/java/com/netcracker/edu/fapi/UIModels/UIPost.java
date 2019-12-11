@@ -17,6 +17,7 @@ public class UIPost {
     private String userLogin;
     private String filename;
     private int countLike;
+    private Long userId;
 
     public Long getId() {
         return id;
@@ -72,5 +73,13 @@ public class UIPost {
 
     public void setFilename(String filename) {
         this.filename = filename;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

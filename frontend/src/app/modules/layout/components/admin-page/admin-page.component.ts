@@ -11,6 +11,7 @@ import {Subscription} from "rxjs";
 export class AdminPageComponent {
 
   public posts: Post[];
+  public page: number = 1;
 
   private subscriptions: Subscription[] = [];
 
@@ -20,7 +21,7 @@ export class AdminPageComponent {
 
   private loadPost(): void {
     // Get data from BillingAccountService
-    this.subscriptions.push(this.postService.getPosts().subscribe(posts => {
+    this.subscriptions.push(this.postService.getPosts(this.page).subscribe(posts => {
       // Parse json response into local array
       this.posts = posts as Post[];
       // Check data in console
@@ -38,5 +39,14 @@ export class AdminPageComponent {
 
   public _updatePost(): void {
     this.loadPost();
+  }
+
+  public nextPage(): void {
+    this.subscriptions.push(this.postService.getPosts(this.page).subscribe((posts: Post[]) => {
+      for (let post of posts) {
+        this.posts.push(post);
+      }
+    }));
+    this.page = this.page + 1;
   }
 }

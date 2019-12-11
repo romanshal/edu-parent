@@ -15,10 +15,6 @@ public class LikeServiceImpl implements LikeService {
     @Autowired
     private LikeRepository likeRepository;
 
-    @Override
-    public Like addLike(Like like) {
-        return likeRepository.save(like);
-    }
 
     @Override
     public List <Like> findAll() {
@@ -26,7 +22,7 @@ public class LikeServiceImpl implements LikeService {
     }
 
     @Override
-    public void saveLike(long postId, long userId) {
-        likeRepository.saveLike(postId, userId);
+    public void save(long postId,long userId) {
+         likeRepository.saveByPostId(postId,userId);
     }
 }

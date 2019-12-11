@@ -9,4 +9,5 @@ export class Post {
   file: File;
   filename: string;
   uiComments: Comment[];
+  userId:number;
 }

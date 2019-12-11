@@ -36,7 +36,9 @@ public class PostServiceImpl implements PostService {
     private UserRepository userRepository;
 
     @Override
-    public List <Post> findAll() {
+    public List <Post> findAll(int page) {
+        Pageable pageable = new PageRequest(page, 8, Sort.by("id").descending());
+        Page <Post> postPage = postRepository.findAll(pageable);
         return postRepository.findAll();
     }
 

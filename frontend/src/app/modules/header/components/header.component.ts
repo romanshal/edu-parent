@@ -8,7 +8,6 @@ import {Router} from "@angular/router";
 })
 export class HeaderComponent {
 
-  public isHome: boolean = true;
   public showPopup: boolean = false;
 
   constructor(private storageService: StorageService,

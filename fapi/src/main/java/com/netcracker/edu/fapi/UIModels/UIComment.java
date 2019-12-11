@@ -2,6 +2,7 @@ package com.netcracker.edu.fapi.UIModels;
 
 public class UIComment {
 
+    private Long id;
     private String content;
     private UIUser uiUser;
 
@@ -19,5 +20,13 @@ public class UIComment {
 
     public void setUiUser(UIUser uiUser) {
         this.uiUser = uiUser;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

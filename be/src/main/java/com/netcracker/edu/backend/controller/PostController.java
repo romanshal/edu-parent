@@ -69,8 +69,8 @@ public class PostController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public ResponseEntity <List <Post>> getAllPosts() {
-        List <Post> posts = this.postService.findAll();
+    public ResponseEntity <List <Post>> getAllPosts(@RequestParam int page) {
+        List <Post> posts = this.postService.findAll(page);
 
 //        if (posts.isEmpty()){
         //return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -78,30 +78,4 @@ public class PostController {
 
         return new ResponseEntity <List <Post>>(posts, HttpStatus.OK);
     }
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity <Post> updatePost(@RequestBody Post post, @PathVariable("id") Long postId) {
-        Post updatedPost = this.postService.findById(postId);
-
-        if(updatedPost == null){
-            return new ResponseEntity <Post>(HttpStatus.NOT_FOUND);
-        }
-
-        updatedPost.setDescription(post.getDescription());
-//        updatedPost.setComments(post.getComments());
-        updatedPost.setTags(post.getTags());
-
-        return new ResponseEntity <Post>(updatedPost, HttpStatus.OK);
-
-    }
-
-    // image controller as a stream
-//    @ResponseBody
-//    @RequestMapping(value = "/photo2", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
-//    public byte[] testphoto() throws IOException {
-//        InputStream in = servletContext.getResourceAsStream("/images/no_image.jpg");
-//        return IOUtils.toByteArray(in);
-//    }
-
-    //multipart file spring.io
 }

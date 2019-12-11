@@ -13,7 +13,7 @@ public class UserToUserUIModel implements Converter <User, UIUser> {
         UIUser uiUser = new UIUser();
         uiUser.setId(user.getId());
         uiUser.setLogin(user.getLogin());
-        uiUser.setRole(user.getRole());
+        uiUser.setRole(user.getRole().getRoleName());
         return uiUser;
     }
 }

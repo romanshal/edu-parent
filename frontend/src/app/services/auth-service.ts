@@ -9,7 +9,15 @@ export class AuthService {
 
   public isAuthenticated(): boolean {
     const token = localStorage.getItem("token");
-    return token && token !== "null" && !!this.storageService.getCurrentUser(); // todo it would be better to add parsing toke. Check expiration!
+    return token && token !== "null" && !!this.storageService.getCurrentUser();
+  }
+
+  public isAdmin(): boolean {
+    const currentUser = this.storageService.getCurrentUser();
+    if (currentUser.role === 'admin') {
+      return true;
+    }
+    return false;
   }
 
 }

@@ -21,6 +21,7 @@ public class PostToPostUIModel implements Converter<Post, UIPost> {
         uiPost.setCountLike(post.getLikes().size());
         uiPost.setFilename(post.getFilename());
         uiPost.setUserLogin(post.getUser().getLogin());
+        uiPost.setUserId(post.getUser().getId());
         uiPost.setUiComments(commentToCommentUIModel.convertList(post.getComments()));
         return uiPost;
     }

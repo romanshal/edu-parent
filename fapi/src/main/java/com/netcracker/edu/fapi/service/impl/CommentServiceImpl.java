@@ -2,6 +2,8 @@ package com.netcracker.edu.fapi.service.impl;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.netcracker.edu.fapi.models.Comment;
+import com.netcracker.edu.fapi.models.Post;
+import com.netcracker.edu.fapi.models.User;
 import com.netcracker.edu.fapi.service.CommentService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -26,8 +28,14 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment saveComment(Comment comment) {
+    public Comment saveComment(String content, Long postId, Long userId) {
         RestTemplate restTemplate = new RestTemplate();
+        User user = restTemplate.getForObject(backendServerUrl + "/api/user/" + userId, User.class);
+        Post post = restTemplate.getForObject(backendServerUrl + "/api/post/" + postId, Post.class);
+        Comment comment = new Comment();
+        comment.setContent(content);
+        comment.setUser(user);
+        comment.setPost(post);
         return restTemplate.postForObject(backendServerUrl + "/api/comment", comment, Comment.class);
     }
 
@@ -40,7 +48,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List <Comment> getAllCommentsByPostId(Long postId) {
         RestTemplate restTemplate = new RestTemplate();
-        Comment[] comments = restTemplate.getForObject(backendServerUrl + "/api/comment/post/"+postId, Comment[].class);
+        Comment[] comments = restTemplate.getForObject(backendServerUrl + "/api/comment/post/" + postId, Comment[].class);
         return comments == null ? Collections.emptyList() : Arrays.asList(comments);
     }
 }

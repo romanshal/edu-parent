@@ -25,11 +25,9 @@ public class LikeController {
     @Autowired
     private PostService postService;
 
-    @PostMapping(value = "")
-    public ResponseEntity <Like> saveLike(@RequestParam(required=false) String postId,
-                                          @RequestParam(required=false) String userId) {
-        User user=userService.findUserById(Long.valueOf(userId));
-        Post post=postService.getPostById(Long.valueOf(postId));
-        return ResponseEntity.ok(likeService.addLike(post,user));
+    @PostMapping(value = "/post/{postId}/user/{userId}")
+    public void saveLike(@PathVariable(name = "postId") Long postId,
+                         @PathVariable(name = "userId") Long userId) {
+        likeService.addLike(postId, userId);
     }
 }

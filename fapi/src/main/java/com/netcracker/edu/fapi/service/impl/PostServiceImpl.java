@@ -37,9 +37,9 @@ public class PostServiceImpl implements PostService {
     private String backendServerUrl;
 
     @Override
-    public List <Post> getAll() {
+    public List <Post> getAll(int page) {
         RestTemplate restTemplate = new RestTemplate();
-        Post[] posts = restTemplate.getForObject(backendServerUrl + "/api/post", Post[].class);
+        Post[] posts = restTemplate.getForObject(backendServerUrl + "/api/post?page="+page, Post[].class);
         return posts == null ? Collections.emptyList() : Arrays.asList(posts);
     }
 
