@@ -19,10 +19,9 @@
               <ng-template #templateCard class="modal-xl">
                 <div class="modal-header">
                   <div class="col-md-4 text-right" style="margin-left: -25%">
-                    <img (click)="redirectToUserPage(post.userId)" class="rounded-circle" src="src/assets/img/avataaars.svg" width="15%">
+                    <img (click)="redirectToFriendPage(post.userId)" class="rounded-circle" src="src/assets/img/avataaars.svg" width="15%">
                   </div>
-                  <h4 class="modal-title pull-left" style="margin-top: 10px" (click)="redirectToUserPage(post.userId)">{{post.userLogin}}</h4>
-                  <button type="button" class="btn btn-danger" style="margin-left: 20px" (click)="_deletePost(post.id)" *ngIf="isAdmin">Delete post</button>
+                  <h4 class="modal-title pull-left" style="margin-top: 10px" (click)="redirectToFriendPage(post.userId)">{{post.userLogin}}</h4>
                   <button type="button" class="close pull-right"
                           aria-label="Close" (click)="_closeModal()">
                     <span aria-hidden="true">&times;</span>
@@ -35,7 +34,6 @@
                     </div>
                     <div class="col-6" style="left: -25px;">
                       <div *ngFor="let comment of post.uiComments">
-                        <button type="button" class="btn btn-danger" style="margin-left: 20px" (click)="_deleteComment(comment.id)" *ngIf="isAdmin">Delete comment</button>
                         <comment-modal
                           [userName]=comment.uiUser.login
                           [content]=comment.content>

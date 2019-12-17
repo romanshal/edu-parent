@@ -62,8 +62,7 @@ public class Post implements Serializable {
         this.comments = comments;
     }
 
-    @Column(name = "tags")
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "tag_post",
             joinColumns = @JoinColumn(name = "post_id"),

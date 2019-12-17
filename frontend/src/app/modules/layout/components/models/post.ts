@@ -10,4 +10,5 @@ export class Post {
   filename: string;
   uiComments: Comment[];
   userId:number;
+  timeCreation: Date;
 }

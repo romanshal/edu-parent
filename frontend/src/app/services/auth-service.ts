@@ -13,8 +13,7 @@ export class AuthService {
   }
 
   public isAdmin(): boolean {
-    const currentUser = this.storageService.getCurrentUser();
-    if (currentUser.role === 'admin') {
+    if (this.storageService.getCurrentUser().role.roleName.toLowerCase() === 'admin') {
       return true;
     }
     return false;

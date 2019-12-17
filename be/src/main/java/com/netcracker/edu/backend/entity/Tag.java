@@ -34,7 +34,7 @@ public class Tag implements Serializable {
         this.text = text;
     }
 
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "tag_post",
             joinColumns = @JoinColumn(name = "tag_id"),

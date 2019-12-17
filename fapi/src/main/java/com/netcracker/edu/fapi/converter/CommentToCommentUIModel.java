@@ -23,6 +23,7 @@ public class CommentToCommentUIModel implements Converter <Comment, UIComment> {
         uiComment.setId(comment.getId());
         uiComment.setContent(comment.getContent());
         uiComment.setUiUser(userToUserUIModel.convert(comment.getUser()));
+        uiComment.setTimeCreation(comment.getTimeCreation());
         return uiComment;
     }
 

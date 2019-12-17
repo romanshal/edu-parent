@@ -86,7 +86,7 @@ export class NewsPageComponent implements OnInit,OnDestroy{
   public addComment(content: NgModel,postId:number): void {
     const fd = new FormData();
     fd.append('content',this.comment.content);
-    this.subscriptions.push(this.commentService.addComment(fd,postId,this.currentUser.id).subscribe())
+    // this.subscriptions.push(this.commentService.addComment(fd,postId,this.currentUser.id).subscribe())
   }
 
   public _deletePost(postId: number): void{
@@ -97,7 +97,7 @@ export class NewsPageComponent implements OnInit,OnDestroy{
     this.subscriptions.push(this.commentService.deleteComment(id).subscribe());
   }
 
-  public redirectToUserPage(userId:number): void {
+  public redirectToFriendPage(userId:number): void {
     this.router.navigateByUrl("/userPage?id=" + userId)
     this._closeModal();
   }

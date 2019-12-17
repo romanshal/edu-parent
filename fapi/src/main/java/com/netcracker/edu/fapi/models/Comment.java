@@ -2,7 +2,9 @@ package com.netcracker.edu.fapi.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -12,6 +14,8 @@ public class Comment implements Serializable {
     private String content;
     private Post post;
     private User user;
+    @NotNull(message = "Time creation is mandatory")
+    private Timestamp timeCreation;
 
     public Comment(Long id, String content, Post post, User user) {
         this.id = id;
@@ -53,5 +57,13 @@ public class Comment implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Timestamp getTimeCreation() {
+        return timeCreation;
+    }
+
+    public void setTimeCreation(Timestamp timeCreation) {
+        this.timeCreation = timeCreation;
     }
 }

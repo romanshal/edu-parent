@@ -3,7 +3,9 @@ package com.netcracker.edu.fapi.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.*;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -18,6 +20,8 @@ public class Post implements Serializable {
     private MultipartFile file;
     private User user;
     private Set <Like> likes = new HashSet();
+    @NotNull(message = "Time creation is mandatory")
+    private Timestamp timeCreation;
 
     public Post(String description, User user) {
         this.description=description;
@@ -103,5 +107,13 @@ public class Post implements Serializable {
 
     public void setFile(MultipartFile file) {
         this.file = file;
+    }
+
+    public Timestamp getTimeCreation() {
+        return timeCreation;
+    }
+
+    public void setTimeCreation(Timestamp timeCreation) {
+        this.timeCreation = timeCreation;
     }
 }

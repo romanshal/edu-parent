@@ -2,6 +2,7 @@ package com.netcracker.edu.backend.controller;
 
 import com.netcracker.edu.backend.entity.Comment;
 import com.netcracker.edu.backend.service.CommentService;
+import com.netcracker.edu.backend.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,14 +42,16 @@ public class CommentController {
         return new ResponseEntity <Comment>(comment, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "", method = RequestMethod.POST)
-    public ResponseEntity <Comment> createComment(@RequestBody Comment comment) {
+    @RequestMapping(value = "/post/{postId}/user/{userId}", method = RequestMethod.POST)
+    public ResponseEntity <Comment> createComment(@RequestBody Comment comment,
+                                                  @PathVariable(value = "postId") Long postId,
+                                                  @PathVariable(value = "userId") Long userId) {
 
         if(comment == null){
             return new ResponseEntity <Comment>(HttpStatus.BAD_REQUEST);
         }
 
-        this.commentService.save(comment);
+        this.commentService.save(comment,postId,userId);
         return new ResponseEntity <Comment>(comment, HttpStatus.CREATED);
     }
 
@@ -61,6 +64,12 @@ public class CommentController {
         }
 
         this.commentService.delete(id);
+        return new ResponseEntity <Comment>(HttpStatus.NO_CONTENT);
+    }
+
+    @RequestMapping(value = "/post/{postId}", method = RequestMethod.DELETE)
+    public ResponseEntity <Comment> deleteAllCommentsByPostId(@PathVariable("postId") Long postId) {
+        this.commentService.deleteAll(postId);
         return new ResponseEntity <Comment>(HttpStatus.NO_CONTENT);
     }
 }

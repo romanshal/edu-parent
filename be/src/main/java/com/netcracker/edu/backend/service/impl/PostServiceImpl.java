@@ -1,6 +1,8 @@
 package com.netcracker.edu.backend.service.impl;
 
 import com.netcracker.edu.backend.entity.Post;
+import com.netcracker.edu.backend.repository.CommentRepository;
+import com.netcracker.edu.backend.repository.LikeRepository;
 import com.netcracker.edu.backend.repository.PostRepository;
 import com.netcracker.edu.backend.repository.UserRepository;
 import com.netcracker.edu.backend.service.PostService;
@@ -35,6 +37,12 @@ public class PostServiceImpl implements PostService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private CommentRepository commentRepository;
+
+    @Autowired
+    private LikeRepository likeRepository;
+
     @Override
     public List <Post> findAll(int page) {
         Pageable pageable = new PageRequest(page, 8, Sort.by("id").descending());
@@ -53,6 +61,8 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void delete(long id) {
+        likeRepository.deleteAllLikes(id);
+        commentRepository.deleteAll(id);
         postRepository.deleteById(id);
     }
 

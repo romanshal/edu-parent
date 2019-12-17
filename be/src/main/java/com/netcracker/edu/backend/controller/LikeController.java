@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/like")
@@ -16,20 +17,31 @@ public class LikeController {
     @Autowired
     private LikeService likeService;
 
-    @RequestMapping(value = "/post/{postId}/user/{userId}", method = RequestMethod.POST)
-    public void saveLike(@PathVariable(name = "postId") long postId,
-                         @PathVariable(name = "userId") long userId) {
-        likeService.save(postId,userId);
-    }
+//    @RequestMapping(value = "/post/{postId}/user/{userId}", method = RequestMethod.POST)
+//    public void saveLike(@PathVariable(name = "postId") long postId,
+//                         @PathVariable(name = "userId") long userId) {
+//        likeService.save(postId, userId);
+//    }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseEntity <List <Like>> getAllPosts() {
         List <Like> likes = this.likeService.findAll();
 
-        if (likes.isEmpty()){
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if(likes.isEmpty()){
+            return new ResponseEntity <>(HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity <List <Like>>(likes, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/post/{postId}/user/{userId}", method = RequestMethod.POST)
+    public void addOrDeleteLikeByPostIdAndUserId(@PathVariable(name = "postId") long postId,
+                                     @PathVariable(name = "userId") long userId) {
+        Optional <Like> foundLike = likeService.getByPostIdAndUserId(postId, userId);
+        if(foundLike.isPresent()){
+            likeService.deleteLike(postId,userId);
+        } else {
+            likeService.save(postId, userId);
+        }
     }
 }

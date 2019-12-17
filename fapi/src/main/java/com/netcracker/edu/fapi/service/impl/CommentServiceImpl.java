@@ -28,15 +28,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment saveComment(String content, Long postId, Long userId) {
+    public Comment saveComment(Comment comment, Long postId, Long userId) {
         RestTemplate restTemplate = new RestTemplate();
-        User user = restTemplate.getForObject(backendServerUrl + "/api/user/" + userId, User.class);
-        Post post = restTemplate.getForObject(backendServerUrl + "/api/post/" + postId, Post.class);
-        Comment comment = new Comment();
-        comment.setContent(content);
-        comment.setUser(user);
-        comment.setPost(post);
-        return restTemplate.postForObject(backendServerUrl + "/api/comment", comment, Comment.class);
+        return restTemplate.postForObject(backendServerUrl + "/api/comment/post/"+postId+"/user/"+userId, comment, Comment.class);
     }
 
     @Override

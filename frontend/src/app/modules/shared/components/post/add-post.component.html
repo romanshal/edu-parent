@@ -23,12 +23,12 @@
             </div>
           </div>
 
-          <div class="form-group">
-            <label for="exampleInputTags">Tags</label>
-            <input name="title" type="text" class="form-control" [(ngModel)]="post.tags" id="exampleInputTags"
-                   aria-describedby="tagsHelp" placeholder="Enter tags" #tags="ngModel" required/>
-            <div [hidden]="tags.valid || tags.untouched" class="alert alert-danger">Pls set description</div>
-          </div>
+<!--          <div class="form-group">-->
+<!--          <label for="exampleInputTags">Tags</label>-->
+<!--          <input name="title" type="text" class="form-control" [(ngModel)]="post.tags" id="exampleInputTags"-->
+<!--                 aria-describedby="tagsHelp" placeholder="Enter tags" #tags="ngModel" required/>-->
+<!--          <div [hidden]="tags.valid || tags.untouched" class="alert alert-danger">Pls set description</div>-->
+<!--        </div>-->
           <div class="form-group">
             <label>Description</label>
             <textarea class="form-control" name="description" [(ngModel)]="post.description"

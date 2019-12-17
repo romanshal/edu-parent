@@ -23,6 +23,7 @@ public class PostToPostUIModel implements Converter<Post, UIPost> {
         uiPost.setUserLogin(post.getUser().getLogin());
         uiPost.setUserId(post.getUser().getId());
         uiPost.setUiComments(commentToCommentUIModel.convertList(post.getComments()));
+        uiPost.setTimeCreation(post.getTimeCreation());
         return uiPost;
     }
 }

@@ -28,8 +28,9 @@ export class AddPostComponent implements OnDestroy {
     fd.append('description', this.post.description);
     fd.append('login', this.storageService.getCurrentUser().login);
     this.subscriptions.push(this.postService.savePost(fd).subscribe(() => {
-      this.close()
-      this.refreshPost()
+      this.close();
+      this.refreshPost();
+
     }));
   }
 

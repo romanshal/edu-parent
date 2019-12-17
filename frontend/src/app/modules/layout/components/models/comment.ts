@@ -5,4 +5,5 @@ export class Comment {
   id:number;
   content: string;
   uiUser: User;
+  timeCreation: Date;
 }

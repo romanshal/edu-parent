@@ -49,7 +49,7 @@
           <div class="row photos-wrap">
             <!-- Instafeed target div -->
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let post of posts">
-              <publication (click)="_openPostModal(templateCard)"
+              <publication (click)="_openPostModal(templatePost)"
                            [id]=post.id
                            [tag]=post.tags
                            [description]=post.description
@@ -57,13 +57,15 @@
                            [image]="'api/post/getFile/'+ post.filename">
               </publication>
 
-              <ng-template #templateCard class="modal-xl">
+              <ng-template #templatePost class="modal-xl">
                 <div class="modal-header">
                   <div class="col-md-4 text-right" style="margin-left: -25%">
                     <img class="rounded-circle" src="src/assets/img/avataaars.svg" width="15%">
                   </div>
                   <h4 class="modal-title pull-left" style="margin-top: 10px">{{name}}</h4>
-                  <button type="button" class="btn btn-danger" style="margin-left: 20px" (click)="_deletePost(post.id)" *ngIf="isAdmin">Delete post</button>
+                  <button type="button" class="btn btn-danger" style="margin-left: 20px" (click)="_deletePost(post.id)"
+                          *ngIf="(post.userId==currentUser.id) || isAdmin">Delete post
+                  </button>
                   <button type="button" class="close pull-right"
                           aria-label="Close" (click)="_closeModal()">
                     <span aria-hidden="true">&times;</span>
@@ -76,7 +78,10 @@
                     </div>
                     <div class="col-6" style="left: -25px;">
                       <div *ngFor="let comment of post.uiComments">
-                        <button type="button" class="btn btn-danger" style="margin-left: 20px" (click)="_deleteComment(comment.id)" *ngIf="isAdmin">Delete comment</button>
+                        <button type="button" class="btn btn-danger" style="margin-left: 20px"
+                                (click)="_deleteComment(comment.id)"
+                                *ngIf="(comment.uiUser.id == currentUser.id) || isAdmin">Delete comment
+                        </button>
                         <comment-modal
                           [userName]=comment.uiUser.login
                           [content]=comment.content>
@@ -84,10 +89,11 @@
                       </div>
 
                       <div class="input-group mb-3" style="top: 10px;border-radius: 10px">
-                        <input type="text" class="form-control" [(ngModel)]="comment.content"
-                               placeholder="Add a comment..." #content="ngModel" required/>
+                        <input type="text" class="form-control" [(ngModel)]="content"
+                               placeholder="Add a comment..." required/>
                         <div class="input-group-append">
-                          <button class="btn btn-primary" type="button" (click)="addComment(content,post.id)">Send</button>
+                          <button class="btn btn-primary" type="button" (click)="addComment(content,post.id)">Send
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -97,7 +103,7 @@
                     <div class="col-1" style="left: -67px;bottom: 15px;">
                       <button type="button" class="btn btn-link" style="width: 150%"
                               (click)="addLike(post.id)"><img src="src/assets/img/like.png"
-                                                                         style="width: 100%"></button>
+                                                              style="width: 100%"></button>
                     </div>
 
                   </div>

@@ -9,13 +9,28 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Repository
 public interface LikeRepository extends JpaRepository<Like,Long> {
-
-    long countByPostId(Long postId);
 
     @Modifying
     @Transactional
     @Query(value = "insert into likes(post_id,user_id) values (:postId,:userId)", nativeQuery = true)
     void saveByPostId(@Param("postId")Long postId,@Param("userId")Long userId);
+
+    @Transactional
+    @Query(value = "select * from likes where post_id=:postId and user_id=:userId", nativeQuery = true)
+    Optional<Like> getByPostIdAndUserId(@Param("postId")Long postId, @Param("userId")Long userId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "delete from likes where post_id = ?1 and user_id = ?2", nativeQuery = true)
+    void deleteLike(@Param("postId") long postId, @Param("userId") long userId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "delete from likes where post_id=:postId", nativeQuery = true)
+    void deleteAllLikes(@Param("postId") Long postId);
+
 }

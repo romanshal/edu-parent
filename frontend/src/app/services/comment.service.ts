@@ -10,8 +10,8 @@ export class CommentService {
   constructor(private httpClient: HttpClient) {
   }
 
-  addComment(fd:FormData,postId:number,userId:number):Observable<Comment>{
-    return this.httpClient.post<Comment>('/api/comment/post/'+postId+"/user/"+userId, fd);
+  addComment(comment: Comment, postId: number, userId: number): Observable<Comment> {
+    return this.httpClient.post<Comment>('/api/comment/post/' + postId + "/user/" + userId, comment);
   }
 
   deleteComment(id: number): Observable<void> {

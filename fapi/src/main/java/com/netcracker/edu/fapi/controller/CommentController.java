@@ -34,10 +34,10 @@ public class CommentController {
     }
 
     @PostMapping(value = "/post/{postId}/user/{userId}")
-    public ResponseEntity<Comment> saveComment(@RequestParam String content,
+    public ResponseEntity<Comment> saveComment(@RequestBody Comment comment,
                                                @PathVariable Long postId,
                                                @PathVariable Long userId) {
-        return ResponseEntity.ok(commentService.saveComment(content,postId,userId));
+        return ResponseEntity.ok(commentService.saveComment(comment,postId,userId));
     }
 
     @DeleteMapping(value = "/{id}")

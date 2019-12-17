@@ -3,10 +3,10 @@ package com.netcracker.edu.fapi.UIModels;
 import com.netcracker.edu.fapi.models.Comment;
 import com.netcracker.edu.fapi.models.User;
 
+import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class UIPost {
 
@@ -18,6 +18,8 @@ public class UIPost {
     private String filename;
     private int countLike;
     private Long userId;
+    @NotNull(message = "Time creation is mandatory")
+    private Timestamp timeCreation;
 
     public Long getId() {
         return id;
@@ -81,5 +83,13 @@ public class UIPost {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public Timestamp getTimeCreation() {
+        return timeCreation;
+    }
+
+    public void setTimeCreation(Timestamp timeCreation) {
+        this.timeCreation = timeCreation;
     }
 }

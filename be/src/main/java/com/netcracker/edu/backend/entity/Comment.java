@@ -6,6 +6,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
@@ -16,6 +17,7 @@ public class Comment implements Serializable {
     private String content;
     private Post post;
     private User user;
+    private Timestamp timeCreation;
 
     public Comment() {
     }
@@ -61,6 +63,15 @@ public class Comment implements Serializable {
         this.user = user;
     }
 
+    @Column(name = "time_creation")
+    public Timestamp getTimeCreation() {
+        return timeCreation;
+    }
+
+    public void setTimeCreation(Timestamp timeCreation) {
+        this.timeCreation = timeCreation;
+    }
+
     @Override
     public boolean equals(Object o) {
         if(this == o) return true;
@@ -69,12 +80,13 @@ public class Comment implements Serializable {
         return Objects.equals(getId(), comment.getId()) &&
                 Objects.equals(getContent(), comment.getContent()) &&
                 Objects.equals(getPost(), comment.getPost()) &&
-                Objects.equals(getUser(), comment.getUser());
+                Objects.equals(getUser(), comment.getUser()) &&
+                Objects.equals(getTimeCreation(), comment.getTimeCreation());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getContent(), getPost(), getUser());
+        return Objects.hash(getId(), getContent(), getPost(), getUser(), getTimeCreation());
     }
 
     @Override
@@ -84,6 +96,7 @@ public class Comment implements Serializable {
                 ", content='" + content + '\'' +
                 ", post=" + post +
                 ", user=" + user +
+                ", timeCreation=" + timeCreation +
                 '}';
     }
 }
