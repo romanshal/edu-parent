@@ -42,4 +42,14 @@ public class UserServiceImpl implements UserService {
     public User findByLogin(String login) {
         return userRepository.findByLogin(login);
     }
+
+    @Override
+    public void subscribe(long userId, long friendId) {
+        userRepository.subscribe(userId,friendId);
+    }
+
+    @Override
+    public void unsubscribe(long userId, long friendId) {
+        userRepository.unsubscribe(userId,friendId);
+    }
 }

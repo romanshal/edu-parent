@@ -10,20 +10,83 @@
           <div class="col-8" style="padding-top: 7px">
             <div class="row">
               <div class="col-12">
-                <span style="font-size:33px;color: black">{{name}}</span>
+                <span style="font-size:33px;color: black">{{userWhosePage.login}}</span>
+                <button type="button" class="btn btn-info" style="margin-left: 20px"
+                        *ngIf="userWhosePage.id!==currentUser.id"
+                        (click)="subscribe(userWhosePage.id)">
+                  {{nameBtn}}
+                </button>
               </div>
               <div class="col-12" style="top: 10px">
                 <button type="button" class="btn btn-primary" style="background-color: white;color: black;"
                         data-toggle="button" aria-pressed="false"
-                        autocomplete="false">
+                        autocomplete="false" (click)="_openModal(subscribers)">
                   Subscribers
                 </button>
+                <ng-template #subscribers>
+                  <div class="modal-header">
+                    <div class="form-group">
+                      <h4>
+                        Subscribers
+                      </h4>
+                    </div>
+                    <button type="button" class="close pull-right"
+                            aria-label="Close" (click)="_closeModal()">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div>
+                      <ul class="list-group list-group-flush text-left">
+                        <li class="list-group-item" *ngFor="let subscribers of userWhosePage.friendOf">
+                          <div class="row">
+                            <div class="col-1">
+                              <img class="rounded-circle" src="src/assets/img/avataaars.svg" width="95%">
+                            </div>
+                            <div class="col-2" style="margin-top: 20px">
+                              {{subscribers.login}}
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </ng-template>
                 <button type="button" class="btn btn-primary"
                         style="background-color: white;margin-left: 10px;color: black;" data-toggle="button"
                         aria-pressed="false"
-                        autocomplete="false">
+                        autocomplete="false" (click)="_openModal(subscriptions)">
                   Subscriptions
                 </button>
+                <ng-template #subscriptions>
+                  <div class="modal-header">
+                    <div class="form-group">
+                      <h4>
+                        Subscribers
+                      </h4>
+                    </div>
+                    <button type="button" class="close pull-right"
+                            aria-label="Close" (click)="_closeModal()">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div>
+                      <ul class="list-group list-group-flush text-left">
+                        <li class="list-group-item" *ngFor="let subscriptions of userWhosePage.friends">
+                          <div class="row">
+                            <div class="col-1">
+                              <img class="rounded-circle" src="src/assets/img/avataaars.svg" width="95%">
+                            </div>
+                            <div class="col-2" style="margin-top: 20px">
+                              {{subscriptions.login}}
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </ng-template>
               </div>
             </div>
           </div>
@@ -49,7 +112,7 @@
           <div class="row photos-wrap">
             <!-- Instafeed target div -->
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let post of posts">
-              <publication (click)="_openPostModal(templatePost)"
+              <publication (click)="_openModal(templatePost)"
                            [id]=post.id
                            [tag]=post.tags
                            [description]=post.description
@@ -62,7 +125,7 @@
                   <div class="col-md-4 text-right" style="margin-left: -25%">
                     <img class="rounded-circle" src="src/assets/img/avataaars.svg" width="15%">
                   </div>
-                  <h4 class="modal-title pull-left" style="margin-top: 10px">{{name}}</h4>
+                  <h4 class="modal-title pull-left" style="margin-top: 10px">{{userWhosePage.login}}</h4>
                   <button type="button" class="btn btn-danger" style="margin-left: 20px" (click)="_deletePost(post.id)"
                           *ngIf="(post.userId==currentUser.id) || isAdmin">Delete post
                   </button>
@@ -84,7 +147,8 @@
                         </button>
                         <comment-modal
                           [userName]=comment.uiUser.login
-                          [content]=comment.content>
+                          [content]=comment.content
+                          [timeCreation]=comment.timeCreation>
                         </comment-modal>
                       </div>
 

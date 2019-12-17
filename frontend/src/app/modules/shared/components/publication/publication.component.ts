@@ -6,6 +6,8 @@ import {Component, Input} from "@angular/core";
 })
 export class PublicationComponent {
 
+  format: string = 'd MMMM, h:mm:ss';
+
   @Input()
   id: number;
 
@@ -20,6 +22,9 @@ export class PublicationComponent {
 
   @Input()
   image: string;
+
+  @Input()
+  timeCreation: string;
 
   constructor() {
   }

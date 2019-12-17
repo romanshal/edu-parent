@@ -14,6 +14,8 @@ public class UserToUserUIModel implements Converter <User, UIUser> {
         uiUser.setId(user.getId());
         uiUser.setLogin(user.getLogin());
         uiUser.setRole(user.getRole().getRoleName());
+        uiUser.setFriends(user.getFriends());
+        uiUser.setFriendOf(user.getFriendOf());
         return uiUser;
     }
 }

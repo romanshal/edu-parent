@@ -53,4 +53,10 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return userService.findByLogin(((org.springframework.security.core.userdetails.User) authentication.getPrincipal()).getUsername());
     }
+
+    @RequestMapping(value="/subscribe/user/{userId}", method = RequestMethod.POST, produces = "application/json")
+    public void subscribe(@RequestBody User friend,
+                          @PathVariable Long userId){
+        userService.subscribe(userId,friend);
+    }
 }

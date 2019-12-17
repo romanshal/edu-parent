@@ -16,7 +16,6 @@ public class LikeServiceImpl implements LikeService {
     @Autowired
     private LikeRepository likeRepository;
 
-
     @Override
     public List <Like> findAll() {
         return likeRepository.findAll();

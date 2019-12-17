@@ -11,6 +11,7 @@ import {LikeService} from "../../../../services/like.service";
 import {NgModel} from "@angular/forms";
 import {CommentService} from "../../../../services/comment.service";
 import {AuthService} from "../../../../services/auth-service";
+import {UserService} from "../../../../services/user.service";
 
 @Component({
   selector: "user-page",
@@ -30,6 +31,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
   public page: number = 1;
   public isAdmin: boolean;
   content: string = '';
+  public userWhosePage: User = new User();
+  nameBtn: string = 'subscribe';
 
   constructor(public  postService: PostService,
               private modalService: BsModalService,
@@ -37,8 +40,9 @@ export class UserPageComponent implements OnInit, OnDestroy {
               private router: Router,
               private storageService: StorageService,
               private likeService: LikeService,
-              private commentService:CommentService,
-              private authService: AuthService,) {
+              private commentService: CommentService,
+              private authService: AuthService,
+              private userService: UserService) {
     this.currentUser = this.storageService.getCurrentUser();
     this.isAdmin = this.authService.isAdmin();
   }
@@ -52,21 +56,28 @@ export class UserPageComponent implements OnInit, OnDestroy {
       this.id = params['id'];
     });
     this.loadPostByUserId();
-console.log(this.currentUser);
   }
 
   private loadPostByUserId(): void {
     this.subscriptions.push(this.postService.getPostByUserId(0, this.id).subscribe(posts => {
       this.posts = posts as Post[];
-      console.log(posts);
       this.posts.forEach(post => {
         this.post = post
+        console.log(this.post);
       });
-      this.name = this.post.userLogin;
     }))
+    this.loadUserById();
+
   }
 
-  public _openPostModal(template: TemplateRef<any>): void {
+  private loadUserById(): void {
+    this.subscriptions.push(this.userService.getUserById(this.id).subscribe(user => {
+      this.userWhosePage = user;
+    }));
+
+  }
+
+  public _openModal(template: TemplateRef<any>): void {
     this.modalRef = this.modalService.show(template);
   }
 
@@ -91,25 +102,23 @@ console.log(this.currentUser);
     this.subscriptions.push(this.likeService.saveLike(postId, this.currentUser.id).subscribe());
   }
 
-  public addComment(content: string,postId:number): void {
-    this.comment.content=content;
-    // this.comment.timeCreation=new Date();
-    this.subscriptions.push(this.commentService.addComment(this.comment,postId,this.currentUser.id).subscribe());
-    // const fd = new FormData();
-    // fd.append('content',this.comment.content);
-    // this.subscriptions.push(this.commentService.addComment(fd,postId,this.currentUser.id).subscribe());
+  public addComment(content: string, postId: number): void {
+    this.comment.content = content;
+    this.comment.timeCreation=new Date();
+    this.subscriptions.push(this.commentService.addComment(this.comment, postId, this.currentUser.id).subscribe());
   }
 
-  public _deletePost(postId: number): void{
+  public _deletePost(postId: number): void {
     this.subscriptions.push(this.postService.deletePost(postId).subscribe());
   }
 
-  public _deleteComment(id: number): void{
+  public _deleteComment(id: number): void {
     this.subscriptions.push(this.commentService.deleteComment(id).subscribe());
   }
 
-  public _updatePost(): void {
-    this.loadPostByUserId();
+  private subscribe(userId:number):void{
+    this.subscriptions.push(this.userService.subscribe(userId,this.currentUser).subscribe());
+    this.nameBtn='unsubscribe'
   }
 
   ngOnDestroy(): void {

@@ -9,4 +9,5 @@ public interface UserService {
     List<User> findAll();
     User save(User user);
     User findUserById(Long id);
+    void subscribe(long userId,User friend);
 }

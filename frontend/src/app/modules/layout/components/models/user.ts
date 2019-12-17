@@ -4,6 +4,8 @@ export class User {
   id: number;
   login: string;
   role: Role;
+  friends: User[];
+  friendOf: User[];
 
 
 }

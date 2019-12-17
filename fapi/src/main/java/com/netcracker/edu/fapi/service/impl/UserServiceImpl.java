@@ -32,6 +32,12 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
+    public void subscribe(long userId, User friend) {
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.postForEntity(backendServerUrl + "/api/user/subscribe/user/" + userId,friend, User.class);
+    }
+
+    @Override
     public User findByLogin(String login) {
         RestTemplate restTemplate = new RestTemplate();
         User user = restTemplate.getForObject(backendServerUrl + "/api/user/login/" + login, User.class);

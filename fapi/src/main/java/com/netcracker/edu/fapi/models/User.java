@@ -3,6 +3,9 @@ package com.netcracker.edu.fapi.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
 
@@ -10,6 +13,8 @@ public class User {
     private String login;
     private String password;
     private Role role;
+    private List <User> friends = new ArrayList <>();
+    private List <User> friendOf = new ArrayList <>();
 
     public User() {
     }
@@ -51,6 +56,22 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public List <User> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List <User> friends) {
+        this.friends = friends;
+    }
+
+    public List <User> getFriendOf() {
+        return friendOf;
+    }
+
+    public void setFriendOf(List <User> friendOf) {
+        this.friendOf = friendOf;
     }
 
     @Override

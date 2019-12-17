@@ -196,6 +196,7 @@ public class User implements Serializable {
     public User conv(User user) {
         User userDTO = new User();
         userDTO.setId(user.getId());
+        userDTO.setLogin(user.getLogin());
         return userDTO;
     }
 }

@@ -55,7 +55,6 @@ public class PostServiceImpl implements PostService {
 
         RestTemplate restTemplate = new RestTemplate();
         String filePath = restTemplate.postForEntity(backendServerUrl + "/api/file/upload", requestEntity, String.class).getBody();
-////        String filePath = restTemplate.exchange(backendServerUrl + "/api/file/upload", HttpMethod.POST, requestEntity, String.class).getBody();
 
         User user = restTemplate.getForObject(backendServerUrl + "/api/user/login/" + login, User.class);
 
@@ -69,12 +68,6 @@ public class PostServiceImpl implements PostService {
         Post[] postsResponse = restTemplate.getForObject(backendServerUrl + "/api/post/user/" + id+"?page="+page, Post[].class);
         return postsResponse == null ? Collections.emptyList() : Arrays.asList(postsResponse);
     }
-
-//    @Override
-//    public Post savePost(Post post) {
-//        RestTemplate restTemplate = new RestTemplate();
-//        return restTemplate.postForObject(backendServerUrl + "/api/post", post, Post.class);
-//    }
 
     @Override
     public void deletePost(long id) {

@@ -36,7 +36,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public ResponseEntity <User> createUser(@RequestBody @Valid User user) {
+    public ResponseEntity <User> createUser(@RequestBody User user) {
 
         if(user == null){
             return new ResponseEntity <User>(HttpStatus.BAD_REQUEST);
@@ -87,5 +87,11 @@ public class UserController {
     public ResponseEntity <User> getUserByLogin(@PathVariable(name = "login") String login) {
         User user = userService.findByLogin(login);
         return ResponseEntity.ok(user);
+    }
+
+    @RequestMapping(value = "/subscribe/user/{userId}", method = RequestMethod.POST)
+    public void subscribe(@RequestBody User friend,
+                          @PathVariable(name = "userId") Long userId) {
+        this.userService.subscribe(userId, friend.getId());
     }
 }

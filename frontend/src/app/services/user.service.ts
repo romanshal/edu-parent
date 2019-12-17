@@ -14,8 +14,16 @@ export class UserService {
     return this.http.get<User[]>("/api/user");
   }
 
+  public getUserById(userId: number): Observable<User> {
+    return this.http.get<User>('/api/user/' + userId);
+  }
+
   public saveUser(user: User): Observable<User> {
     return this.http.post<User>('/api/user/signup', user);
+  }
+
+  public subscribe(userId: number, friend: User): Observable<User> {
+    return this.http.post<User>('/api/user/subscribe/user/' + userId, friend);
   }
 
   public generateToken(login: LoginModel): Observable<AuthToken> {

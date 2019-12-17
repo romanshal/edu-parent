@@ -27,6 +27,7 @@ export class AddPostComponent implements OnDestroy {
     fd.append('file',this.post.file);
     fd.append('description', this.post.description);
     fd.append('login', this.storageService.getCurrentUser().login);
+    // fd.append('timeCreation',new Date().toString())
     this.subscriptions.push(this.postService.savePost(fd).subscribe(() => {
       this.close();
       this.refreshPost();
