@@ -14,11 +14,14 @@ import {NgModel} from "@angular/forms";
 
 @Component({
   selector: "news-page",
-  templateUrl: "./news.component.html"
+  templateUrl: "./news.component.html",
+  styleUrls: ['./news.component.css']
 })
 export class NewsPageComponent implements OnInit,OnDestroy{
 
   public comment: Comment = new Comment();
+  public comments: Comment[] = [];
+  content: string = '';
   public currentUser: User = new User();
   private subscriptions: Subscription[] = [];
   public posts: Post[];
@@ -47,13 +50,11 @@ export class NewsPageComponent implements OnInit,OnDestroy{
       this.id = params['id'];
     });
     this.loadPosts();
-    console.log(this.currentUser);
   }
 
   private loadPosts(): void {
     this.subscriptions.push(this.postService.getPosts(0).subscribe(posts => {
       this.posts = posts as Post[];
-      console.log(posts);
       this.posts.forEach(post => {
         this.post = post
       });
@@ -61,40 +62,44 @@ export class NewsPageComponent implements OnInit,OnDestroy{
     }))
   }
 
-  public _openPostModal(template: TemplateRef<any>): void {
+  public _openModal(template: TemplateRef<any>, postId: number): void {
     this.modalRef = this.modalService.show(template);
+    this.loadComments(postId);
   }
 
   public _closeModal(): void {
     this.modalRef.hide();
   }
 
-  public nextPage(): void {
-    this.subscriptions.push(this.postService.getPostByUserId(this.page, this.id).subscribe((posts: Post[]) => {
-      for (let post of posts) {
-        this.posts.push(post);
-      }
-    }));
-    this.page = this.page + 1;
-  }
-
   public addLike(postId: number): void {
-
-    this.subscriptions.push(this.likeService.saveLike(postId, this.currentUser.id).subscribe());
+    this.subscriptions.push(this.likeService.saveLike(postId, this.currentUser.id).subscribe(() => {
+      this._closeModal();
+    }));
   }
 
-  public addComment(content: NgModel,postId:number): void {
-    const fd = new FormData();
-    fd.append('content',this.comment.content);
-    // this.subscriptions.push(this.commentService.addComment(fd,postId,this.currentUser.id).subscribe())
+  public addNewComment(content: string, postId: number): void {
+    this.comment.content = content;
+    this.comment.timeCreation = new Date();
+    this.subscriptions.push(this.commentService.addComment(this.comment, postId, this.currentUser.id).subscribe(() => {
+      this.refreshComment();
+      this.loadComments(postId);
+    }));
   }
 
-  public _deletePost(postId: number): void{
-    this.subscriptions.push(this.postService.deletePost(postId).subscribe());
+  private loadComments(postId: number): void {
+    this.subscriptions.push(this.commentService.getCommentByPostId(postId).subscribe(comments => {
+      this.comments = comments as Comment[];
+    }));
   }
 
-  public _deleteComment(id: number): void{
-    this.subscriptions.push(this.commentService.deleteComment(id).subscribe());
+  public _deleteComment(id: number, postId: number): void {
+    this.subscriptions.push(this.commentService.deleteComment(id).subscribe(() => {
+      this.loadComments(postId)
+    }));
+  }
+
+  private refreshComment(): void {
+    this.comment = new Comment();
   }
 
   public redirectToFriendPage(userId:number): void {

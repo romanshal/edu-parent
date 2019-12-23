@@ -58,31 +58,6 @@ public class UserController {
         return new ResponseEntity <User>(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(value = "", method = RequestMethod.PUT)
-    public ResponseEntity <User> updateUser(@RequestBody User user) {
-        User updatedUser = this.userService.findById(user.getId());
-
-        List <User> friend = new ArrayList();
-        List <User> friendOf = new ArrayList();
-
-        friendOf.addAll(updatedUser.getFriendOf());
-        friend.addAll(updatedUser.getFriends());
-
-        friend.addAll(user.getFriends());
-        friendOf.addAll(user.getFriendOf());
-
-        if(updatedUser == null){
-            return new ResponseEntity <User>(HttpStatus.NOT_FOUND);
-        }
-
-        updatedUser.setFriends(friend);
-        updatedUser.setFriendOf(friendOf);
-
-        this.userService.save(updatedUser);
-        return new ResponseEntity <User>(updatedUser, HttpStatus.OK);
-
-    }
-
     @RequestMapping(value = "/login/{login}", method = RequestMethod.GET)
     public ResponseEntity <User> getUserByLogin(@PathVariable(name = "login") String login) {
         User user = userService.findByLogin(login);
@@ -90,8 +65,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "/subscribe/user/{userId}", method = RequestMethod.POST)
-    public void subscribe(@RequestBody User friend,
-                          @PathVariable(name = "userId") Long userId) {
-        this.userService.subscribe(userId, friend.getId());
+    public void subscription(@RequestBody User friend,
+                             @PathVariable(name = "userId") Long userId) {
+        this.userService.subscription(userId, friend.getId());
     }
 }

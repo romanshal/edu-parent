@@ -39,10 +39,6 @@ export class WindowComponent implements OnDestroy{
         this.isRegistration = true;
         this.forgotPass = this.isLogin = false;
         break;
-      case "password":
-        this.forgotPass = true;
-        this.forgotPass = this.isLogin = false;
-        break;
     }
   }
 
@@ -68,7 +64,13 @@ export class WindowComponent implements OnDestroy{
 
   public addUser(login: NgModel, password: NgModel): void {
     this.subscriptions.push(this.userService.saveUser(this.newUser).subscribe(() => {
-      this.redirectToUserPage();
+      // this.redirectToUserPage();
+    }, (error) => {
+      if (error.status === 401,error.status === 500) {
+        this.showCheckYourSetDataAlert = true;
+      } else {
+        alert(error.message);
+      }
     }));
   }
 

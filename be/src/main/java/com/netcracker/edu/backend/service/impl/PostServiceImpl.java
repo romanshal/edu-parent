@@ -12,7 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +21,8 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
@@ -56,6 +57,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post save(Post post) {
+        post.setTimeCreation(new Timestamp(System.currentTimeMillis()));
         return postRepository.save(post);
     }
 
@@ -72,14 +74,6 @@ public class PostServiceImpl implements PostService {
         Page <Post> postPage = postRepository.findByUserId(pageable, userId);
         return postPage.getContent();
 //        return postRepository.findByUserId(userId);
-    }
-
-    @Override
-    public Post createPost(Long userId, Post post) {
-        return userRepository.findById(userId).map(user -> {
-            post.setUser(user);
-            return postRepository.save(post);
-        }).orElseThrow(() -> new ResourceNotFoundException("UserId " + userId + " not found"));
     }
 
     @Override
@@ -100,6 +94,7 @@ public class PostServiceImpl implements PostService {
     }
 
 
+    @Override
     public MultipartFile getFile(String fileName) {
 
         BufferedImage originalImage = null;
@@ -119,12 +114,6 @@ public class PostServiceImpl implements PostService {
         }
 
         MultipartFile multipartFile = new MockMultipartFile(fileName, baos.toByteArray());
-
-//        FileInputStream input = new FileInputStream(originalImage);
-//        MultipartFile multipartFile = new MockMultipartFile("fileItem",
-//                originalImage.getName(), "image/png", IOUtils.toByteArray(input));
-
         return multipartFile;
-
     }
 }

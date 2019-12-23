@@ -13,17 +13,30 @@ import java.util.Objects;
 @Table(name = "comment")
 public class Comment implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Column(name = "content")
     private String content;
+
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Post post;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @Column(name = "time_creation")
     private Timestamp timeCreation;
 
     public Comment() {
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+
     public Long getId() {
         return id;
     }
@@ -32,7 +45,7 @@ public class Comment implements Serializable {
         this.id = id;
     }
 
-    @Column(name = "content")
+
     public String getContent() {
         return content;
     }
@@ -41,10 +54,7 @@ public class Comment implements Serializable {
         this.content = content;
     }
 
-    @JsonBackReference
-    @ManyToOne
-    @JoinColumn(name = "post_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
+
     public Post getPost() {
         return post;
     }
@@ -53,8 +63,7 @@ public class Comment implements Serializable {
         this.post = post;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+
     public User getUser() {
         return user;
     }
@@ -63,7 +72,7 @@ public class Comment implements Serializable {
         this.user = user;
     }
 
-    @Column(name = "time_creation")
+
     public Timestamp getTimeCreation() {
         return timeCreation;
     }

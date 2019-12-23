@@ -12,7 +12,6 @@ import {NotFoundComponent} from "./modules/layout/components/404/not-found.compo
 import {LayoutModule} from "./modules/layout/layout.module";
 import {HomeComponent} from "./modules/layout/components/home/home.component";
 import {UserPageComponent} from "./modules/layout/components/user-page/user-page.component";
-import {AdminPageComponent} from "./modules/layout/components/admin-page/admin-page.component";
 import {NewsPageComponent} from "./modules/layout/components/news/news.component";
 import {UserService} from "./services/user.service";
 import {CommentService} from "./services/comment.service";
@@ -21,11 +20,11 @@ import {StorageService} from "./services/storage.service";
 import {CanActivateService} from "./services/can-active.service";
 import {LikeService} from "./services/like.service";
 
+
 const appRoutes: Routes = [
   {path: "", component: HomeComponent},
   {path: "home", component: HomeComponent},
   {path: "userPage", component: UserPageComponent, canActivate: [CanActivateService]},
-  {path: "adminPage", component: AdminPageComponent},
   {path: "news", component: NewsPageComponent, canActivate: [CanActivateService]},
   {path: "**", component: NotFoundComponent},
 ];

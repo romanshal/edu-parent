@@ -9,10 +9,15 @@ import java.util.List;
 
 public interface PostService {
 
-    List<Post> getAll(int page);
+    List <Post> getAll(int page);
+
     Post savePost(MultipartFile file, String description, String login);
+
     void deletePost(long id);
+
     void getFile(String fileName, HttpServletResponse response);
+
     Post getPostById(Long id);
-    List<Post> getPostsByUserId(int page,Long id);
+
+    List <Post> getPostsByUserId(int page, Long id);
 }

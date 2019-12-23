@@ -13,9 +13,11 @@ public interface LikeService {
 
     void save(long postId,long userId);
 
-    Optional <Like> getByPostIdAndUserId(long postId, long userId);
+    List <Like> getByPostId(long postId);
 
     void deleteLike(long postId, long userId);
 
     void deleteAllLikes(long postId);
+
+    Optional <Like> getByPostIdAndUserId(long postId, long userId);
 }

@@ -1,46 +1,36 @@
-<div class="cd-user-modal"> <!-- все формы на фоне затемнения-->
-  <div class="cd-user-modal-container"> <!-- основной контейнер -->
+<div class="cd-user-modal">
+  <div class="cd-user-modal-container">
     <ul class="cd-switcher">
-      <li (click)="selectSection('login')"><a >Вход</a></li>
-      <li (click)="selectSection('registration')"><a >Регистрация</a></li>
-<!--      <li><button class="close" data-dismiss="modal" (click)="close()">×</button></li>-->
+      <li (click)="selectSection('login')"><a >Enter</a></li>
+      <li (click)="selectSection('registration')"><a >Registration</a></li>
     </ul>
 
-    <div id="cd-login" *ngIf="isLogin"> <!-- форма входа -->
+    <div id="cd-login" *ngIf="isLogin">
       <form class="cd-form">
         <p class="fieldset">
           <label class="image-replace cd-email">Login</label>
           <input type="text" class="form-control"
                  placeholder="Login" name="login"
-                 [(ngModel)]="loginModel.login"/>
-
-          <span class="cd-error-message">Здесь сообщение об ошибке!</span>
+                 [(ngModel)]="loginModel.login" required/>
         </p>
 
         <p class="fieldset">
           <label class="image-replace cd-password" >Пароль</label>
           <input type="password" class="form-control"
                  placeholder="Password" name="password"
-                 [(ngModel)]="loginModel.password"/>
-          <a href="#0" class="hide-password">Скрыть</a>
-          <span class="cd-error-message">Здесь сообщение об ошибке!</span>
-        </p>
-
-        <p class="fieldset">
-          <input type="checkbox" id="remember-me" checked>
-          <label for="remember-me">Запомнить меня</label>
+                 [(ngModel)]="loginModel.password" required/>
         </p>
 
         <p class="fieldset">
           <input class="full-width" type="submit" value="Log in" (click)="onSubmit()">
         </p>
+        <div *ngIf="showCheckYourSetDataAlert" class="error">
+          Invalid login or password!
+        </div>
       </form>
+    </div>
 
-      <p class="cd-form-bottom-message" (click)="selectSection('password')"><a href="#">Забыли свой пароль?</a></p>
-      <!-- <a href="#0" class="cd-close-form">Close</a> -->
-    </div> <!-- cd-login -->
-
-    <div id="cd-signup" *ngIf="isRegistration"> <!-- форма регистрации -->
+    <div id="cd-signup" *ngIf="isRegistration">
       <form class="cd-form">
         <div class="form-group">
           <input class="form-control"
@@ -53,37 +43,12 @@
                  placeholder="Password"
                  [(ngModel)]="newUser.password" #password="ngModel" [ngModelOptions]="{standalone: true}" required/>
         </div>
-
         <p class="fieldset">
-          <input type="checkbox" id="accept-terms">
-          <label for="accept-terms">Я согласен с <a href="#0">Условиями</a></label>
-        </p>
-
-        <p class="fieldset">
-          <input class="full-width has-padding" type="submit" value="Создать аккаунт" (click)="addUser(login,password)">
+          <input class="full-width has-padding" type="submit" value="Create account" (click)="addUser(login,password)"
+          [disabled]="login.invalid || password.invalid">
         </p>
       </form>
-
-      <!-- <a href="#0" class="cd-close-form">Close</a> -->
-    </div> <!-- cd-signup -->
-
-    <div id="cd-reset-password" *ngIf="forgotPass"> <!-- форма восстановления пароля -->
-      <p class="cd-form-message">Забыли пароль? Пожалуйста, введите адрес своей электронной почты. Вы получите ссылку, чтобы создать новый пароль.</p>
-
-      <form class="cd-form">
-        <p class="fieldset">
-          <label class="image-replace cd-email" for="reset-email">E-mail</label>
-          <input class="full-width has-padding has-border" id="reset-email" type="email" placeholder="E-mail">
-          <span class="cd-error-message">Здесь сообщение об ошибке!</span>
-        </p>
-
-        <p class="fieldset">
-          <input class="full-width has-padding" type="submit" value="Восстановить пароль">
-        </p>
-      </form>
-
-      <p class="cd-form-bottom-message"><a href="#0">Вернуться к входу</a></p>
-    </div> <!-- cd-reset-password -->
+    </div>
     <a href="#0" class="cd-close-form">Закрыть</a>
-  </div> <!-- cd-user-modal-container -->
-</div> <!-- cd-user-modal -->
+  </div>
+</div>

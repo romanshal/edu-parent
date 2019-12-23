@@ -8,15 +8,20 @@ import java.io.Serializable;
 @IdClass(value = Like.class)
 public class Like implements Serializable {
 
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "post_id")
     private Post post;
+
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     public Like() {
     }
-    
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "post_id")
+
+
     public Post getPost() {
         return post;
     }
@@ -25,9 +30,7 @@ public class Like implements Serializable {
         this.post = post;
     }
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+
     public User getUser() {
         return user;
     }

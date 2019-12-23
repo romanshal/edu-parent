@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -39,33 +40,33 @@ public class PostServiceImpl implements PostService {
     @Override
     public List <Post> getAll(int page) {
         RestTemplate restTemplate = new RestTemplate();
-        Post[] posts = restTemplate.getForObject(backendServerUrl + "/api/post?page="+page, Post[].class);
+        Post[] posts = restTemplate.getForObject(backendServerUrl + "/api/post?page=" + page, Post[].class);
         return posts == null ? Collections.emptyList() : Arrays.asList(posts);
     }
 
     @Override
-    public Post savePost(MultipartFile file,String description, String login) {
+    public Post savePost(MultipartFile file, String description, String login) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
         MultiValueMap <String, Object> body = new LinkedMultiValueMap <>();
         body.add("file", new FileSystemResource(convert(file)));
 
-        HttpEntity <MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+        HttpEntity <MultiValueMap <String, Object>> requestEntity = new HttpEntity <>(body, headers);
 
         RestTemplate restTemplate = new RestTemplate();
         String filePath = restTemplate.postForEntity(backendServerUrl + "/api/file/upload", requestEntity, String.class).getBody();
 
         User user = restTemplate.getForObject(backendServerUrl + "/api/user/login/" + login, User.class);
 
-        Post post = new Post(description,filePath, user);
+        Post post = new Post(description, filePath, user);
         return restTemplate.postForEntity(backendServerUrl + "/api/post", post, Post.class).getBody();
     }
 
     @Override
-    public List<Post> getPostsByUserId(int page, Long id) {
+    public List <Post> getPostsByUserId(int page, Long id) {
         RestTemplate restTemplate = new RestTemplate();
-        Post[] postsResponse = restTemplate.getForObject(backendServerUrl + "/api/post/user/" + id+"?page="+page, Post[].class);
+        Post[] postsResponse = restTemplate.getForObject(backendServerUrl + "/api/post/user/" + id + "?page=" + page, Post[].class);
         return postsResponse == null ? Collections.emptyList() : Arrays.asList(postsResponse);
     }
 
@@ -78,14 +79,14 @@ public class PostServiceImpl implements PostService {
     @Override
     public void getFile(String fileName, HttpServletResponse response) {
         HttpHeaders headers = new HttpHeaders();
-        List<MediaType> acceptableMediaTypes = new ArrayList();
+        List <MediaType> acceptableMediaTypes = new ArrayList();
 
         acceptableMediaTypes.add(MediaType.IMAGE_JPEG);
         acceptableMediaTypes.add(MediaType.APPLICATION_OCTET_STREAM);
 
         headers.setAccept(acceptableMediaTypes);
 
-        HttpEntity<Request> httpEntity = new HttpEntity(headers);
+        HttpEntity <Request> httpEntity = new HttpEntity(headers);
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new ByteArrayHttpMessageConverter());
         ResponseEntity <byte[]> entity = restTemplate.exchange(backendServerUrl + "/api/file/getFile/" + fileName, HttpMethod.GET,
@@ -103,8 +104,7 @@ public class PostServiceImpl implements PostService {
         return post;
     }
 
-    private static File convert(MultipartFile file)
-    {
+    private static File convert(MultipartFile file) {
         File convertFile = new File(file.getOriginalFilename());
         try {
             convertFile.createNewFile();

@@ -17,7 +17,6 @@ public class PostToPostUIModel implements Converter<Post, UIPost> {
         UIPost uiPost = new UIPost();
         uiPost.setId(post.getId());
         uiPost.setDescription(post.getDescription());
-        uiPost.setTags(post.getTags().toString());
         uiPost.setCountLike(post.getLikes().size());
         uiPost.setFilename(post.getFilename());
         uiPost.setUserLogin(post.getUser().getLogin());

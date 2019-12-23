@@ -72,4 +72,11 @@ public class CommentController {
         this.commentService.deleteAll(postId);
         return new ResponseEntity <Comment>(HttpStatus.NO_CONTENT);
     }
+
+    @RequestMapping(value = "/post/{postId}",method = RequestMethod.GET)
+    public Iterable<Comment> getCommentsByCardId(@PathVariable long postId) {
+        return commentService.findByPostId(postId);
+    }
+
+
 }

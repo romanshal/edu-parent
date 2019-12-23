@@ -13,7 +13,6 @@ public class UIPost {
     private Long id;
     private String description;
     private List<UIComment> uiComments= new ArrayList <>();
-    private String tags;
     private String userLogin;
     private String filename;
     private int countLike;
@@ -43,14 +42,6 @@ public class UIPost {
 
     public void setUiComments(List <UIComment> uiComments) {
         this.uiComments = uiComments;
-    }
-
-    public String getTags() {
-        return tags;
-    }
-
-    public void setTags(String tags) {
-        this.tags = tags;
     }
 
     public String getUserLogin() {

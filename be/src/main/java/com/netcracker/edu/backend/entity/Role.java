@@ -1,9 +1,5 @@
 package com.netcracker.edu.backend.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
@@ -12,7 +8,13 @@ import java.util.*;
 @Table(name = "role")
 public class Role implements Serializable {
 
+    @Id
+    @Column(name = "role_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
+    @Basic
+    @Column(name = "role_name")
     private String roleName;
 
     public Role() {
@@ -22,9 +24,7 @@ public class Role implements Serializable {
         this.id = id;
     }
 
-    @Id
-    @Column(name = "role_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+
     public int getId() {
         return id;
     }
@@ -33,8 +33,7 @@ public class Role implements Serializable {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "role_name")
+
     public String getRoleName() {
         return roleName;
     }

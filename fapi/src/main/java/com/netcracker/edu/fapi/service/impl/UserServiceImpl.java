@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public void subscribe(long userId, User friend) {
+    public void subscription(long userId, User friend) {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.postForEntity(backendServerUrl + "/api/user/subscribe/user/" + userId,friend, User.class);
     }

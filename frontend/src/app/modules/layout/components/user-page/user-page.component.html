@@ -13,14 +13,14 @@
                 <span style="font-size:33px;color: black">{{userWhosePage.login}}</span>
                 <button type="button" class="btn btn-info" style="margin-left: 20px"
                         *ngIf="userWhosePage.id!==currentUser.id"
-                        (click)="subscribe(userWhosePage.id)">
+                        (click)="subscription(userWhosePage.id)">
                   {{nameBtn}}
                 </button>
               </div>
               <div class="col-12" style="top: 10px">
                 <button type="button" class="btn btn-primary" style="background-color: white;color: black;"
                         data-toggle="button" aria-pressed="false"
-                        autocomplete="false" (click)="_openModal(subscribers)">
+                        autocomplete="false" (click)="_openSubscriptionModal(subscribers)">
                   Subscribers
                 </button>
                 <ng-template #subscribers>
@@ -41,7 +41,7 @@
                         <li class="list-group-item" *ngFor="let subscribers of userWhosePage.friendOf">
                           <div class="row">
                             <div class="col-1">
-                              <img class="rounded-circle" src="src/assets/img/avataaars.svg" width="95%">
+                              <img class="rounded-circle" src="src/assets/img/avataaars.svg" width="95%" (click)="redirectToFriendPage(subscribers.id)">
                             </div>
                             <div class="col-2" style="margin-top: 20px">
                               {{subscribers.login}}
@@ -55,7 +55,7 @@
                 <button type="button" class="btn btn-primary"
                         style="background-color: white;margin-left: 10px;color: black;" data-toggle="button"
                         aria-pressed="false"
-                        autocomplete="false" (click)="_openModal(subscriptions)">
+                        autocomplete="false" (click)="_openSubscriptionModal(subscriptions)">
                   Subscriptions
                 </button>
                 <ng-template #subscriptions>
@@ -76,7 +76,7 @@
                         <li class="list-group-item" *ngFor="let subscriptions of userWhosePage.friends">
                           <div class="row">
                             <div class="col-1">
-                              <img class="rounded-circle" src="src/assets/img/avataaars.svg" width="95%">
+                              <img class="rounded-circle" src="src/assets/img/avataaars.svg" width="95%" (click)="redirectToFriendPage(subscriptions.id)">
                             </div>
                             <div class="col-2" style="margin-top: 20px">
                               {{subscriptions.login}}
@@ -102,22 +102,63 @@
         <div class="instagram-content">
           <h3>Latest Photos</h3>
           <div class="nav-item">
-            <button type="button" class="btn btn-link" (click)="openDialog()">
+            <button type="button" class="btn btn-link" (click)="_openSubscriptionModal(newPost)"
+                    *ngIf="(userWhosePage.id==currentUser.id)">
               Add
             </button>
+
+            <ng-template #newPost>
+              <div class="modal fade show" style="display: block">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content" style="height: 470px">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Add new post</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                              (click)="_closeModal()">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <form>
+
+                        <div class="form-group">
+                          <label>Image</label>
+                          <div class="input-group">
+                            <div class="custom-file">
+                              <input type="file" class="custom-file-input" id="inputGroupFile"
+                                     aria-describedby="inputGroupFileAddon04"
+                                     (change)="onFileSelected($event)" required/>
+                              <label class="custom-file-label"
+                                     for="inputGroupFile">{{post.file == null ? 'Image' : post.file.name}}</label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label>Description</label>
+                          <textarea class="form-control" name="description" [(ngModel)]="post.description"
+                                    placeholder="Enter description" #description="ngModel">
+ </textarea>
+                        </div>
+                        <button type="button" class="btn btn-primary" (click)="addPost(description)">Add</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+
             <button type="button" class="btn btn-link">
               <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" (click)="redirectToNews()">News</a>
             </button>
           </div>
           <div class="row photos-wrap">
-            <!-- Instafeed target div -->
             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let post of posts">
-              <publication (click)="_openModal(templatePost)"
+              <publication (click)="_openModal(templatePost,post.id)"
                            [id]=post.id
-                           [tag]=post.tags
                            [description]=post.description
                            [countLike]=post.countLike
-                           [image]="'api/post/getFile/'+ post.filename">
+                           [image]="'api/post/getFile/'+ post.filename"
+                           [timeCreation]=post.timeCreation>
               </publication>
 
               <ng-template #templatePost class="modal-xl">
@@ -139,10 +180,10 @@
                     <div class="col-6">
                       <img src="api/post/getFile/{{post.filename}}">
                     </div>
-                    <div class="col-6" style="left: -25px;">
-                      <div *ngFor="let comment of post.uiComments">
+                    <div class="col-6 prokrutka" style="left: -15px;">
+                      <div *ngFor="let comment of comments">
                         <button type="button" class="btn btn-danger" style="margin-left: 20px"
-                                (click)="_deleteComment(comment.id)"
+                                (click)="_deleteComment(comment.id,post.id)"
                                 *ngIf="(comment.uiUser.id == currentUser.id) || isAdmin">Delete comment
                         </button>
                         <comment-modal
@@ -152,14 +193,7 @@
                         </comment-modal>
                       </div>
 
-                      <div class="input-group mb-3" style="top: 10px;border-radius: 10px">
-                        <input type="text" class="form-control" [(ngModel)]="content"
-                               placeholder="Add a comment..." required/>
-                        <div class="input-group-append">
-                          <button class="btn btn-primary" type="button" (click)="addComment(content,post.id)">Send
-                          </button>
-                        </div>
-                      </div>
+
                     </div>
                     <div class="col-1">
                       <div style="margin-left: 25px;margin-top: 10px;">{{post.countLike}}</div>
@@ -167,9 +201,17 @@
                     <div class="col-1" style="left: -67px;bottom: 15px;">
                       <button type="button" class="btn btn-link" style="width: 150%"
                               (click)="addLike(post.id)"><img src="src/assets/img/like.png"
-                                                              style="width: 100%"></button>
+                                                              style="width: 100%">
+                      </button>
                     </div>
-
+                    <div class="input-group mb-3 col-6" style="top: 10px;border-radius: 10px;left: 330px;">
+                      <input type="text" class="form-control" [(ngModel)]="content"
+                             placeholder="Add a comment..." required/>
+                      <div class="input-group-append">
+                        <button class="btn btn-primary" style="height: 81%;" type="button" (click)="addComment(content,post.id)">Send
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </ng-template>
@@ -187,4 +229,3 @@
   </div>
 </section>
 <app-footer></app-footer>
-<app-add-post *ngIf="postService.showAddPost"></app-add-post>

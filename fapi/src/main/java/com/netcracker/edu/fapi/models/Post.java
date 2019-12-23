@@ -12,7 +12,6 @@ import java.util.*;
 public class Post implements Serializable {
 
     private Long id;
-    private Set <Object> tags = new HashSet <>();
     private List<Comment> comments= new ArrayList <>();
     private String description;
     private String filename;
@@ -28,9 +27,8 @@ public class Post implements Serializable {
         this.user=user;
     }
 
-    public Post(Long id, Set <Object> tags, String description, User user, Set <Like> likes) {
+    public Post(Long id, String description, User user, Set <Like> likes) {
         this.id = id;
-        this.tags = tags;
         this.description = description;
         this.user = user;
         this.likes = likes;
@@ -67,14 +65,6 @@ public class Post implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Set <Object> getTags() {
-        return tags;
-    }
-
-    public void setTags(Set <Object> tags) {
-        this.tags = tags;
     }
 
     public User getUser() {

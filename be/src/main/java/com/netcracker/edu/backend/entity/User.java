@@ -2,25 +2,56 @@ package com.netcracker.edu.backend.entity;
 
 import com.fasterxml.jackson.annotation.*;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "user")
-//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id")
     private Long id;
+
+    @NotNull
+    @Column(name = "login")
     private String login;
+
+    @NotNull
+    @Column(name = "password")
     private String password;
+
+    @Column(name = "email")
     private String email;
+
+    @Column(name = "age")
     private int age;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @JsonIgnore
     private List <Post> posts = new ArrayList <>();
-    //    private List <Comment> comments = new ArrayList <>(); @ManyToMany
+
+    @ManyToOne()
+    @JoinColumn(name = "role_id")
     private Role role;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "tbl_friends",
+            joinColumns = @JoinColumn(name = "userId"),
+            inverseJoinColumns = @JoinColumn(name = "friendId")
+    )
     private List <User> friends = new ArrayList <>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "tbl_friends",
+            joinColumns = @JoinColumn(name = "friendId"),
+            inverseJoinColumns = @JoinColumn(name = "userId")
+    )
     private List <User> friendOf = new ArrayList <>();
+
     private boolean block = false;
 
     public User() {
@@ -39,9 +70,7 @@ public class User implements Serializable {
         this.friendOf = friendOf;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_id")
+
     public Long getId() {
         return id;
     }
@@ -51,7 +80,6 @@ public class User implements Serializable {
     }
 
 
-    @Column(name = "login")
     public String getLogin() {
         return login;
     }
@@ -60,7 +88,7 @@ public class User implements Serializable {
         this.login = login;
     }
 
-    @Column(name = "password")
+
     public String getPassword() {
         return password;
     }
@@ -69,7 +97,7 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    @Column(name = "email")
+
     public String getEmail() {
         return email;
     }
@@ -78,7 +106,6 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    @Column(name = "age")
     public int getAge() {
         return age;
     }
@@ -87,8 +114,7 @@ public class User implements Serializable {
         this.age = age;
     }
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    @JsonIgnore
+
     public List <Post> getPosts() {
         return posts;
     }
@@ -108,8 +134,7 @@ public class User implements Serializable {
 //        this.comments = comments;
 //    }
 
-    @ManyToOne()
-    @JoinColumn(name = "role_id")
+
     public Role getRole() {
         return role;
     }
@@ -118,11 +143,7 @@ public class User implements Serializable {
         this.role = role;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "tbl_friends",
-            joinColumns = @JoinColumn(name = "userId"),
-            inverseJoinColumns = @JoinColumn(name = "friendId")
-    )
+
     public List <User> getFriends() {
         return friends.stream().map(this::conv).collect(Collectors.toList());
     }
@@ -131,11 +152,7 @@ public class User implements Serializable {
         this.friends = friends;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "tbl_friends",
-            joinColumns = @JoinColumn(name = "friendId"),
-            inverseJoinColumns = @JoinColumn(name = "userId")
-    )
+
     public List <User> getFriendOf() {
 
         return friendOf.stream().map(this::conv).collect(Collectors.toList());
@@ -174,7 +191,7 @@ public class User implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getLogin(), getPassword(),  getEmail(), getAge(), getPosts(), getRole(), isBlock());
+        return Objects.hash(getId(), getLogin(), getPassword(), getEmail(), getAge(), getPosts(), getRole(), isBlock());
     }
 
     @Override

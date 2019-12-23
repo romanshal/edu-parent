@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -18,8 +19,8 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public List<User> findAll() {
-        return (List<User>) userRepository.findAll();
+    public List <User> findAll() {
+        return (List <User>) userRepository.findAll();
     }
 
     @Override
@@ -44,12 +45,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void subscribe(long userId, long friendId) {
-        userRepository.subscribe(userId,friendId);
-    }
-
-    @Override
-    public void unsubscribe(long userId, long friendId) {
-        userRepository.unsubscribe(userId,friendId);
+    public void subscription(long userId, long friendId) {
+        Optional <Long> user = userRepository.checkSubscription(userId, friendId);
+        if(user.isPresent()){
+            userRepository.unsubscription(userId, friendId);
+        } else {
+            userRepository.subscription(userId, friendId);
+        }
     }
 }

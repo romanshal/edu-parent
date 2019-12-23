@@ -1,7 +1,5 @@
 package com.netcracker.edu.backend.entity;
 
-import com.fasterxml.jackson.annotation.*;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -12,28 +10,40 @@ import java.util.stream.Collectors;
 @Table(name = "post")
 public class Post implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
     private User user;
+
+    @Column(name = "description")
     private String description;
-    private List <Comment> comments = new ArrayList<>();
+
+    @Column(name = "comments")
+    @OneToMany(mappedBy = "post")
+    private List <Comment> comments = new ArrayList <>();
+
+    @OneToMany(mappedBy = "post")
     private List <Like> likes = new ArrayList();
-    private Set <Tag> tags = new HashSet <>();
+
+    @Column
     private String filename;
+
+    @Column(name = "time_creation")
     private Timestamp timeCreation;
 
     public Post() {
     }
 
-    public Post(Long id, User user, String description, Set <Tag> tags) {
+    public Post(Long id, User user, String description) {
         this.id = id;
         this.user = user;
         this.description = description;
-//        this.comments = comments;
-        this.tags = tags;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+
     public Long getId() {
         return id;
     }
@@ -42,8 +52,7 @@ public class Post implements Serializable {
         this.id = id;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
+
     public User getUser() {
         return user;
     }
@@ -52,8 +61,7 @@ public class Post implements Serializable {
         this.user = user;
     }
 
-    @Column(name = "comments")
-    @OneToMany(mappedBy = "post")
+
     public List <Comment> getComments() {
         return comments;
     }
@@ -62,21 +70,6 @@ public class Post implements Serializable {
         this.comments = comments;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "tag_post",
-            joinColumns = @JoinColumn(name = "post_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id")
-    )
-    public Set <Tag> getTags() {
-        return tags;
-    }
-
-    public void setTags(Set <Tag> tags) {
-        this.tags = tags;
-    }
-
-    @Column
     public String getFilename() {
         return filename;
     }
@@ -85,7 +78,7 @@ public class Post implements Serializable {
         this.filename = filename;
     }
 
-    @Column(name = "description")
+
     public String getDescription() {
         return description;
     }
@@ -94,7 +87,7 @@ public class Post implements Serializable {
         this.description = description;
     }
 
-    @OneToMany(mappedBy = "post")
+
     public List <Like> getLikes() {
         return likes.stream().map(this::conv).collect(Collectors.toList());
     }
@@ -103,7 +96,7 @@ public class Post implements Serializable {
         this.likes = likes;
     }
 
-    @Column(name = "time_creation")
+
     public Timestamp getTimeCreation() {
         return timeCreation;
     }
@@ -122,13 +115,12 @@ public class Post implements Serializable {
                 Objects.equals(getDescription(), post.getDescription()) &&
                 Objects.equals(getComments(), post.getComments()) &&
                 Objects.equals(getLikes(), post.getLikes()) &&
-                Objects.equals(getTags(), post.getTags()) &&
                 Objects.equals(filename, post.filename);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUser(), getDescription(), getComments(), getLikes(), getTags(), filename);
+        return Objects.hash(getId(), getUser(), getDescription(), getComments(), getLikes(), filename);
     }
 
     @Override
@@ -139,14 +131,12 @@ public class Post implements Serializable {
                 ", description='" + description + '\'' +
                 ", comments=" + comments +
                 ", likes=" + likes +
-                ", tags=" + tags +
                 ", filename='" + filename + '\'' +
                 '}';
     }
 
     public Like conv(Like like) {
         Like likeDTO = new Like();
-//        likeDTO.setId(like.getId());
         return likeDTO;
     }
 }

@@ -5538,7 +5538,7 @@ a.close.disabled {
 }
 
 .modal-content {
-  height: 610px;
+  /*height: 610px;*/
   left: -250px;
   position: relative;
   display: flex;

@@ -17,6 +17,8 @@ public interface CommentRepository extends JpaRepository <Comment, Long> {
 
     Comment findById(long id);
 
+    Iterable<Comment> findByPostId(long id);
+
     @Modifying
     @Transactional
     @Query(value = "delete from comment where post_id=:postId", nativeQuery = true)

@@ -2,6 +2,7 @@ package com.netcracker.edu.backend.service.impl;
 
 import com.netcracker.edu.backend.entity.Comment;
 import com.netcracker.edu.backend.entity.Post;
+import com.netcracker.edu.backend.entity.User;
 import com.netcracker.edu.backend.repository.CommentRepository;
 import com.netcracker.edu.backend.repository.PostRepository;
 import com.netcracker.edu.backend.repository.UserRepository;
@@ -38,7 +39,9 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Comment save(Comment comment,Long postId,long userId) {
         comment.setPost(postRepository.findById(postId).get());
-        comment.setUser(userRepository.findById(userId));
+        User user = userRepository.findById(userId);
+        comment.setUser(user);
+        System.out.println("user = " + user.getFriendOf().size());
         return commentRepository.save(comment);
     }
 
@@ -48,14 +51,12 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public Iterable<Comment> findByPostId(long id) {
+        return commentRepository.findByPostId(id);
+    }
+
+    @Override
     public void deleteAll(long postId) {
         commentRepository.deleteAll(postId);
     }
-
-//    @Override
-//    public List <Comment> findAllCommentsByPostId(Long postId) {
-//        return commentRepository.findAllCommentsByPostId(postId);
-//    }
-
-
 }

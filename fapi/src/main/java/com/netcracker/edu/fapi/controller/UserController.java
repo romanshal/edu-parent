@@ -28,7 +28,7 @@ public class UserController {
 
     @PreAuthorize("hasRole('admin')")
     @GetMapping
-    public List<UIUser> getAllUsers(){
+    public List <UIUser> getAllUsers() {
         return userService.findAll().stream().map(userToUserUIModel::convert).collect(Collectors.toList());
     }
 
@@ -42,8 +42,8 @@ public class UserController {
         return userService.findByLogin(login);
     }
 
-    @RequestMapping(value="/signup", method = RequestMethod.POST, produces = "application/json")
-    public User saveUser(@RequestBody User user){
+    @RequestMapping(value = "/signup", method = RequestMethod.POST, produces = "application/json")
+    public User saveUser(@RequestBody User user) {
         return userService.save(user);
     }
 
@@ -54,9 +54,9 @@ public class UserController {
         return userService.findByLogin(((org.springframework.security.core.userdetails.User) authentication.getPrincipal()).getUsername());
     }
 
-    @RequestMapping(value="/subscribe/user/{userId}", method = RequestMethod.POST, produces = "application/json")
-    public void subscribe(@RequestBody User friend,
-                          @PathVariable Long userId){
-        userService.subscribe(userId,friend);
+    @RequestMapping(value = "/subscribe/user/{userId}", method = RequestMethod.POST)
+    public void subscription(@RequestBody User friend,
+                             @PathVariable Long userId) {
+        userService.subscription(userId, friend);
     }
 }

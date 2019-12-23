@@ -8,20 +8,19 @@
                style="top: 100px;display: table-cell;left: 50%">
             <!-- Instafeed target div -->
             <div *ngFor="let post of posts">
-              <publication (click)="_openPostModal(templateCard)"
+              <publication (click)="_openModal(templatePost,post.id)"
                            [id]=post.id
-                           [tag]=post.tags
                            [description]=post.description
                            [countLike]=post.countLike
                            [image]="'api/post/getFile/'+ post.filename">
               </publication>
 
-              <ng-template #templateCard class="modal-xl">
+              <ng-template #templatePost class="modal-xl">
                 <div class="modal-header">
                   <div class="col-md-4 text-right" style="margin-left: -25%">
-                    <img (click)="redirectToFriendPage(post.userId)" class="rounded-circle" src="src/assets/img/avataaars.svg" width="15%">
+                    <img class="rounded-circle" src="src/assets/img/avataaars.svg" width="15%" (click)="redirectToFriendPage(post.userId)">
                   </div>
-                  <h4 class="modal-title pull-left" style="margin-top: 10px" (click)="redirectToFriendPage(post.userId)">{{post.userLogin}}</h4>
+                  <h4 class="modal-title pull-left" style="margin-top: 10px">{{post.userLogin}}</h4>
                   <button type="button" class="close pull-right"
                           aria-label="Close" (click)="_closeModal()">
                     <span aria-hidden="true">&times;</span>
@@ -32,20 +31,17 @@
                     <div class="col-6">
                       <img src="api/post/getFile/{{post.filename}}">
                     </div>
-                    <div class="col-6" style="left: -25px;">
-                      <div *ngFor="let comment of post.uiComments">
+                    <div class="col-6 prokrutka" style="left: -15px;">
+                      <div *ngFor="let comment of comments">
+                        <button type="button" class="btn btn-danger" style="margin-left: 20px"
+                                (click)="_deleteComment(comment.id,post.id)"
+                                *ngIf="(comment.uiUser.id == currentUser.id) || isAdmin">Delete comment
+                        </button>
                         <comment-modal
                           [userName]=comment.uiUser.login
-                          [content]=comment.content>
+                          [content]=comment.content
+                          [timeCreation]=comment.timeCreation>
                         </comment-modal>
-                      </div>
-
-                      <div class="input-group mb-3" style="top: 10px;border-radius: 10px">
-                        <input type="text" class="form-control" [(ngModel)]="comment.content"
-                               placeholder="Add a comment..." #content="ngModel" required/>
-                        <div class="input-group-append">
-                          <button class="btn btn-primary" type="button" (click)="addComment(content,post.id)">Send</button>
-                        </div>
                       </div>
                     </div>
                     <div class="col-1">
@@ -54,7 +50,16 @@
                     <div class="col-1" style="left: -67px;bottom: 15px;">
                       <button type="button" class="btn btn-link" style="width: 150%"
                               (click)="addLike(post.id)"><img src="src/assets/img/like.png"
-                                                              style="width: 100%"></button>
+                                                              style="width: 100%">
+                      </button>
+                    </div>
+                    <div class="input-group mb-3 col-6" style="top: 10px;border-radius: 10px;left: 330px;">
+                      <input type="text" class="form-control" [(ngModel)]="content"
+                             placeholder="Add a comment..." required/>
+                      <div class="input-group-append">
+                        <button class="btn btn-primary" type="button" (click)="addNewComment(content,post.id)">Send
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -62,14 +67,8 @@
             </div>
           </div>
         </div>
-        <button type="button" class="btn btn-primary" style="background-color: white;color: black;margin-left: 41%"
-                data-toggle="button" aria-pressed="false"
-                autocomplete="false" (click)="nextPage()">Add more...
-        </button>
       </div>
 
     </div>
   </div>
 </section>
-
-<app-footer style="top: 100px"></app-footer>

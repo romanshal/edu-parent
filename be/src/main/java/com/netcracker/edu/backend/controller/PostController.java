@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -28,12 +30,6 @@ public class PostController {
     public List <Post> getAllPostsByUserId(@PathVariable(value = "userId") Long userId,
                                            @RequestParam int page) {
         return postService.findByUserId(page, userId);
-    }
-
-    @RequestMapping(value = "/user/{userId}", method = RequestMethod.POST)
-    public Post createPostByUserId(@PathVariable(value = "userId") Long userId,
-                                   @RequestBody Post post) {
-        return postService.createPost(userId, post);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -71,6 +67,7 @@ public class PostController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseEntity <List <Post>> getAllPosts(@RequestParam int page) {
         List <Post> posts = this.postService.findAll(page);
+        Collections.reverse(posts);
 
 //        if (posts.isEmpty()){
         //return new ResponseEntity<>(HttpStatus.NOT_FOUND);

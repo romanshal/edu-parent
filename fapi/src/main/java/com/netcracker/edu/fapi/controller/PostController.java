@@ -55,14 +55,6 @@ public class PostController {
         response.setContentType("image/jpeg");
     }
 
-//    @PostMapping
-//    public ResponseEntity<Post> savePost(@ModelAttribute Post post) {
-//        if (post != null) {
-//
-//            return ResponseEntity.ok(postService.savePost(post));
-//        } return null;
-//    }
-
     @DeleteMapping(value = "/{id}")
     public void deletePost(@PathVariable long id) {
         postService.deletePost(id);

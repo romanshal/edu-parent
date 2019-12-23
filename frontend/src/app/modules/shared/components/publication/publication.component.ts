@@ -12,9 +12,6 @@ export class PublicationComponent {
   id: number;
 
   @Input()
-  tag: string;
-
-  @Input()
   description: string;
 
   @Input()
@@ -24,7 +21,7 @@ export class PublicationComponent {
   image: string;
 
   @Input()
-  timeCreation: string;
+  timeCreation: Date;
 
   constructor() {
   }

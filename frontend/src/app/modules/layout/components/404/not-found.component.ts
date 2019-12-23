@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {User} from "../models/user";
+import {StorageService} from "../../../../services/storage.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-not-found',
@@ -6,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NotFoundComponent implements OnInit {
 
-  constructor( ) {}
+  private currentUser: User;
+
+  constructor(private storageService: StorageService,
+              private router: Router,) {
+  }
 
   ngOnInit() {
+    this.currentUser = this.storageService.getCurrentUser();
+  }
 
+  public redirectToFriendPage(): void {
+    this.router.navigateByUrl("/userPage?id=" + this.currentUser.id);
   }
 }

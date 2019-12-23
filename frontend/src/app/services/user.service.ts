@@ -22,7 +22,7 @@ export class UserService {
     return this.http.post<User>('/api/user/signup', user);
   }
 
-  public subscribe(userId: number, friend: User): Observable<User> {
+  public subscription(userId: number, friend: User): Observable<User> {
     return this.http.post<User>('/api/user/subscribe/user/' + userId, friend);
   }
 

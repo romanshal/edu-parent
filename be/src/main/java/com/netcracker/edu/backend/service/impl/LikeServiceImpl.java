@@ -27,8 +27,8 @@ public class LikeServiceImpl implements LikeService {
     }
 
     @Override
-    public Optional <Like> getByPostIdAndUserId(long postId, long userId) {
-        return likeRepository.getByPostIdAndUserId(postId, userId);
+    public List <Like> getByPostId(long postId) {
+        return likeRepository.getByPostId(postId);
     }
 
     @Override
@@ -39,5 +39,10 @@ public class LikeServiceImpl implements LikeService {
     @Override
     public void deleteAllLikes(long postId) {
         likeRepository.deleteAllLikes(postId);
+    }
+
+    @Override
+    public Optional <Like> getByPostIdAndUserId(long postId, long userId) {
+        return likeRepository.getByPostIdAndUserId(postId, userId);
     }
 }

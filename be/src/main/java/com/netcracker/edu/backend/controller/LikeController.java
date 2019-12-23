@@ -17,14 +17,8 @@ public class LikeController {
     @Autowired
     private LikeService likeService;
 
-//    @RequestMapping(value = "/post/{postId}/user/{userId}", method = RequestMethod.POST)
-//    public void saveLike(@PathVariable(name = "postId") long postId,
-//                         @PathVariable(name = "userId") long userId) {
-//        likeService.save(postId, userId);
-//    }
-
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public ResponseEntity <List <Like>> getAllPosts() {
+    public ResponseEntity <List <Like>> getAllLikes() {
         List <Like> likes = this.likeService.findAll();
 
         if(likes.isEmpty()){
@@ -34,9 +28,18 @@ public class LikeController {
         return new ResponseEntity <List <Like>>(likes, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/post/{postId}", method = RequestMethod.GET)
+    public  ResponseEntity <List <Like>> getLikesByPostId(@PathVariable(name = "postId") long postId) {
+        List <Like> likes = this.likeService.getByPostId(postId);
+        if(likes.isEmpty()){
+            return new ResponseEntity <>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity <List <Like>>(likes, HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/post/{postId}/user/{userId}", method = RequestMethod.POST)
     public void addOrDeleteLikeByPostIdAndUserId(@PathVariable(name = "postId") long postId,
-                                     @PathVariable(name = "userId") long userId) {
+                                                 @PathVariable(name = "userId") long userId) {
         Optional <Like> foundLike = likeService.getByPostIdAndUserId(postId, userId);
         if(foundLike.isPresent()){
             likeService.deleteLike(postId,userId);
